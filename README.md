@@ -1,8 +1,11 @@
-# React + Vite
+# Tok Tok frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Currently, two official plugins are available:
+Team: Melina, Moti, Andre & Maria
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+[Figjam](https://www.figma.com/file/yGKTxXbf7onpoeiQWSkdfi/toktok?type=whiteboard&node-id=0-1&t=9SwOiQVZ0YsUBk4j-0)
+
+[Figma Design](https://www.figma.com/file/HcS8mvAp057ohNAnex4rmQ/TokTok?type=design&node-id=0-1&mode=design)
+
+[Figma Prototyp](https://www.figma.com/proto/HcS8mvAp057ohNAnex4rmQ/TokTok?node-id=0%3A1&scaling=min-zoom&page-id=0%3A1&starting-point-node-id=1%3A2171)
+
