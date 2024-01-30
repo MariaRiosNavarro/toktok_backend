@@ -1,22 +1,16 @@
 import NavBarTop from "../../components/Global/NavBarTop";
-import TockTockLogoSvg from "../../components/SVG/TockTockLogoSvg";
+import NewPostSvg from "../../components/SVG/NewPostSvg";
 import HearthSvg from "../../components/SVG/HearthSvg";
-// import { useNavigate } from "react-router-dom";
-const NewPost = () => {
-  // const navigate = useNavigate();
-  // const seeFavorites = () => {
-  //   navigate("/");
-  // };
 
+const NewPost = () => {
   return (
     <>
       <h2>NewPost</h2>
       <NavBarTop
-        leftSvgComponent={<TockTockLogoSvg />}
+        leftSvgComponent={<NewPostSvg />}
         leftLink="/"
-        leftText="Tok Tok"
-        rightSvgComponent={<HearthSvg selected={false} />}
-        rightLink="/" // NICE TO HAVE -> change to "/favorites" -> list all Favorites Post
+        leftText="New Post"
+        rightSvgComponent=""
       />
       <section>
         <article></article>

@@ -27,13 +27,12 @@ function App() {
 
           {/* 2 Home & Post*/}
           <Route path="/" element={<Home />}></Route>
-          <Route path="/post/:slug" element={<Post />}></Route>
+          <Route path="/post/:slug" element={<Post />} />
           {/* 3 Search*/}
-          <Route path="/search" element={<Search />}></Route>
+          <Route path="/search" element={<Search />} />
           {/* 4 Upload */}
-          <Route path="/upload" element={<NewPost />}>
-            <Route path="detail" element={<NewPostDetails />} />
-          </Route>
+          <Route path="/upload" element={<NewPost />} />
+          <Route path="/upload-detail" element={<NewPostDetails />} />
           {/* 5 Profile*/}
           <Route path="/profile" element={<ProfileDetail />}></Route>
           <Route path="/edit" element={<ProfileEdit />}></Route>
