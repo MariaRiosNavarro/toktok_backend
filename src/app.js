@@ -18,3 +18,5 @@ app.use(cookieParser());
 app.use('/api/users', usersRouter);
 app.use('/api/posts', postsRouter);
 app.use('/api/auth', authRouter);
+
+// Hallo ich will was in github testen
