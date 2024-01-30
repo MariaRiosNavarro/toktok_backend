@@ -1,6 +1,27 @@
 import { Link } from "react-router-dom";
 import { useTheme } from "../../context/userContext";
 
+// --- WIE KANN MAN diese COMPONENTE ANWENDEN?
+
+// ZB in the route "/" in HOME,
+// die entsprechende SVGComponenten
+// <TockTockLogoSvg /> und  <HearthSvg/>
+// importieren und so anwenden
+
+{
+  /*
+
+<NavBarTop
+leftSvgComponent={<TockTockLogoSvg />}
+leftLink="/"
+leftText="Tok Tok"
+rightSvgComponent={<HearthSvg selected={false} />}
+rightLink="/" // NICE TO HAVE -> change to "/favorites" -> list all Favorites Post
+/> 
+
+*/
+}
+
 const NavBarTop = ({
   leftSvgComponent,
   leftLink,
