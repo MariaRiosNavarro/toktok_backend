@@ -1,8 +1,15 @@
+import Button from "../components/Global/Button";
+import NavBarBottom from "../components/Global/NavBarBottom";
+import PostDetail from "../components/Global/PostDetail";
+
 const Home = () => {
   return (
     <>
-      <h2>Home</h2>
-      <section></section>
+      <section>
+        <NavBarBottom
+          item={{ home: true, search: false, profile: false, add: false }}
+        />
+      </section>
     </>
   );
 };
