@@ -4,11 +4,16 @@ import {
   deleteUser,
   getUser,
   getUsers,
+  mockNewUser,
+  mockgetUser,
 } from '../users/users.controller.js';
 
 export const router = new express.Router();
 
 router.get('/', getUser);
+
+router.get('/mockpost', mockgetUser);
+router.post('/mockpost', mockNewUser);
 
 // * TESTROUTES FOR VERIFICATION
 // router.get("/checkauthentication", verifyToken,(req,res,next)=>{
