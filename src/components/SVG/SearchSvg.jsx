@@ -7,7 +7,7 @@ const SearchSvg = (props) => {
         viewBox="0 0 25 24"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className={props.selectedIcon && "fill-primary"}
+        className={props.selectedIcon ? "fill-primary" : ""}
       >
         <circle
           cx="11.8916"
@@ -24,7 +24,7 @@ const SearchSvg = (props) => {
           strokeWidth="1.5"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className={props.selectedIcon && "stroke-primary"}
+          className={props.selectedIcon ? "stroke-primary" : ""}
         />
       </svg>
     </>

@@ -7,7 +7,7 @@ const ProfileSvg = (props) => {
         viewBox="0 0 25 24"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className={props.selectedIcon && "fill-primary"}
+        className={props.selectedIcon ? "fill-primary" : ""}
       >
         <path
           fillRule="evenodd"
@@ -17,7 +17,7 @@ const ProfileSvg = (props) => {
           strokeWidth="1.5"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className={props.selectedIcon && "stroke-primary"}
+          className={props.selectedIcon ? "stroke-primary" : ""}
         />
         <path
           fillRule="evenodd"
@@ -27,7 +27,7 @@ const ProfileSvg = (props) => {
           strokeWidth="1.42857"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className={props.selectedIcon && "stroke-primary"}
+          className={props.selectedIcon ? "stroke-primary" : ""}
         />
       </svg>
     </>

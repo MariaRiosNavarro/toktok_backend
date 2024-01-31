@@ -7,12 +7,11 @@ import { NavLink } from "react-router-dom";
 
 const NavBarBottom = (props) => {
   const [selectedIcon, setSelectedIcon] = useState();
-  console.log("props from navtop", props.item.home);
 
   return (
     <>
       <footer>
-        <div className="fixed bottom-0 left-0 z-50 w-full h-16 mb-6">
+        <div className="fixed bottom-0 left-0 z-50 w-full h-16  bg-base-100 ">
           <div className="grid h-full max-w-lg grid-cols-4 mx-auto font-medium">
             <NavLink
               to="/"
@@ -23,7 +22,7 @@ const NavBarBottom = (props) => {
               }}
             >
               <HomeSvg selectedIcon={props.item.home} />
-              <span className="text-sm ">Home</span>
+              <span className="text-sm mt-[4px] text-secondary">Home</span>
             </NavLink>
             <NavLink
               to="/search"
@@ -34,7 +33,7 @@ const NavBarBottom = (props) => {
               }}
             >
               <SearchSvg selectedIcon={props.item.search} />
-              <span className="text-smselected:text-primary">Search</span>
+              <span className="text-sm mt-[4px] text-secondary">Search</span>
             </NavLink>
             <NavLink
               to="/upload"
@@ -45,7 +44,7 @@ const NavBarBottom = (props) => {
               }}
             >
               <AddSvg selectedIcon={props.item.add} />
-              <span className="text-sm selected:text-primary">Upload</span>
+              <span className="text-sm mt-[4px] text-secondary">Upload</span>
             </NavLink>
             <NavLink
               to="/profile"
@@ -56,7 +55,7 @@ const NavBarBottom = (props) => {
               }}
             >
               <ProfileSvg selectedIcon={props.item.profile} />
-              <span className="text-sm selected:text-primary">Profile</span>
+              <span className="text-sm mt-[4px] text-secondary">Profile</span>
             </NavLink>
           </div>
         </div>

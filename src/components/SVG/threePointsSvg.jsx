@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useTheme } from "../../context/userContext";
 
-const threePointsSvg = () => {
+const ThreePointsSvg = () => {
   const { theme } = useTheme();
 
   return (
@@ -54,4 +54,4 @@ const threePointsSvg = () => {
   );
 };
 
-export default threePointsSvg;
+export default ThreePointsSvg;
