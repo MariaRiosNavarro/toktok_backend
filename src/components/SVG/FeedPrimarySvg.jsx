@@ -1,4 +1,6 @@
+import { useTheme } from "../../context/userContext";
 const FeedPrimarySvg = () => {
+  const { theme } = useTheme();
   return (
     <>
       <svg

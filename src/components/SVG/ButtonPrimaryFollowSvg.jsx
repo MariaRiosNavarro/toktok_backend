@@ -1,6 +1,7 @@
 import { useTheme } from "../../context/userContext";
 
 const ButtonPrimaryFollowSvg = () => {
+  const { theme } = useTheme();
   return (
     <>
       <svg

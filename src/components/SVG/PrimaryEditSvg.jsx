@@ -1,4 +1,6 @@
+import { useTheme } from "../../context/userContext";
 const PrimaryEditSvg = () => {
+  const { theme } = useTheme();
   return (
     <>
       <svg
