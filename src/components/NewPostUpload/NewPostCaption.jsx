@@ -12,14 +12,17 @@ const NewPostCaption = ({ selectedImage }) => {
   const { theme } = useTheme();
   const [value, setValue] = useState("");
   const [inputVisible, setInputVisible] = useState(false);
-  const [image, setImage] = useState("");
+  // const [image, setImage] = useState("");
 
-  const imgRef = useRef();
+  // const imgRef = useRef();
   const descriptionRef = useRef();
   const locationRef = useRef();
+  // db true/false
   const facebookRef = useRef();
   const twitterRef = useRef();
   const tumblrRef = useRef();
+
+  // useEffect for the Adaptability of the height of the text area
 
   useEffect(() => {
     if (descriptionRef.current) {
@@ -38,10 +41,38 @@ const NewPostCaption = ({ selectedImage }) => {
     e.preventDefault();
     const formData = new FormData();
 
-    if (imgRef.current && imgRef.current.files.length > 0) {
-      formData.append("img", imgRef.current.files[0]);
+    formData.append("img", selectedImage);
+    formData.append("description", descriptionRef.current.value);
+    formData.append("location", locationRef.current.value);
+    // check
+    formData.append("facebook", facebookRef.current.checked);
+    formData.append("twitter", twitterRef.current.checked);
+    formData.append("tumblr", tumblrRef.current.checked);
+
+    for (const pair of formData.entries()) {
+      console.log(pair[0] + ": " + pair[1]);
     }
-    console.log("hello hier kommt ein Fetch");
+
+    // try {
+    //   const response = await fetch(
+    //     import.meta.env.VITE_BACKEND_URL + "UNSERE API ADRESSE",
+    //     {
+    //       method: "POST",
+    //       credentials: "include",
+    //       body: formData,
+    //     }
+    //   );
+
+    //   if (response.ok) {
+    //     console.log("✅", await response.json());
+    //   } else {
+    //     console.log("Request failed with status:👺", response.status);
+    //     const errorBody = await response.text();
+    //     console.log("Error Body:", errorBody);
+    //   }
+    // } catch (error) {
+    //   console.log(error.message);
+    // }
   };
 
   const placeholder =
@@ -53,11 +84,8 @@ const NewPostCaption = ({ selectedImage }) => {
   return (
     <form onSubmit={uploadPost}>
       <div className="flex gap-4 items-start">
-        {/* --------------------------------------------------USER IMG PREVIEW */}
+        {/* --------------------------------------------------USER IMG PREVIEW - NO INPUT*/}
         <img
-          ref={imgRef}
-          id="img"
-          name="img"
           src={userImg ? userImg : placeholder}
           className="w-[56px] h-[56px] rounded-full"
           alt="userImage"
@@ -70,8 +98,8 @@ const NewPostCaption = ({ selectedImage }) => {
           onChange={handleChange}
           className={
             theme === "dark"
-              ? "bg-[#9E9E9E] mx-[20px] rounded-xl px-[20px] pt-4 mb-6 h-10 placeholder:text-gray-500 text-gray-700"
-              : "bg-[#FAFAFA] mx-[20px] rounded-xl px-[20px] pt-4 h-10 mb-6"
+              ? "bg-[#9E9E9E] mx-[10px] rounded-xl px-[20px] pt-4 mb-6 h-10 placeholder:text-gray-500 text-gray-700"
+              : "bg-[#FAFAFA] mx-[10px] rounded-xl px-[20px] pt-4 h-10 mb-6"
           }
           placeholder="Write a caption..."
           value={value}
@@ -119,6 +147,7 @@ const NewPostCaption = ({ selectedImage }) => {
           <label className="cursor-pointer label">
             <span className="label-text font-semibold">Facebook</span>
             <input
+              ref={facebookRef}
               type="checkbox"
               className="toggle bg-white [--tglbg:lightgray] border-secondary checked:[--tglbg:#FF4D67]  checked:border-primary checked:bg-white"
             />
@@ -128,6 +157,7 @@ const NewPostCaption = ({ selectedImage }) => {
           <label className="cursor-pointer label">
             <span className="label-text font-semibold">Twitter</span>
             <input
+              ref={twitterRef}
               type="checkbox"
               className="toggle bg-white [--tglbg:lightgray] border-secondary checked:[--tglbg:#FF4D67]  checked:border-primary checked:bg-white"
             />
@@ -137,6 +167,7 @@ const NewPostCaption = ({ selectedImage }) => {
           <label className="cursor-pointer label">
             <span className="label-text font-semibold">Tumblr</span>
             <input
+              ref={tumblrRef}
               type="checkbox"
               className="toggle bg-white [--tglbg:lightgray] border-secondary checked:[--tglbg:#FF4D67]  checked:border-primary checked:bg-white"
             />
@@ -152,10 +183,10 @@ const NewPostCaption = ({ selectedImage }) => {
 
       {/* --------------------------------------------------form : img -Invisible */}
       <input
-        ref={imgRef}
+        // ref={imgRef}
         type="file"
         style={{ display: "none" }}
-        onChange={(event) => setImage(selectedImage)}
+        // onChange={(event) => setImage(selectedImage)}
       />
       {/* --------------------------------------------------form : img -Invisible */}
       <Button text="Post" />
