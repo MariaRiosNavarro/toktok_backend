@@ -9,12 +9,12 @@ const UserSchema = new mongoose.Schema(
     },
     username: {
       type: String,
-      required: true,
+      // required: true,
       unique: true,
     },
     name: {
       type: String,
-      required: true,
+      // required: true,
     },
     password: {
       type: String,
@@ -22,7 +22,7 @@ const UserSchema = new mongoose.Schema(
     },
     telephone: {
       type: String,
-      required: true,
+      // required: true,
     },
     salt: {
       type: String,
@@ -64,6 +64,12 @@ const UserSchema = new mongoose.Schema(
     role: {
       type: String,
       default: 'user',
+    },
+    img: {
+      type: String,
+    },
+    cloudinary_id: {
+      type: String,
     },
   },
   { timestamps: true }
