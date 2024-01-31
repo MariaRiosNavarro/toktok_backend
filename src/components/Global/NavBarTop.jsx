@@ -34,7 +34,7 @@ const NavBarTop = ({
 
   return (
     <>
-      <div className="flex justify-between items-center w-[100%]">
+      <header className="flex justify-between items-center w-[100%] p-6">
         {/* Left Side Components */}
         <div className="flex items-center">
           <Link to={leftLink}>{leftSvgComponent}</Link>
@@ -78,7 +78,7 @@ const NavBarTop = ({
             </svg>
           </label>
         </div>
-      </div>
+      </header>
     </>
   );
 };

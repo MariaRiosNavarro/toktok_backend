@@ -1,12 +1,5 @@
 const NewPostCaption = () => {
-  return (
-    <>
-      <h2>NewPostCaption</h2>
-      <section>
-        <article></article>
-      </section>
-    </>
-  );
+  return <></>;
 };
 
 export default NewPostCaption;
