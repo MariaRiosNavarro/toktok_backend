@@ -4,7 +4,6 @@ import NavBarTop from "../../components/Global/NavBarTop";
 const NewPostDetails = () => {
   return (
     <>
-      <h2>NewPostDetails</h2>
       <NavBarTop
         leftSvgComponent={<BackArrowSvg />}
         leftLink="/upload"
