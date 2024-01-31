@@ -23,6 +23,7 @@ const HearthSvg = (props) => {
             strokeWidth="1.5"
             strokeLinecap="round"
             strokeLinejoin="round"
+            className={props.selected ? "stroke-primary" : "none"}
           />
           <path
             id="Vector_2"
@@ -31,6 +32,7 @@ const HearthSvg = (props) => {
             strokeWidth="1.5"
             strokeLinecap="round"
             strokeLinejoin="round"
+            className={props.selected ? "stroke-white" : "none"}
           />
         </g>
       </svg>
