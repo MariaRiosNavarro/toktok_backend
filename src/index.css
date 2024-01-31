@@ -1,3 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: Urbanist;
+  src: url(/src/assets/fonts/Urbanist/Urbanist-VariableFont_wght.ttf);
+}
+
+html {
+  font-family: Urbanist, Arial, Helvetica, sans-serif;
+}
