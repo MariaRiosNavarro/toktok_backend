@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import BackArrowSvg from "../../components/SVG/BackArrowSvg";
 import NavBarTop from "../../components/Global/NavBarTop";
 import NavBarBottom from "../../components/Global/NavBarBottom";
+import LocationSvg from "../../components/SVG/LocationSvg";
 import { useTheme } from "../../context/userContext";
 
 const NewPostDetails = ({ selectedImage }) => {
@@ -9,14 +10,14 @@ const NewPostDetails = ({ selectedImage }) => {
   const userImg = ""; //loginUser.img;
   const { theme } = useTheme();
   const [value, setValue] = useState("");
+  const [inputVisible, setInputVisible] = useState(false);
 
   const imgRef = useRef();
   const descriptionRef = useRef();
-
-  //   const locationRef = useRef();
-  //   const facebookRef = useRef();
-  //   const twitterRef = useRef();
-  //   const tumblrRef = useRef();
+  const locationRef = useRef();
+  const facebookRef = useRef();
+  const twitterRef = useRef();
+  const tumblrRef = useRef();
 
   useEffect(() => {
     if (descriptionRef.current) {
@@ -44,6 +45,10 @@ const NewPostDetails = ({ selectedImage }) => {
   const placeholder =
     "https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg";
 
+  const handleInputVisibility = () => {
+    setInputVisible((prev) => !prev);
+  };
+
   return (
     <>
       <NavBarTop
@@ -70,8 +75,8 @@ const NewPostDetails = ({ selectedImage }) => {
               onChange={handleChange}
               className={
                 theme === "dark"
-                  ? "bg-[#9E9E9E] mx-[20px] rounded-xl px-[20px] pt-4 h-10 placeholder:text-gray-500 text-gray-700"
-                  : "bg-[#FAFAFA] mx-[20px] rounded-xl px-[20px] pt-4 h-10"
+                  ? "bg-[#9E9E9E] mx-[20px] rounded-xl px-[20px] pt-4 mb-6 h-10 placeholder:text-gray-500 text-gray-700"
+                  : "bg-[#FAFAFA] mx-[20px] rounded-xl px-[20px] pt-4 h-10 mb-6"
               }
               placeholder="Write a caption..."
               value={value}
@@ -82,7 +87,33 @@ const NewPostDetails = ({ selectedImage }) => {
               alt=""
             />
           </div>
+          <hr className="text-secondary" />
 
+          <div className="flex  items-center py-8  gap-4 ">
+            <label
+              htmlFor="location"
+              onClick={handleInputVisibility}
+              className="flex gap-4 "
+            >
+              <LocationSvg onClick={handleInputVisibility} />
+              <span className={inputVisible ? "hidden" : ""}>
+                Add Location{" "}
+              </span>
+            </label>
+            <input
+              type="text"
+              placeholder="Write your location"
+              ref={locationRef}
+              className={
+                inputVisible
+                  ? theme === "dark"
+                    ? "bg-[#9E9E9E]  rounded-xl px-[20px] p-4  h-6  placeholder:text-gray-500 text-gray-700"
+                    : "bg-[#FAFAFA]  rounded-xl px-[20px] p-4  h-6 "
+                  : "hidden"
+              }
+            />
+          </div>
+          <hr className="text-secondary" />
           <input
             type="file"
             style={{ display: "none" }}
