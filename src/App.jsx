@@ -11,8 +11,10 @@ import ProfileEdit from "./routes/ProfileRoutes/ProfileEdit";
 import Search from "./routes/Search";
 import Detail from "./routes/Detail";
 import { GlobalProvider } from "./context/userContext";
+import { useState } from "react";
 
 function App() {
+  const [selectedImage, setSelectedImage] = useState(null);
   return (
     <BrowserRouter>
       <GlobalProvider>
@@ -31,8 +33,14 @@ function App() {
           {/* 3 Search*/}
           <Route path="/search" element={<Search />} />
           {/* 4 Upload */}
-          <Route path="/upload" element={<NewPost />} />
-          <Route path="/upload-detail" element={<NewPostDetails />} />
+          <Route
+            path="/upload"
+            element={<NewPost setSelectedImage={setSelectedImage} />}
+          />
+          <Route
+            path="/upload-detail"
+            element={<NewPostDetails selectedImage={selectedImage} />}
+          />
           {/* 5 Profile*/}
           <Route path="/profile" element={<ProfileDetail />}></Route>
           <Route path="/edit" element={<ProfileEdit />}></Route>
