@@ -1,6 +1,5 @@
 import NavBarTop from "../../components/Global/NavBarTop";
 import NewPostSvg from "../../components/SVG/NewPostSvg";
-import HearthSvg from "../../components/SVG/HearthSvg";
 
 const NewPost = () => {
   return (
