@@ -17,7 +17,7 @@ export default {
           ...require("daisyui/src/theming/themes")["dark"],
           primary: "#FF4D67", //red
           secondary: "#9E9E9E", //lightGray
-          accent: "#424242", //darkgray
+          accent: "#9E9E9E", //lightGray
         },
       },
       "cupcake",
