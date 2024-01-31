@@ -1,10 +1,11 @@
-const Button = () => {
+const Button = (props) => {
   return (
     <>
-      <h2>Button</h2>
-      <section>
-        <article></article>
-      </section>
+      <article>
+        <button className="bg-primary w-full text-lg text-base-100 rounded-3xl py-4">
+          {props.text}
+        </button>
+      </article>
     </>
   );
 };
