@@ -16,7 +16,7 @@ const NewPostPic = () => {
 
   return (
     <>
-      <section className="p-6">
+      <section className="p-6 pb-20">
         <div
           onClick={handleAddFile}
           className="h-[380px] bg-secondary rounded-[32px] px-[55px] flex justify-center items-center my-6"
