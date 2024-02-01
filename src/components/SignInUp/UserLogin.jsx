@@ -3,14 +3,81 @@ import HiddenPasswordSvg from "../SVG/loginSvgs/HiddenPasswordSvg";
 import EmailSvg from "../SVG/loginSvgs/EmailSvg";
 import { Link } from "react-router-dom";
 import { useTheme } from "../../context/userContext";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import ShowPasswordSvg from "../SVG/loginSvgs/ShowPasswordSvg";
+import { useNavigate } from "react-router-dom";
 
 const UserLogin = (props) => {
   const { theme } = useTheme();
 
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const emailRef = useRef();
+  const passwordRef = useRef();
+  const navigate = useNavigate();
+
+  const handleLogin = async () => {
+    const user = {
+      email: emailRef.current.value,
+      password: passwordRef.current.value,
+    };
+    try {
+      const response = await fetch(
+        import.meta.env.VITE_BACKEND_URL + "/api/auth/login",
+        {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify(user),
+          credentials: "include",
+        }
+      );
+      if (response.ok) {
+        console.log("User is allowed");
+        const json = await response.json();
+        console.log("login json-------------------------", json);
+      } else {
+        if (response.status === 401) {
+          setMessage("You are not registered or your password/user is wrong");
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      navigate("/sign-up");
+    }
+  };
+
+  const handleSignUp = async () => {
+    const user = {
+      email: emailRef.current.value,
+      password: passwordRef.current.value,
+    };
+
+    const response = await fetch(
+      import.meta.env.VITE_BACKEND_URL + "/api/auth/sign-up",
+      {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(user),
+      }
+    );
+    if (response.ok) {
+      console.log("User is register");
+      let json = await response.json();
+      console.log("sign up json-------------------------", json);
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (props.authComponent === "login") {
+      handleLogin();
+    } else if (props.authComponent === "signUp") {
+      handleSignUp();
+    } else if (props.authComponent === "register") {
+    }
+  };
 
   return (
     <>
@@ -63,7 +130,7 @@ const UserLogin = (props) => {
             </defs>
           </svg>
         </div>
-        <form onSubmit={props.onSubmit} className="flex flex-col gap-6">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-6">
           <div
             className={
               theme === "dark"
@@ -73,6 +140,7 @@ const UserLogin = (props) => {
           >
             <EmailSvg />
             <input
+              ref={emailRef}
               type="text"
               placeholder="Email"
               // required
@@ -93,6 +161,7 @@ const UserLogin = (props) => {
             <PasswordSvg />
             <input
               // required
+              ref={passwordRef}
               type={showPassword ? "text" : "password"}
               value={password}
               onChange={(e) => setPassword(e.target.value)}

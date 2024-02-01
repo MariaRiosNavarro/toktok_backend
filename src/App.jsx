@@ -12,6 +12,7 @@ import Search from "./routes/Search";
 import Detail from "./routes/Detail";
 import { GlobalProvider } from "./context/userContext";
 import { useState } from "react";
+import SignUp from "./routes/SignInUpRoutes/SignUp";
 
 function App() {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -20,8 +21,9 @@ function App() {
       <GlobalProvider>
         <Routes>
           {/* 1 Loading/Login&Register*/}
-          <Route path="/login" element={<Login />}></Route>
+          <Route path="/sign-up" element={<SignUp />}></Route>
           <Route path="/register" element={<Register />}></Route>
+          <Route path="/login" element={<Login />}></Route>
 
           {/* ↓ --------------Protected Routes---------------------------↓ */}
 

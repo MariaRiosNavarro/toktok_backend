@@ -1,17 +1,15 @@
 import UserLogin from "../../components/SignInUp/UserLogin";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const handleLogin = () => {
-    console.log("Login Fetch");
-  };
   return (
     <>
       <UserLogin
+        authComponent="login"
         headline="Login to your Account"
-        onSubmit={handleLogin}
         btn_text="Sign in"
         subtext="Don´t have an account?"
-        subLink="/register"
+        subLink="/sign-up"
         subLink_text="Sign up"
         extra_formLink="/"
         extra_formText="Forgot the Password?"

@@ -2,18 +2,15 @@ import UserLogin from "../../components/SignInUp/UserLogin";
 import { Link } from "react-router-dom";
 
 const Register = () => {
-  const handleRegister = () => {
-    console.log("Register Fetch");
-  };
   return (
     <>
       <UserLogin
-        headline="Create your Account"
-        onSubmit={handleRegister}
+        authComponent="register"
+        headline="Register your Account"
         btn_text="Sign up"
-        subtext="Already have an account"
-        subLink="/login"
-        subLink_text="Sign in"
+        subtext="To send new code go to:"
+        subLink="/sign-up"
+        subLink_text="Sign up"
       />
     </>
   );
