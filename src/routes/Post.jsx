@@ -35,7 +35,7 @@ const Post = (props) => {
         leftLink="/"
         leftText=""
         rightSvgComponent=""
-        rightLink="/" // NICE TO HAVE -> change to "/favorites" -> list all Favorites Post
+        rightLink="/"
       />
       <main className="p-6 pb-20">
         <section className="w-full  mb-6">

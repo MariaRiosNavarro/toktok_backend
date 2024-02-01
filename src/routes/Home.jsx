@@ -15,7 +15,7 @@ const Home = () => {
         rightSvgComponent={<HearthSvg selected={false} />}
         rightLink="/" // NICE TO HAVE -> change to "/favorites" -> list all Favorites Post
       />
-      <main className="p-6 pb-20">
+      <main className="p-6 pb-12">
         <section>
           <PostDetail />
           <PostDetail />

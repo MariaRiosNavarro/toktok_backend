@@ -6,7 +6,7 @@ const NewPostDetails = () => {
     <>
       <NavBarTop
         leftSvgComponent={<BackArrowSvg />}
-        leftLink="/upload"
+        leftLink="back"
         leftText="New Post"
         rightSvgComponent=""
       />

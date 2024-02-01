@@ -8,7 +8,7 @@ const NewPost = () => {
     <>
       <NavBarTop
         leftSvgComponent={<NewPostSvg />}
-        leftLink="/"
+        leftLink="back"
         leftText="New Post"
         rightSvgComponent=""
       />

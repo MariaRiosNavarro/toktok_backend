@@ -12,17 +12,17 @@ const NavBarBottom = (props) => {
     <>
       <footer>
         <div className="fixed bottom-0 left-0 z-50 w-full h-16  bg-base-100 ">
-          <div className="grid h-full max-w-lg grid-cols-4 mx-auto font-medium">
+          <div className="grid h-full max-w-lg grid-cols-4 mx-auto font-medium text-secondary">
             <NavLink
               to="/"
-              className={({ isActive }) => {
-                return `${
+              className={({ isActive }) =>
+                `inline-flex flex-col items-center justify-center px-5 group ${
                   isActive ? "text-primary" : ""
-                } inline-flex flex-col items-center justify-center px-5 group`;
-              }}
+                }`
+              }
             >
               <HomeSvg selectedIcon={props.item.home} />
-              <span className="text-sm mt-[4px] text-secondary">Home</span>
+              <span className="text-sm mt-[4px] ">Home</span>
             </NavLink>
             <NavLink
               to="/search"
@@ -33,7 +33,7 @@ const NavBarBottom = (props) => {
               }}
             >
               <SearchSvg selectedIcon={props.item.search} />
-              <span className="text-sm mt-[4px] text-secondary">Search</span>
+              <span className="text-sm mt-[4px] ">Search</span>
             </NavLink>
             <NavLink
               to="/upload"
@@ -44,7 +44,7 @@ const NavBarBottom = (props) => {
               }}
             >
               <AddSvg selectedIcon={props.item.add} />
-              <span className="text-sm mt-[4px] text-secondary">Upload</span>
+              <span className="text-sm mt-[4px] ">Upload</span>
             </NavLink>
             <NavLink
               to="/profile"
@@ -55,7 +55,7 @@ const NavBarBottom = (props) => {
               }}
             >
               <ProfileSvg selectedIcon={props.item.profile} />
-              <span className="text-sm mt-[4px] text-secondary">Profile</span>
+              <span className="text-sm mt-[4px] ">Profile</span>
             </NavLink>
           </div>
         </div>
