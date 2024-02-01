@@ -6,9 +6,17 @@ import mongoose from 'mongoose';
 cloudinary.v2.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
+  api_secret: process.env.CLOUDINARY_SECRET,
   secure: true,
 });
+
+
+export async function uploadImage(buffer) {
+  const uploadResult = await new Promise((resolve) => {
+      cloudinary.v2.uploader.upload_stream((error, result) => { return resolve(result) }).end(buffer)
+  })
+  return uploadResult
+}
 
 // Multer
 export const upload = multer({ storage: new multer.memoryStorage() });
@@ -26,3 +34,5 @@ export const connect = async () => {
 mongoose.connection.on('disconnected', () => {
   console.log('mongoDB disconnected!');
 });
+
+
