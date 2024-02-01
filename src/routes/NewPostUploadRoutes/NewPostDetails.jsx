@@ -12,7 +12,7 @@ const NewPostDetails = ({ selectedImage }) => {
         leftText="New Post"
         rightSvgComponent=""
       />
-      <section className="p-6 pb-12">
+      <section className="p-6 pb-20">
         <NewPostCaption selectedImage={selectedImage} />
       </section>
       <NavBarBottom
