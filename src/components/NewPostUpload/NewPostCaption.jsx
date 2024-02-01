@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import SettingsMainSvg from "../../components/SVG/settingsSVG/SettingsMainSvg";
 import LocationSvg from "../../components/SVG/LocationSvg";
-import Button from "../../components/Global/Button";
+
 // import { useLoginContext } from "../../context/userContext";
 
 import { useTheme } from "../../context/userContext";
@@ -189,7 +189,9 @@ const NewPostCaption = ({ selectedImage }) => {
         // onChange={(event) => setImage(selectedImage)}
       />
       {/* --------------------------------------------------form : img -Invisible */}
-      <Button text="Post" />
+      <button className="bg-primary w-full text-lg text-base-100 rounded-3xl py-[10px] flex justify-center items-center gap-2">
+        Post
+      </button>
     </form>
   );
 };
