@@ -21,13 +21,18 @@ export const getAllUsers = async (_, res, next) => {
   }
 };
 
-// api/users?id=65a6d2382ab44516cd28a0a3
-export const getUser = async (req, res, next) => {
-  const { id } = req.query;
-  console.log({ id });
+// api/users?id=${_id}
+// api/users?id=65ba1e3bf62d099c7f3c041c
 
+export const getUser = async (req, res, next) => {
+  // const payload_id = req.payload._id; // id des eingeloggten users
+
+  const payload_id = '65ba1e3bf62d099c7f3c041f'; // bsp: id eines followers um zu zeigen followerStatus in dem fall true
+  const { id } = req.query;
+
+  console.log({ payload_id });
   try {
-    const user = await User.findById(id).select({
+    const user = await User.findById(id).lean().select({
       _id: 1,
       username: 1,
       img: 1,
@@ -39,17 +44,17 @@ export const getUser = async (req, res, next) => {
       followers: 1,
       following: 1,
       favorites: 1,
-      // email: 0,
-      // birthday: 0,
-      // telephone: 0,
-      // password: 0,
-      // salt: 0,
-      // role: 0,
-      // __v: 0,
-      // updatedAt: 0,
-      // createdAt: 0,
     });
-    res.json({ user });
+    // console.log({ user });
+
+    if (user) {
+      const followers = user.followers.map((follower) => follower.toJSON());
+      const followStatus = followers.includes(payload_id) ? true : false;
+      console.log({ followStatus });
+      console.log({ followers });
+
+      res.json({ user, followStatus: followStatus });
+    }
   } catch (err) {
     next(err);
   }
