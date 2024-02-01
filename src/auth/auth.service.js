@@ -15,3 +15,10 @@ export function createNumericalCode(digits) {
 export function verifyToken(token) {
   return jwt.verify(token, process.env.JWT_SECRET);
 }
+
+export function createDefaultUsername() {
+  const bytes = randomBytes(6).toString('hex');
+  const defaultUsername = 'user_' + bytes;
+  console.log({ defaultUsername });
+  return defaultUsername;
+}

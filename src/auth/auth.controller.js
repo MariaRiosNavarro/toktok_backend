@@ -1,8 +1,12 @@
 import { User } from '../users/users.model.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
-import { createError } from '../utils/middleware/error.js';
-import { createToken, createNumericalCode } from './auth.service.js';
+import { createError } from '../utils/middleware/error.middleware.js';
+import {
+  createToken,
+  createNumericalCode,
+  createDefaultUsername,
+} from './auth.service.js';
 import { sendEmail } from '../config/email.config.js';
 import { verifyEmailTemplate as template } from '../utils/templates/email.templates.js';
 
@@ -44,6 +48,8 @@ export const signUp = async (req, res, next) => {
 export const register = async (req, res, next) => {
   const { email, password, code } = req.payload;
   const { codeInput } = req.body;
+  const username = createDefaultUsername();
+
   if (codeInput === code) {
     try {
       const salt = bcrypt.genSaltSync(10);
@@ -53,6 +59,7 @@ export const register = async (req, res, next) => {
         email,
         password: hash,
         salt,
+        username,
       });
 
       await newUser.save();
@@ -64,9 +71,9 @@ export const register = async (req, res, next) => {
   } else {
     res.status(401).json({
       success: false,
-      message: 'token expired. please sign up again.',
+      message: 'invalid token',
     });
-    return next(createError(401, 'Token expired '));
+    return next(createError(401, 'Token expired or invalid'));
   }
 };
 
