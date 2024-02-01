@@ -1,27 +1,6 @@
 /* eslint-disable react/prop-types */
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "../../context/userContext";
-
-// --- WIE KANN MAN diese COMPONENTE ANWENDEN?
-
-// ZB in the route "/" in HOME,
-// die entsprechende SVGComponenten
-// <TockTockLogoSvg /> und  <HearthSvg/>
-// importieren und so anwenden
-
-{
-  /*
-
-<NavBarTop
-leftSvgComponent={<TockTockLogoSvg />}
-leftLink="/"
-leftText="Tok Tok"
-rightSvgComponent={<HearthSvg selected={false} />}
-rightLink="/" // NICE TO HAVE -> change to "/favorites" -> list all Favorites Post
-/> 
-
-*/
-}
 
 const NavBarTop = ({
   leftSvgComponent,
@@ -31,13 +10,21 @@ const NavBarTop = ({
   rightSvgComponent,
 }) => {
   const { theme, toggleTheme } = useTheme();
+  const navigate = useNavigate();
 
   return (
     <>
       <header className="flex justify-between items-center w-[100%] p-6">
         {/* Left Side Components */}
         <div className="flex items-center">
-          <Link to={leftLink}>{leftSvgComponent}</Link>
+          {leftLink === "back" ? (
+            <Link to="#" onClick={() => navigate(-1)}>
+              {leftSvgComponent}
+            </Link>
+          ) : (
+            <Link to={leftLink}>{leftSvgComponent}</Link>
+          )}
+
           <h3 className="text-left pl-4 text-2xl font-bold rounded-xl mx-auto">
             {leftText}
           </h3>
