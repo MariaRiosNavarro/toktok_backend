@@ -1,20 +1,6 @@
 const UnFollowSvg = (props) => {
   return (
     <>
-      {/*<svg
-        width="21"
-        height="21"
-        viewBox="0 0 21 21"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-         <path
-          fillRule="evenodd"
-          clipRule="evenodd"
-          d="M6.41339 5.58579L5 7L8.41421 10.4142L5 13.8284L6.41339 15.2426L9.82859 11.8284L13.2428 15.2426L14.6569 13.8284L11.2427 10.4142L14.6569 7L13.2428 5.58579L9.82859 9L6.41339 5.58579Z"
-          fill="white"
-        /> 
-      </svg>*/}
       <div className="flex items-center">
         <svg
           width="13"

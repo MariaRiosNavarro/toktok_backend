@@ -1,12 +1,8 @@
 import NavBarBottom from "../components/Global/NavBarBottom";
 import PostDetail from "../components/Global/PostDetail";
 import NavBarTop from "../components/Global/NavBarTop";
-import TockTockLogoSvg from "../components/SVG/TockTockLogoSvg";
 import BackArrowSvg from "../components/SVG/BackArrowSvg";
-import HearthSvg from "../components/SVG/HearthSvg";
-import ThreePointsSvg from "../components/SVG/ThreePointsSvg";
-import CommentsSvg from "../components/SVG/CommentsSvg";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import PostUserHeader from "../components/Global/PostUserHeader";
 import PostDetailsFooter from "../components/Global/PostDetailsFooter";

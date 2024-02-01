@@ -1,9 +1,11 @@
-const ProfileAvatar = () => {
+import AvatarSvg from "../SVG/AvatarSvg";
+
+const ProfileAvatar = ({ image }) => {
   return (
     <>
       <div className="avatar">
         <div className="w-[120px] rounded-full">
-          <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+          {image ? <img src={image} /> : <AvatarSvg />}
         </div>
       </div>
     </>
