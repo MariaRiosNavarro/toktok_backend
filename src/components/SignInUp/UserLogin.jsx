@@ -6,16 +6,18 @@ import { useTheme } from "../../context/userContext";
 import { useState, useRef } from "react";
 import ShowPasswordSvg from "../SVG/loginSvgs/ShowPasswordSvg";
 import { useNavigate } from "react-router-dom";
+import KeySvg from "../SVG/loginSvgs/KeySvg";
 
 const UserLogin = (props) => {
   const { theme } = useTheme();
 
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [message, setMessage] = useState("");
+  // const [message, setMessage] = useState("");
 
   const emailRef = useRef();
   const passwordRef = useRef();
+  const codeRef = useRef();
   const navigate = useNavigate();
 
   const handleLogin = async () => {
@@ -49,6 +51,27 @@ const UserLogin = (props) => {
   };
 
   const handleSignUp = async () => {
+    const user = {
+      email: emailRef.current.value,
+      password: passwordRef.current.value,
+    };
+
+    const response = await fetch(
+      import.meta.env.VITE_BACKEND_URL + "/api/auth/sign-up",
+      {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(user),
+      }
+    );
+    if (response.ok) {
+      console.log("User is register");
+      let json = await response.json();
+      console.log("sign up json-------------------------", json);
+    }
+  };
+
+  const handleRegister = async () => {
     const user = {
       email: emailRef.current.value,
       password: passwordRef.current.value,
@@ -131,6 +154,7 @@ const UserLogin = (props) => {
           </svg>
         </div>
         <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+          {/* -----------------------------------------------------------------EMAIL INPUT */}
           <div
             className={
               theme === "dark"
@@ -151,11 +175,12 @@ const UserLogin = (props) => {
               }
             />
           </div>
+          {/* -----------------------------------------------------------------PASSWORD INPUT */}
           <div
             className={
               theme === "dark"
-                ? "bg-[#9E9E9E] flex items-center px-5 rounded-xl"
-                : "bg-[#FAFAFA] flex items-center px-5 rounded-xl"
+                ? "bg-[#9E9E9E] flex items-center px-5  rounded-xl"
+                : "bg-[#FAFAFA] flex items-center px-5  rounded-xl"
             }
           >
             <PasswordSvg />
@@ -183,11 +208,37 @@ const UserLogin = (props) => {
               onChange={() => setShowPassword((prev) => !prev)}
             />
           </div>
+          {/* -----------------------------------------------------------------ONLY IN REGISTER: CODE INPUT */}
+          {props.authComponent === "register" && (
+            <div
+              className={
+                theme === "dark"
+                  ? "bg-[#9E9E9E] flex items-center pl-5  rounded-xl"
+                  : "bg-[#FAFAFA] flex items-center pl-5  rounded-xl"
+              }
+            >
+              <KeySvg />
+              <input
+                ref={codeRef}
+                className={
+                  theme === "dark"
+                    ? "bg-transparent w-[100%] px-6 py-4  placeholder:text-gray-500 focus:border-none focus:outline-none  text-black "
+                    : "bg-transparent w-[100%] px-6 py-4 focus:border-none focus:outline-none "
+                }
+                type="text"
+                id="code"
+                name="code"
+                placeholder="Code"
+              />
+            </div>
+          )}
+          {/* -----------------------------------------------------------------SUBMIT BUTTON */}
           <input
             type="submit"
             value={props.btn_text}
             className="bg-[#E98090] text-base-100 px-[18px] py-4 rounded-[100px]"
           />
+          {/* -----------------------------------------------------------------ONLY IN LOGIN: forgot password link */}
           {props.extra_formLink ? (
             <Link
               className="text-center text-primary font-bold"
@@ -199,6 +250,7 @@ const UserLogin = (props) => {
             ""
           )}
         </form>
+        {/* ---------------------------------------------------------------------------------------------------------SUBTEXT  + Link */}
         <div className="flex gap-2 justify-center">
           <h3
             className={theme === "dark" ? "text-secondary" : "text-secondary"}
