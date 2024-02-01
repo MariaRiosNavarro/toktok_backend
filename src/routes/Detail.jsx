@@ -6,7 +6,7 @@ import NavBarTop from "../components/Global/NavBarTop";
 import BackArrowSvg from "../components/SVG/BackArrowSvg";
 import ThreePointsSvg from "../components/SVG/ThreePointsSvg";
 import DetailUser from "../components/Global/DetailUser";
-import Button from "../components/Global/Button";
+
 import FollowSvg from "../components/SVG/FollowSvg";
 import LineSvg from "../components/SVG/LineSvg";
 import FeedsGallery from "../components/Global/FeedsGerrery";
