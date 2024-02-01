@@ -20,50 +20,63 @@ const UserLogin = (props) => {
   const codeRef = useRef();
   const navigate = useNavigate();
 
-  const handleSignUp = async () => {
+  // ---------------------------------------------------------handleSignUp
+
+  const handleSignUp = async (e) => {
     const user = {
       email: emailRef.current.value,
       password: passwordRef.current.value,
     };
 
-    const response = await fetch(
-      import.meta.env.VITE_BACKEND_URL + "/api/auth/sign-up",
-      {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(user),
+    console.log(user);
+
+    try {
+      const response = await fetch(
+        import.meta.env.VITE_BACKEND_URL + "/api/auth/sign-up",
+        {
+          method: "POST",
+          // headers: { "content-type": "application/json" },
+          body: JSON.stringify(user),
+        }
+      );
+      if (response.ok) {
+        console.log("User is register");
+        let json = await response.json();
+        console.log("sign up json-------------------------", json);
       }
-    );
-    if (response.ok) {
-      console.log("User is register");
-      let json = await response.json();
-      console.log("sign up json-------------------------", json);
+    } catch (error) {
+      console.log(error);
     }
   };
 
+  // ---------------------------------------------------------handleRegister
   const handleRegister = async () => {
-    const user = {
-      email: emailRef.current.value,
-      password: passwordRef.current.value,
+    const codeInput = {
       code: codeRef.current.value,
     };
 
-    const response = await fetch(
-      import.meta.env.VITE_BACKEND_URL + "/api/auth/register",
-      {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(user),
+    try {
+      const response = await fetch(
+        import.meta.env.VITE_BACKEND_URL + "/api/auth/register",
+        {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify(codeInput),
+          credentials: "include",
+        }
+      );
+      if (response.ok) {
+        console.log("User is register");
+        let json = await response.json();
+        console.log("register json-------------------------", json);
+        // navigate("/login");
       }
-    );
-    if (response.ok) {
-      console.log("User is register");
-      let json = await response.json();
-      console.log("sign up json-------------------------", json);
-      navigate("/login");
+    } catch (error) {
+      console.log(error);
     }
   };
 
+  // ---------------------------------------------------------handleLogin
   const handleLogin = async () => {
     const user = {
       email: emailRef.current.value,
@@ -93,6 +106,8 @@ const UserLogin = (props) => {
       navigate("/sign-up");
     }
   };
+
+  // ---------------------------------------------------------handleSubmit
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -156,7 +171,7 @@ const UserLogin = (props) => {
             </defs>
           </svg>
         </div>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+        <div className="flex flex-col gap-6">
           {/* -----------------------------------------------------------------EMAIL INPUT */}
           <div
             className={
@@ -229,8 +244,8 @@ const UserLogin = (props) => {
                     : "bg-transparent w-[100%] px-6 py-4 focus:border-none focus:outline-none "
                 }
                 type="text"
-                id="code"
-                name="code"
+                id="codeInput"
+                name="codeInput"
                 placeholder="Code"
               />
             </div>
@@ -238,6 +253,7 @@ const UserLogin = (props) => {
           {/* -----------------------------------------------------------------SUBMIT BUTTON */}
           <input
             type="submit"
+            onClick={handleSubmit}
             value={props.btn_text}
             className="bg-[#E98090] text-base-100 px-[18px] py-4 rounded-[100px]"
           />
@@ -252,7 +268,7 @@ const UserLogin = (props) => {
           ) : (
             ""
           )}
-        </form>
+        </div>
         {/* ---------------------------------------------------------------------------------------------------------SUBTEXT  + Link */}
         <div className="flex gap-2 justify-center">
           <h3
