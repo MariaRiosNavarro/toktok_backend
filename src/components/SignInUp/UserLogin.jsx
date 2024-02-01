@@ -11,9 +11,6 @@ const UserLogin = (props) => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  // const handlePassword = () => {
-  //   setShowPassword((prev) => !prev);
-  // };
   return (
     <>
       <section className="p-6 pb-12 h-screen flex flex-col justify-between">
@@ -77,30 +74,32 @@ const UserLogin = (props) => {
             <input
               type="text"
               placeholder="Email"
+              // required
               className={
                 theme === "dark"
-                  ? "bg-transparent w-[100%] px-6 py-4 placeholder:text-black"
-                  : "bg-transparent w-[100%] px-6 py-4"
+                  ? "bg-transparent focus:border-none focus:outline-none w-[100%] px-6 py-4 placeholder:text-black"
+                  : "bg-transparent focus:border-none focus:outline-none w-[100%] px-6 py-4"
               }
             />
           </div>
           <div
             className={
               theme === "dark"
-                ? "bg-[#9E9E9E] flex items-center px-5 placeholder:text-secondary rounded-xl placeholder:text-black"
+                ? "bg-[#9E9E9E] flex items-center px-5 rounded-xl placeholder:text-black"
                 : "bg-[#FAFAFA] flex items-center px-5 placeholder:text-secondary rounded-xl"
             }
           >
             <PasswordSvg />
             <input
+              // required
               type={showPassword ? "text" : "password"}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Password"
               className={
                 theme === "dark"
-                  ? "bg-transparent w-[100%] px-6 py-4 placeholder:text-black"
-                  : "bg-transparent w-[100%] px-6 py-4"
+                  ? "bg-transparent w-[100%] px-6 py-4 placeholder:text-black focus:border-none focus:outline-none "
+                  : "bg-transparent w-[100%] px-6 py-4 focus:border-none focus:outline-none "
               }
             />
             <label htmlFor="check">
