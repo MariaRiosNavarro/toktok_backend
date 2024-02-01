@@ -4,6 +4,7 @@ import EmailSvg from "../SVG/loginSvgs/EmailSvg";
 import { Link } from "react-router-dom";
 import { useTheme } from "../../context/userContext";
 import { useState } from "react";
+import ShowPasswordSvg from "../SVG/loginSvgs/ShowPasswordSvg";
 
 const UserLogin = (props) => {
   const { theme } = useTheme();
@@ -66,8 +67,8 @@ const UserLogin = (props) => {
           <div
             className={
               theme === "dark"
-                ? "bg-[#9E9E9E] flex items-center pl-5 placeholder:text-secondary rounded-xl placeholder:text-black"
-                : "bg-[#FAFAFA] flex items-center pl-5 placeholder:text-secondary rounded-xl"
+                ? "bg-[#9E9E9E] flex items-center pl-5  rounded-xl"
+                : "bg-[#FAFAFA] flex items-center pl-5  rounded-xl"
             }
           >
             <EmailSvg />
@@ -77,7 +78,7 @@ const UserLogin = (props) => {
               // required
               className={
                 theme === "dark"
-                  ? "bg-transparent focus:border-none focus:outline-none w-[100%] px-6 py-4 placeholder:text-black"
+                  ? "bg-transparent focus:border-none focus:outline-none w-[100%] px-6 py-4 placeholder:text-gray-500 text-black"
                   : "bg-transparent focus:border-none focus:outline-none w-[100%] px-6 py-4"
               }
             />
@@ -85,8 +86,8 @@ const UserLogin = (props) => {
           <div
             className={
               theme === "dark"
-                ? "bg-[#9E9E9E] flex items-center px-5 rounded-xl placeholder:text-black"
-                : "bg-[#FAFAFA] flex items-center px-5 placeholder:text-secondary rounded-xl"
+                ? "bg-[#9E9E9E] flex items-center px-5 rounded-xl"
+                : "bg-[#FAFAFA] flex items-center px-5 rounded-xl"
             }
           >
             <PasswordSvg />
@@ -98,12 +99,12 @@ const UserLogin = (props) => {
               placeholder="Password"
               className={
                 theme === "dark"
-                  ? "bg-transparent w-[100%] px-6 py-4 placeholder:text-black focus:border-none focus:outline-none "
+                  ? "bg-transparent w-[100%] px-6 py-4  placeholder:text-gray-500 focus:border-none focus:outline-none  text-black "
                   : "bg-transparent w-[100%] px-6 py-4 focus:border-none focus:outline-none "
               }
             />
             <label htmlFor="check">
-              <HiddenPasswordSvg />
+              {showPassword ? <ShowPasswordSvg /> : <HiddenPasswordSvg />}
             </label>
             <input
               id="check"
