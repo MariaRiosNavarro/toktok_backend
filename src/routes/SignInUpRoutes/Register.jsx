@@ -1,10 +1,20 @@
+import UserLogin from "../../components/SignInUp/UserLogin";
+import { Link } from "react-router-dom";
+
 const Register = () => {
+  const handleRegister = () => {
+    console.log("Register Fetch");
+  };
   return (
     <>
-      <h2>Register</h2>
-      <section>
-        <article></article>
-      </section>
+      <UserLogin
+        headline="Create your Account"
+        onSubmit={handleRegister}
+        btn_text="Sign up"
+        subtext="Already have an account"
+        subLink="/login"
+        subLink_text="Sign in"
+      />
     </>
   );
 };
