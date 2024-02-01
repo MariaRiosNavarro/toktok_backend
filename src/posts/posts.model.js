@@ -11,6 +11,9 @@ const PostSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    cloudinaryId: {
+      type: String,
+    },
     description: {
       type: String,
       // hashtags mit in der description
@@ -48,7 +51,7 @@ const PostSchema = new mongoose.Schema(
         },
       },
     ],
-    likes: {
+    likesCount: {
       type: Number,
     },
   },
