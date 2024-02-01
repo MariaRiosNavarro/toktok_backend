@@ -1,9 +1,10 @@
 import { User } from '../users/users.model.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
-import { createError } from '../middleware/error.js';
+import { createError } from '../utils/middleware/error.js';
 import { createToken, createNumericalCode } from './auth.service.js';
 import { sendEmail } from '../config/email.config.js';
+import { verifyEmailTemplate as template } from '../utils/templates/email.templates.js';
 
 //$ signUp ------------------------------------------------------------------
 
@@ -17,19 +18,11 @@ export const signUp = async (req, res, next) => {
         .json({ success: false, message: 'email already in database' });
     }
 
-    let sixDigitode = createNumericalCode(6);
+    let sixDigitCode = createNumericalCode(6);
 
-    let template = {
-      from: '"Toktok Admin" <admin@gmail.com>',
-      to: email,
-      subject: 'pls verify your email',
-      text: `hello user, please enter the six digit code on toktok to verify your email and proceed with the registration: ${sixDigitode}`,
-      html: `<h2>hello user,</h2> <p>please enter the six digit code on toktok to verify your email and proceed with the registration:<b>${sixDigitode}</b> </p> `,
-    };
+    sendEmail(template(email, sixDigitCode));
 
-    sendEmail(template);
-
-    const payload = { code: sixDigitode, email: email, password: password };
+    const payload = { code: sixDigitCode, email: email, password: password };
     const token = createToken(payload, '5min');
 
     res

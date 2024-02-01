@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { createError } from './error.js';
-import { createNumericalCode, verifyToken } from '../auth/auth.service.js';
+import { createNumericalCode, verifyToken } from '../../auth/auth.service.js';
 
 // dieser Bereich wird noch komplett überarbeitet
 //
