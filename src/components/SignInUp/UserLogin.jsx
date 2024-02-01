@@ -20,6 +20,50 @@ const UserLogin = (props) => {
   const codeRef = useRef();
   const navigate = useNavigate();
 
+  const handleSignUp = async () => {
+    const user = {
+      email: emailRef.current.value,
+      password: passwordRef.current.value,
+    };
+
+    const response = await fetch(
+      import.meta.env.VITE_BACKEND_URL + "/api/auth/sign-up",
+      {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(user),
+      }
+    );
+    if (response.ok) {
+      console.log("User is register");
+      let json = await response.json();
+      console.log("sign up json-------------------------", json);
+    }
+  };
+
+  const handleRegister = async () => {
+    const user = {
+      email: emailRef.current.value,
+      password: passwordRef.current.value,
+      code: codeRef.current.value,
+    };
+
+    const response = await fetch(
+      import.meta.env.VITE_BACKEND_URL + "/api/auth/register",
+      {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(user),
+      }
+    );
+    if (response.ok) {
+      console.log("User is register");
+      let json = await response.json();
+      console.log("sign up json-------------------------", json);
+      navigate("/login");
+    }
+  };
+
   const handleLogin = async () => {
     const user = {
       email: emailRef.current.value,
@@ -50,48 +94,6 @@ const UserLogin = (props) => {
     }
   };
 
-  const handleSignUp = async () => {
-    const user = {
-      email: emailRef.current.value,
-      password: passwordRef.current.value,
-    };
-
-    const response = await fetch(
-      import.meta.env.VITE_BACKEND_URL + "/api/auth/sign-up",
-      {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(user),
-      }
-    );
-    if (response.ok) {
-      console.log("User is register");
-      let json = await response.json();
-      console.log("sign up json-------------------------", json);
-    }
-  };
-
-  const handleRegister = async () => {
-    const user = {
-      email: emailRef.current.value,
-      password: passwordRef.current.value,
-    };
-
-    const response = await fetch(
-      import.meta.env.VITE_BACKEND_URL + "/api/auth/sign-up",
-      {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(user),
-      }
-    );
-    if (response.ok) {
-      console.log("User is register");
-      let json = await response.json();
-      console.log("sign up json-------------------------", json);
-    }
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     if (props.authComponent === "login") {
@@ -99,6 +101,7 @@ const UserLogin = (props) => {
     } else if (props.authComponent === "signUp") {
       handleSignUp();
     } else if (props.authComponent === "register") {
+      handleRegister();
     }
   };
 
