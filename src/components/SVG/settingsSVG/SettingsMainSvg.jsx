@@ -1,6 +1,6 @@
-import { useTheme } from "../../context/userContext";
+import { useTheme } from "../../../context/userContext";
 
-const SettingsSettingsSvg = () => {
+const SettingsMainSvg = () => {
   const { theme } = useTheme();
   return (
     <>
@@ -38,4 +38,4 @@ const SettingsSettingsSvg = () => {
   );
 };
 
-export default SettingsSettingsSvg;
+export default SettingsMainSvg;

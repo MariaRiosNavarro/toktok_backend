@@ -46,7 +46,7 @@ const NavBarTop = ({
         <div className="flex  items-center gap-2 ">
           {/* rightSvgComponent -> It is only shown when it is filled in */}
           {rightSvgComponent && <Link to={rightLink}>{rightSvgComponent}</Link>}
-          <label className="swap swap-rotate ">
+          <label className="swap swap-rotate relative right-[-5px]">
             <input
               type="checkbox"
               onChange={toggleTheme}

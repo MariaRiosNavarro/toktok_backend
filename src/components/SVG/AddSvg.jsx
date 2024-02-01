@@ -7,7 +7,7 @@ const AddSvg = (props) => {
         viewBox="0 0 25 24"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className={props.selectedIcon ? "fill-primary" : ""}
+        className={props.selectedIcon ? "fill-transparent" : ""}
       >
         <g clipPath="url(#clip0_1_2137)">
           <g clipPath="url(#clip1_1_2137)">
@@ -47,6 +47,7 @@ const AddSvg = (props) => {
           rx="11.25"
           stroke="#9E9E9E"
           strokeWidth="1.5"
+          className={props.selectedIcon ? "stroke-primary" : ""}
         />
         <defs>
           <clipPath id="clip0_1_2137">
