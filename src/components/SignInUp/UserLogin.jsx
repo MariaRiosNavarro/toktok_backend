@@ -3,13 +3,17 @@ import HiddenPasswordSvg from "../SVG/loginSvgs/HiddenPasswordSvg";
 import EmailSvg from "../SVG/loginSvgs/EmailSvg";
 import { Link } from "react-router-dom";
 import { useTheme } from "../../context/userContext";
+import { useState } from "react";
 
 const UserLogin = (props) => {
   const { theme } = useTheme();
 
-  const handlePassword = () => {
-    console.log("switch password");
-  };
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
+  // const handlePassword = () => {
+  //   setShowPassword((prev) => !prev);
+  // };
   return (
     <>
       <section className="p-6 pb-12 h-screen flex flex-col justify-between">
@@ -89,7 +93,9 @@ const UserLogin = (props) => {
           >
             <PasswordSvg />
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="Password"
               className={
                 theme === "dark"
@@ -97,7 +103,16 @@ const UserLogin = (props) => {
                   : "bg-transparent w-[100%] px-6 py-4"
               }
             />
-            <HiddenPasswordSvg onClick={handlePassword} />
+            <label htmlFor="check">
+              <HiddenPasswordSvg />
+            </label>
+            <input
+              id="check"
+              type="checkbox"
+              className="hidden"
+              value={showPassword}
+              onChange={() => setShowPassword((prev) => !prev)}
+            />
           </div>
           <input
             type="submit"
