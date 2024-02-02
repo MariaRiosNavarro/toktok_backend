@@ -3,7 +3,7 @@ import { useState } from "react";
 import NavBarBottom from "../components/Global/NavBarBottom";
 import NavBarTop from "../components/Global/NavBarTop";
 import BackArrowSvg from "../components/SVG/BackArrowSvg";
-import ThreePointsSvg from "../components/SVG/ThreePointsSvg";
+import PointsSvg from "../components/SVG/PointsSvg";
 import DetailUser from "../components/Global/DetailUser";
 import FollowSvg from "../components/SVG/FollowSvg";
 import LineSvg from "../components/SVG/LineSvg";
@@ -30,7 +30,7 @@ const Detail = () => {
         leftSvgComponent={<BackArrowSvg />}
         leftLink="back"
         leftText=""
-        rightSvgComponent={<ThreePointsSvg />}
+        rightSvgComponent={<PointsSvg />}
         rightLink="/"
       />
       <main className="p-6 pb-16">

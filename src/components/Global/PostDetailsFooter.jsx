@@ -1,21 +1,38 @@
 import HearthSvg from "../SVG/HearthSvg";
 import CommentsSvg from "../SVG/CommentsSvg";
 import { useState } from "react";
-const PostDetailsFooter = () => {
+const PostDetailsFooter = ({ post }) => {
   const [isHeartSelected, setIsHeartSelected] = useState(false);
-  const handleHeartClick = () => {
+  // const [likes, setLikes] = useState(post.likes.length);
+
+  const handleHeartClick = async () => {
     setIsHeartSelected(!isHeartSelected);
+    // setLikes((prevLikes) => (isHeartSelected ? prevLikes - 1 : prevLikes + 1));
+
+    // const response = await fetch(
+    //   import.meta.env.VITE_BACKEND_URL + "/api/posts/editpost/" + post._id,
+    //   {
+    //     method: "PUT",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({ likes }),
+    //   }
+    // );
+    // if (response.ok) {
+    //   console.log("Like wurde hinzugefügt");
+    // }
   };
   return (
     <>
-      <section className="w-7/12 flex gap-6 ml-3 mt-4">
+      <section className="w-7/12 flex gap-6 items-center ml-3 mt-4">
         <button className=" flex gap-2 " onClick={handleHeartClick}>
           <HearthSvg selected={isHeartSelected} />
-          <p>44.334</p>
+          <p>{post?.likes.length}</p>
         </button>
         <article className=" flex gap-2 ">
           <CommentsSvg />
-          <p>26878</p>
+          <p>{post?.comments.length}</p>
         </article>
       </section>
     </>
