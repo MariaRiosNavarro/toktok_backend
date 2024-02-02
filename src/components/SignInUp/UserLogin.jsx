@@ -47,7 +47,7 @@ const UserLogin = (props) => {
         // setToken(json.token);
         // console.log("-------token---in signup----", token);
         // localStorage.setItem("authToken", json.token);
-        // navigate("/register");
+        navigate("/register");
       }
     } catch (error) {
       console.log(error);
