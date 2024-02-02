@@ -1,9 +1,12 @@
-const Comments = () => {
+import CommentDetail from "./CommentDetail";
+
+const Comments = ({ comments }) => {
   return (
     <>
-      <h2>Comments</h2>
       <section>
-        <article></article>
+        {comments.map((comment, key) => {
+          return <CommentDetail comment={comment} key={key} />;
+        })}
       </section>
     </>
   );

@@ -6,23 +6,25 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import PostUserHeader from "../components/Global/PostUserHeader";
 import PostDetailsFooter from "../components/Global/PostDetailsFooter";
-const Post = (props) => {
+import Comments from "../components/Post/Comments";
+import LineSvg from "../components/SVG/LineSvg";
+const Post = () => {
   const { slug } = useParams();
   const [post, setPost] = useState(null);
 
-  // useEffect(() => {
-  //   async function getPost() {
-  //     const response = await fetch(
-  //       import.meta.env.VITE_BACKEND_URL + "/api/posts/" + slug
-  //     );
-  //     if (response.ok) {
-  //       setPost(await response.json());
-  //     }
-  //   }
-  //   getPost();
-  // }, []);
+  useEffect(() => {
+    async function getPost() {
+      const response = await fetch(
+        import.meta.env.VITE_BACKEND_URL + "/api/posts/" + slug
+      );
+      if (response.ok) {
+        setPost(await response.json());
+      }
+    }
+    getPost();
+  }, []);
 
-  // if (!post) return <h1>Loading.....</h1>
+  if (!post) return <h1>Loading.....</h1>;
 
   return (
     <>
@@ -40,20 +42,21 @@ const Post = (props) => {
             <section className="mt-4 w-full">
               <div className="avatar ">
                 <div className=" rounded-[32px] ">
-                  <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                  <img src={post.img} />
                 </div>
               </div>
             </section>
           </section>
           <section className="mt-4 mx-3 ">
-            <p>
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-              Laudantium unde ipsa vero a dolorem velit deserunt error doloribus
-              reiciendis ea! Assumenda, quae distinctio libero autem, amet, nemo
-              nihil vero nobis est obcaecati delectus ?
-            </p>
+            <p>{post.description}</p>
+            <p>{post.createdAt}</p>
           </section>
-          <PostDetailsFooter />
+          <PostDetailsFooter post={post} />
+          <div className="my-6 flex justify-center">
+            <LineSvg />
+          </div>
+
+          <Comments comments={post.comments} />
         </section>
       </main>
       <NavBarBottom
