@@ -2,7 +2,7 @@ import PasswordSvg from "../SVG/loginSvgs/PasswordSvg";
 import HiddenPasswordSvg from "../SVG/loginSvgs/HiddenPasswordSvg";
 import EmailSvg from "../SVG/loginSvgs/EmailSvg";
 import { Link } from "react-router-dom";
-import { useTheme } from "../../context/userContext";
+import { useTheme, useUserContext } from "../../context/userContext";
 import { useState, useRef } from "react";
 import ShowPasswordSvg from "../SVG/loginSvgs/ShowPasswordSvg";
 import { useNavigate } from "react-router-dom";
@@ -10,11 +10,11 @@ import KeySvg from "../SVG/loginSvgs/KeySvg";
 
 const UserLogin = (props) => {
   const { theme } = useTheme();
+  const { loginUserFunction } = useUserContext();
 
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState("");
-  // const [token, setToken] = useState("");
 
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -87,31 +87,18 @@ const UserLogin = (props) => {
       email: emailRef.current.value,
       password: passwordRef.current.value,
     };
+
     try {
-      const response = await fetch(
-        import.meta.env.VITE_BACKEND_URL + "/api/auth/login",
-        {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify(user),
-          credentials: "include",
-        }
-      );
-      if (response.ok) {
-        console.log("User is allowed");
-        const backendJsonResponse = await response.json();
-        console.log(
-          "backendJsonResponse-------------------------",
-          backendJsonResponse
-        );
+      const success = await loginUserFunction(user);
+      if (success) {
         navigate("/");
+        console.log("Login successful");
       } else {
-        if (response.status === 401) {
-          setMessage("You are not registered or your password/user is wrong");
-        }
+        setMessage("Login failed. Check your email and password.");
       }
     } catch (error) {
-      console.log(error);
+      console.error("Error during login:", error);
+      setMessage("An unexpected error occurred. Please try again.");
     }
   };
 
