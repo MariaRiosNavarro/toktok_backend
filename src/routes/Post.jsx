@@ -8,6 +8,7 @@ import PostUserHeader from "../components/Global/PostUserHeader";
 import PostDetailsFooter from "../components/Global/PostDetailsFooter";
 import Comments from "../components/Post/Comments";
 import LineSvg from "../components/SVG/LineSvg";
+import TimeDifferent from "../components/Global/TimeDifferent";
 const Post = () => {
   const { slug } = useParams();
   const [post, setPost] = useState(null);
@@ -49,7 +50,7 @@ const Post = () => {
           </section>
           <section className="mt-4 mx-3 ">
             <p>{post.description}</p>
-            <p>{post.createdAt}</p>
+            <TimeDifferent date={post.createdAt} />
           </section>
           <PostDetailsFooter post={post} />
           <div className="my-6 flex justify-center">

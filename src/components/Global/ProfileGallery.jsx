@@ -1,43 +1,53 @@
-const ProfileGallery = () => {
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+
+const ProfileGallery = ({ postArr }) => {
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    const getPosts = async () => {
+      try {
+        const fetchPromises = postArr.map(async (postId) => {
+          const response = await fetch(
+            `${import.meta.env.VITE_BACKEND_URL}/api/posts/${postId}`
+          );
+          if (response.ok) {
+            const data = await response.json();
+            return data;
+          }
+          return null;
+        });
+
+        const fetchedPosts = await Promise.all(fetchPromises);
+        const filteredPosts = fetchedPosts.filter((post) => post !== null);
+
+        setPosts((prevPosts) => [...prevPosts, ...filteredPosts]);
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+      }
+    };
+
+    if (postArr && postArr.length > 0) {
+      getPosts();
+    }
+  }, []);
+
+  if (!posts || posts.length === 0) {
+    return <h1>Loading.....</h1>;
+  }
+
   return (
     <>
       <section className="grid grid-cols-3 gap-[4px] mt-4">
-        <img
-          className="h-[124px] rounded-lg"
-          src="https://picsum.photos/200?grayscale"
-        ></img>
-        <img
-          className="h-[124px] rounded-lg"
-          src="https://picsum.photos/200?blur"
-        ></img>
-        <img
-          className="h-[124px] rounded-lg"
-          src="https://picsum.photos/200?blur=2"
-        ></img>
-        <img
-          className="h-[124px] rounded-lg"
-          src="https://picsum.photos/200?blur=6"
-        ></img>
-        <img
-          className="h-[124px] rounded-lg"
-          src="https://picsum.photos/200?grayscale=3"
-        ></img>
-        <img
-          className="h-[124px] rounded-lg"
-          src="https://picsum.photos/200?grayscale=5"
-        ></img>
-        <img
-          className="h-[124px] rounded-lg"
-          src="https://picsum.photos/200?blur=8"
-        ></img>
-        <img
-          className="h-[124px] rounded-lg"
-          src="https://picsum.photos/200?grayscale=1"
-        ></img>
-        <img
-          className="h-[124px] rounded-lg"
-          src="https://picsum.photos/200?grayscale=7"
-        ></img>
+        {posts.map((post, key) => (
+          <Link key={key} to={"/post/" + post._id}>
+            <img
+              className="h-[124px] rounded-lg"
+              src={post.img}
+              alt={`Post ${key}`}
+            />
+          </Link>
+        ))}
       </section>
     </>
   );
