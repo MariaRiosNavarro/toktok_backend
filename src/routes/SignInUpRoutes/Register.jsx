@@ -1,10 +1,17 @@
+import UserLogin from "../../components/SignInUp/UserLogin";
+import { Link } from "react-router-dom";
+
 const Register = () => {
   return (
     <>
-      <h2>Register</h2>
-      <section>
-        <article></article>
-      </section>
+      <UserLogin
+        authComponent="register"
+        headline="Register your Account"
+        btn_text="Register"
+        subtext="To send new code go to:"
+        subLink="/sign-up"
+        subLink_text="Sign up"
+      />
     </>
   );
 };

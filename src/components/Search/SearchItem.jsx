@@ -1,4 +1,4 @@
-const SearchItem = () => {
+const SearchItem = (props) => {
   return (
     <>
       <h2>SearchItem</h2>

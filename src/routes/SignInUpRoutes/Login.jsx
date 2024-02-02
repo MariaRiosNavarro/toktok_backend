@@ -1,10 +1,19 @@
+import UserLogin from "../../components/SignInUp/UserLogin";
+import { useNavigate } from "react-router-dom";
+
 const Login = () => {
   return (
     <>
-      <h2>Login</h2>
-      <section>
-        <article></article>
-      </section>
+      <UserLogin
+        authComponent="login"
+        headline="Login to your Account"
+        btn_text="Sign in"
+        subtext="Don´t have an account?"
+        subLink="/sign-up"
+        subLink_text="Sign up"
+        extra_formLink="/"
+        extra_formText="Forgot the Password?"
+      />
     </>
   );
 };
