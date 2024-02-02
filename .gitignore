@@ -3,3 +3,7 @@ node_modules/
 .vscode/
 
 .env
+
+**/*.DS_Store
+
+notizen_melina.md
