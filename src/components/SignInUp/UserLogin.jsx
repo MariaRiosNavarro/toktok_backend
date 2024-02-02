@@ -38,6 +38,7 @@ const UserLogin = (props) => {
           method: "POST",
           headers: { "content-type": "application/json" },
           body: JSON.stringify(user),
+          credentials: "include",
         }
       );
       if (response.ok) {
@@ -75,9 +76,10 @@ const UserLogin = (props) => {
       );
       if (response.ok) {
         console.log("User is registered");
-        let json = await response.json();
-        console.log("register json-------------------------", json);
-        // navigate("/login");
+        if (response.status === 201) {
+          console.log("YEAH-------------------------");
+          navigate("/login");
+        }
       }
     } catch (error) {
       console.log(error);

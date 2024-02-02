@@ -1,12 +1,9 @@
-const SearchBar = () => {
-  return (
-    <>
-      <h2>SearchBar</h2>
-      <section>
-        <article></article>
-      </section>
-    </>
-  );
-};
+// const SearchBar = () => {
+//   return (
+//     <>
+//       <div></div>
+//     </>
+//   );
+// };
 
-export default SearchBar;
+// export default SearchBar;
