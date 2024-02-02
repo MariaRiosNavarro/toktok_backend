@@ -6,6 +6,8 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import PostUserHeader from "../components/Global/PostUserHeader";
 import PostDetailsFooter from "../components/Global/PostDetailsFooter";
+import Comments from "../components/Post/Comments";
+import LineSvg from "../components/SVG/LineSvg";
 const Post = () => {
   const { slug } = useParams();
   const [post, setPost] = useState(null);
@@ -47,8 +49,14 @@ const Post = () => {
           </section>
           <section className="mt-4 mx-3 ">
             <p>{post.description}</p>
+            <p>{post.createdAt}</p>
           </section>
           <PostDetailsFooter post={post} />
+          <div className="my-6 flex justify-center">
+            <LineSvg />
+          </div>
+
+          <Comments comments={post.comments} />
         </section>
       </main>
       <NavBarBottom
