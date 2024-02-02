@@ -13,7 +13,8 @@ const UserLogin = (props) => {
 
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  // const [message, setMessage] = useState("");
+  const [message, setMessage] = useState("");
+  const [token, setToken] = useState("");
 
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -35,38 +36,45 @@ const UserLogin = (props) => {
         import.meta.env.VITE_BACKEND_URL + "/api/auth/sign-up",
         {
           method: "POST",
-          // headers: { "content-type": "application/json" },
+          headers: { "content-type": "application/json" },
           body: JSON.stringify(user),
         }
       );
       if (response.ok) {
-        console.log("User is register");
         let json = await response.json();
         console.log("sign up json-------------------------", json);
+        setToken(json.token);
+        console.log("-------token---in signup----", token);
+        localStorage.setItem("authToken", json.token);
+        navigate("/register");
       }
     } catch (error) {
       console.log(error);
     }
   };
 
-  // ---------------------------------------------------------handleRegister
+  // ---------------------------------------------------------handleRegister--- DONT WORK
   const handleRegister = async () => {
-    const codeInput = {
-      code: codeRef.current.value,
-    };
+    const codeInput = codeRef.current.value;
+
+    console.log("----------codeInput-------", codeInput);
+    console.log("--------------token--in register--------", token);
 
     try {
       const response = await fetch(
         import.meta.env.VITE_BACKEND_URL + "/api/auth/register",
         {
           method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify(codeInput),
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ codeInput }),
           credentials: "include",
         }
       );
       if (response.ok) {
-        console.log("User is register");
+        console.log("User is registered");
         let json = await response.json();
         console.log("register json-------------------------", json);
         // navigate("/login");
@@ -94,8 +102,12 @@ const UserLogin = (props) => {
       );
       if (response.ok) {
         console.log("User is allowed");
-        const json = await response.json();
-        console.log("login json-------------------------", json);
+        const backendJsonResponse = await response.json();
+        console.log(
+          "backendJsonResponse-------------------------",
+          backendJsonResponse
+        );
+        navigate("/");
       } else {
         if (response.status === 401) {
           setMessage("You are not registered or your password/user is wrong");
@@ -103,7 +115,7 @@ const UserLogin = (props) => {
       }
     } catch (error) {
       console.log(error);
-      navigate("/sign-up");
+      // navigate("/sign-up");
     }
   };
 
@@ -257,6 +269,10 @@ const UserLogin = (props) => {
             value={props.btn_text}
             className="bg-[#E98090] text-base-100 px-[18px] py-4 rounded-[100px]"
           />
+          {/* --------------------------------------------------------------------------------------MESSAGE STATE */}
+
+          {message && <p className="p8 rounded-xl bg-warning">{message}</p>}
+
           {/* -----------------------------------------------------------------ONLY IN LOGIN: forgot password link */}
           {props.extra_formLink ? (
             <Link
