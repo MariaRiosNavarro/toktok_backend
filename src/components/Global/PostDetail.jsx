@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { useState } from "react";
 import PostUserHeader from "./PostUserHeader";
 import PostDetailsFooter from "./PostDetailsFooter";
-const PostDetail = () => {
+const PostDetail = ({ post }) => {
   const { slug } = useParams();
 
   return (
@@ -14,12 +14,12 @@ const PostDetail = () => {
           <section className="mt-4 w-full">
             <div className="avatar ">
               <div className=" rounded-[32px] ">
-                <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                <img src={post.img} />
               </div>
             </div>
           </section>
         </Link>
-        <PostDetailsFooter />
+        <PostDetailsFooter post={post} />
       </section>
     </>
   );

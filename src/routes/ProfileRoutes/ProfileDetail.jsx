@@ -13,9 +13,11 @@ import SettingsQRSvg from "../../components/SVG/settingsSVG/SettingsQRSvg";
 import SettingsSavedSvg from "../../components/SVG/settingsSVG/SettingsSavedSvg";
 import SettingsArchiveSvg from "../../components/SVG/settingsSVG/SettingsArchiveSvg";
 import HearthSvg from "../../components/SVG/HearthSvg";
+import { useTheme } from "../../context/userContext";
 
 const ProfileDetail = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { theme } = useTheme();
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -44,7 +46,11 @@ const ProfileDetail = () => {
         ></div>
       )}
       <div
-        className={`[&>*]:mb-6 fixed  bottom-0 z-50 bg-white w-full p-6 pb-16 rounded-t-[40px] transform  ${
+        className={`[&>*]:mb-6 fixed  bottom-0 z-50   ${
+          theme === "dark"
+            ? "bg-slate-800 text-[#9E9E9E]"
+            : "bg-white text-[#212121]"
+        }  w-full p-6 pb-16 rounded-t-[40px] transform  ${
           isModalOpen
             ? "translate-y-0  transition-transform duration-300 ease-out"
             : "translate-y-full  transition-transform duration-300 ease-in"
