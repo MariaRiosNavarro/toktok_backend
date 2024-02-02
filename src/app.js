@@ -15,6 +15,10 @@ app.use(express.json());
 app.use(morgan('dev'));
 app.use(cookieParser());
 
+app.use('/api/users', usersRouter);
+app.use('/api/posts', postsRouter);
+app.use('/api/auth', authRouter);
+
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;
   const errorMessage = err.message || 'Something went wrong!';
@@ -26,7 +30,3 @@ app.use((err, req, res, next) => {
     stack: err.stack,
   });
 });
-
-app.use('/api/users', usersRouter);
-app.use('/api/posts', postsRouter);
-app.use('/api/auth', authRouter);
