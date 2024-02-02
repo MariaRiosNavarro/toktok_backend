@@ -1,5 +1,4 @@
 import UserLogin from "../../components/SignInUp/UserLogin";
-import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   return (

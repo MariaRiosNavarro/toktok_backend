@@ -1,33 +1,51 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
-// const UserContext = createContext();
-const ThemeContext = createContext();
+const UserContext = createContext();
+export const useUserContext = () => useContext(UserContext);
 
-// export const useLoginContext = () => useContext(UserContext);
+const ThemeContext = createContext();
 export const useTheme = () => useContext(ThemeContext);
 
 export const GlobalProvider = ({ children }) => {
-  //   const [loginUser, setLoginUser] = useState(null);
+  const [loginUser, setLoginUser] = useState(null);
   //   use theme from local storage if available or set light theme
   const [theme, setTheme] = useState(
     localStorage.getItem("theme") ? localStorage.getItem("theme") : "light"
   );
 
-  //   useEffect(() => {
-  //     async function getUser() {
-  //       const response = await fetch(
-  //         import.meta.env.VITE_BACKEND_URL + "richtige-api-pfad-unseren-Backend",
-  //         {
-  //           credentials: "include",
-  //         }
-  //       );
-  //       if (response.ok) {
-  //         setLoginUser(await response.json());
-  //         console.log("--------------PROVIDER------JA");
-  //       }
-  //     }
-  //     getUser();
-  //   }, []);
+  const loginUserFunction = async (userData) => {
+    try {
+      const response = await fetch(
+        import.meta.env.VITE_BACKEND_URL + "/api/auth/login",
+        {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify(userData),
+          credentials: "include",
+        }
+      );
+
+      if (response.ok) {
+        const backendJsonResponse = await response.json();
+        setLoginUser(backendJsonResponse.data);
+        console.log(
+          "backendJsonResponse-------------------------",
+          backendJsonResponse
+        );
+        return true;
+      } else {
+        console.error("Authentication failed:", response.status);
+        return false;
+      }
+    } catch (error) {
+      console.error("Error during authentication:", error);
+      return false;
+    }
+  };
+
+  const logOutUserFunction = () => {
+    setLoginUser(null);
+  };
 
   // update state on toggle
   const toggleTheme = (e) => {
@@ -48,11 +66,13 @@ export const GlobalProvider = ({ children }) => {
 
   return (
     <>
-      {/* <UserContext.Provider value={{ loginUser }}> */}
-      <ThemeContext.Provider value={{ theme, toggleTheme }}>
-        {children}
-      </ThemeContext.Provider>
-      {/* </UserContext.Provider> */}
+      <UserContext.Provider
+        value={{ loginUser, loginUserFunction, logOutUserFunction }}
+      >
+        <ThemeContext.Provider value={{ theme, toggleTheme }}>
+          {children}
+        </ThemeContext.Provider>
+      </UserContext.Provider>
     </>
   );
 };

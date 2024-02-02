@@ -2,12 +2,15 @@ import { useRef, useState, useEffect } from "react";
 import SettingsMainSvg from "../../components/SVG/settingsSVG/SettingsMainSvg";
 import LocationSvg from "../../components/SVG/LocationSvg";
 
-// import { useLoginContext } from "../../context/userContext";
+import { useUserContext } from "../../context/userContext";
 
 import { useTheme } from "../../context/userContext";
 
 const NewPostCaption = ({ selectedImage }) => {
-  // const { loginUser } = useLoginContext();
+  const { loginUser } = useUserContext();
+
+  console.log("----------loginuser:_id--------", loginUser._id);
+
   const userImg = ""; //loginUser.img;
   const { theme } = useTheme();
   const [value, setValue] = useState("");
