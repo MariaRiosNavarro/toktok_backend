@@ -12,7 +12,14 @@ export default {
           accent: "#424242", //darkgray
         },
       },
-      "dark",
+      {
+        dark: {
+          ...require("daisyui/src/theming/themes")["dark"],
+          primary: "#FF4D67", //red
+          secondary: "#9E9E9E", //lightGray
+          accent: "#9E9E9E", //lightGray
+        },
+      },
       "cupcake",
     ],
   },

@@ -7,37 +7,49 @@ import NewPost from "./routes/NewPostUploadRoutes/NewPost";
 import NewPostDetails from "./routes/NewPostUploadRoutes/NewPostDetails";
 import ProfileDetail from "./routes/ProfileRoutes/ProfileDetail";
 import ProfileEdit from "./routes/ProfileRoutes/ProfileEdit";
-import Protector from "./routes/Protector/Protector";
+// import Protector from "./routes/Protector/Protector";
 import Search from "./routes/Search";
 import Detail from "./routes/Detail";
+import { GlobalProvider } from "./context/userContext";
+import { useState } from "react";
+import SignUp from "./routes/SignInUpRoutes/SignUp";
 
 function App() {
+  const [selectedImage, setSelectedImage] = useState(null);
   return (
     <BrowserRouter>
-      <Routes>
-        {/* 1 Loading/Login&Register*/}
-        <Route path="/login" element={<Login />}></Route>
-        <Route path="/register" element={<Register />}></Route>
+      <GlobalProvider>
+        <Routes>
+          {/* 1 Loading/Login&Register*/}
+          <Route path="/sign-up" element={<SignUp />}></Route>
+          <Route path="/register" element={<Register />}></Route>
+          <Route path="/login" element={<Login />}></Route>
 
-        {/* ↓ --------------Protected Routes---------------------------↓ */}
+          {/* ↓ --------------Protected Routes---------------------------↓ */}
 
-        {/* <Route element={<Protector />}></Route> */}
+          {/* <Route element={<Protector />}></Route> */}
 
-        {/* 2 Home & Post*/}
-        <Route path="/" element={<Home />}></Route>
-        <Route path="/post/:slug" element={<Post />}></Route>
-        {/* 3 Search*/}
-        <Route path="/search" element={<Search />}></Route>
-        {/* 4 Upload */}
-        <Route path="/upload" element={<NewPost />}>
-          <Route path="detail" element={<NewPostDetails />} />
-        </Route>
-        {/* 5 Profile*/}
-        <Route path="/profile" element={<ProfileDetail />}></Route>
-        <Route path="/edit" element={<ProfileEdit />}></Route>
-        {/* 6 Detail/Other Accounts */}
-        <Route path="/detail/:slug" element={<Detail />} />
-      </Routes>
+          {/* 2 Home & Post*/}
+          <Route path="/" element={<Home />}></Route>
+          <Route path="/post/:slug" element={<Post />} />
+          {/* 3 Search*/}
+          <Route path="/search" element={<Search />} />
+          {/* 4 Upload */}
+          <Route
+            path="/upload"
+            element={<NewPost setSelectedImage={setSelectedImage} />}
+          />
+          <Route
+            path="/upload-detail"
+            element={<NewPostDetails selectedImage={selectedImage} />}
+          />
+          {/* 5 Profile*/}
+          <Route path="/profile" element={<ProfileDetail />}></Route>
+          <Route path="/edit" element={<ProfileEdit />}></Route>
+          {/* 6 Detail/Other Accounts */}
+          <Route path="/detail/:slug" element={<Detail />} />
+        </Routes>
+      </GlobalProvider>
     </BrowserRouter>
   );
 }

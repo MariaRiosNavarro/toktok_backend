@@ -1,0 +1,39 @@
+import { useTheme } from "../../context/userContext";
+const AddPostSvg = () => {
+  const { theme } = useTheme();
+  return (
+    <svg
+      width="28"
+      height="28"
+      viewBox="0 0 28 28"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M14.043 9.87305V18.2129"
+        stroke={theme === "dark" ? "#9E9E9E" : "#212121"}
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M18.2171 14.043H9.86865"
+        stroke={theme === "dark" ? "#9E9E9E" : "#212121"}
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M2.68335 14.043C2.68335 5.52388 5.52388 2.68335 14.043 2.68335C22.5621 2.68335 25.4026 5.52388 25.4026 14.043C25.4026 22.5621 22.5621 25.4026 14.043 25.4026C5.52388 25.4026 2.68335 22.5621 2.68335 14.043Z"
+        stroke={theme === "dark" ? "#9E9E9E" : "#212121"}
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+};
+
+export default AddPostSvg;
