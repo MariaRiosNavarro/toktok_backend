@@ -44,9 +44,6 @@ const UserLogin = (props) => {
       if (response.ok) {
         let json = await response.json();
         console.log("sign up json-------------------------", json);
-        // setToken(json.token);
-        // console.log("-------token---in signup----", token);
-        // localStorage.setItem("authToken", json.token);
         navigate("/register");
       }
     } catch (error) {
@@ -59,7 +56,6 @@ const UserLogin = (props) => {
     const codeInput = codeRef.current.value;
 
     console.log("----------codeInput-------", codeInput);
-    // console.log("--------------token--in register--------", token);
 
     try {
       const response = await fetch(
@@ -68,7 +64,6 @@ const UserLogin = (props) => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            // Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({ codeInput }),
           credentials: "include",
@@ -77,7 +72,7 @@ const UserLogin = (props) => {
       if (response.ok) {
         console.log("User is registered");
         if (response.status === 201) {
-          console.log("YEAH-------------------------");
+          console.log("STATUS 201-----USER CREATED--------------------");
           navigate("/login");
         }
       }
@@ -117,7 +112,6 @@ const UserLogin = (props) => {
       }
     } catch (error) {
       console.log(error);
-      // navigate("/sign-up");
     }
   };
 

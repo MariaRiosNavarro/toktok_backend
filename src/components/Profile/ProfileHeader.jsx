@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import AddPostSvg from "../SVG/AddPostSvg";
 import EditSvg from "../SVG/EditSvg";
-import ThreePointsSvg from "../SVG/ThreePointsSvg";
+import PointsSvg from "../SVG/PointsSvg";
 import { useTheme } from "../../context/userContext";
 import BackArrowSvg from "../SVG/BackArrowSvg";
 
@@ -36,7 +36,7 @@ const ProfileHeader = (props) => {
             <EditSvg />
           </Link>
           <button onClick={openModal}>
-            <ThreePointsSvg />
+            <PointsSvg />
           </button>
           <label className="swap swap-rotate relative right-[-5px]">
             <input

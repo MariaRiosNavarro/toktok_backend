@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router-dom";
-import ThreePointsSvg from "../SVG/ThreePointsSvg";
+import PointsSvg from "../SVG/PointsSvg";
 const PostUserHeader = (props) => {
   let slug;
   return (
@@ -18,7 +18,7 @@ const PostUserHeader = (props) => {
             </div>
           </article>
 
-          <ThreePointsSvg />
+          <PointsSvg />
         </section>
       </Link>
     </>
