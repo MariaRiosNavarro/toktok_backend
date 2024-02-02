@@ -9,7 +9,5 @@ import { verifyUser } from '../utils/middleware/auth.middleware..js';
 
 export const router = new express.Router();
 
-// router.get('/', verifyUser, getUser);
-router.get('/', getUser);
-
+router.get('/', verifyUser, getUser);
 router.get('/all', getAllUsers);

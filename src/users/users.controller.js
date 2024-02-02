@@ -22,12 +22,9 @@ export const getAllUsers = async (_, res, next) => {
 };
 
 // api/users?id=${_id}
-// api/users?id=65ba1e3bf62d099c7f3c041c
-
 export const getUser = async (req, res, next) => {
-  // const payload_id = req.payload._id; // id des eingeloggten users
+  const payload_id = req.payload._id; // id des eingeloggten users
 
-  const payload_id = '65ba1e3bf62d099c7f3c041f'; // bsp: id eines followers um zu zeigen followerStatus in dem fall true
   const { id } = req.query;
 
   console.log({ payload_id });
