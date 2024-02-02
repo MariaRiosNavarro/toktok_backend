@@ -23,7 +23,7 @@ const UserLogin = (props) => {
 
   // ---------------------------------------------------------handleSignUp
 
-  const handleSignUp = async (e) => {
+  const handleSignUp = async () => {
     const user = {
       email: emailRef.current.value,
       password: passwordRef.current.value,
@@ -46,7 +46,7 @@ const UserLogin = (props) => {
         setToken(json.token);
         console.log("-------token---in signup----", token);
         localStorage.setItem("authToken", json.token);
-        navigate("/register");
+        // navigate("/register");
       }
     } catch (error) {
       console.log(error);
