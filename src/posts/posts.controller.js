@@ -14,14 +14,14 @@ export const createPost = async (req, res, next) => {
         if (!savedPost) {
             res.status(400).json({message:'Post not saved! Try again.'});
         }
-        // * Funktion um den Post direkt in den User zu pushen 
-        const user = await User.findById(req.userId);
-        if (!user) {
-          return res.status(404).json({ message: 'User not found!' }); // ! !!!!FEHLER IN DER KONSOLE GEWOLLT!!!!
-          // * diese Funktion geht erst wenn wir die routen mit dem Token schützen und die ID des users hier erhalten. 
-        }
-        user.posts.push(savedPost._id);
-        await user.save();
+        // // * Funktion um den Post direkt in den User zu pushen 
+        // const user = await User.findById(req.userId);
+        // if (!user) {
+        //   return res.status(404).json({ message: 'User not found!' }); // ! !!!!FEHLER IN DER KONSOLE GEWOLLT!!!!
+        //   // * diese Funktion geht erst wenn wir die routen mit dem Token schützen und die ID des users hier erhalten. 
+        // }
+        // user.posts.push(savedPost._id);
+        // await user.save();
         res.status(201).json({ message: 'Post sucessfully created!'});
     } catch (err) {
         next(err);
