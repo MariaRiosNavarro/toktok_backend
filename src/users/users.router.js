@@ -5,8 +5,9 @@ import {
   getUser,
   getAllUsers,
 } from '../users/users.controller.js';
+import { verifyUser } from '../utils/middleware/auth.middleware..js';
 
 export const router = new express.Router();
 
-router.get('/', getUser);
+router.get('/', verifyUser, getUser);
 router.get('/all', getAllUsers);
