@@ -12,7 +12,6 @@ const Home = () => {
       const response = await fetch(
         import.meta.env.VITE_BACKEND_URL + "/api/posts/"
       );
-      console.log("Aus Home", import.meta.env.VITE_BACKEND_URL + "/api/posts/");
       if (response.ok) {
         const data = await response.json();
         setPosts(data);
@@ -35,11 +34,8 @@ const Home = () => {
       <main className="p-6 pb-12">
         <section>
           {posts.map((post, key) => {
-            <PostDetail post={post} key={key} />;
+            return <PostDetail post={post} key={key} />;
           })}
-          {/* <PostDetail />
-          <PostDetail />
-          <PostDetail /> */}
         </section>
       </main>
       <NavBarBottom

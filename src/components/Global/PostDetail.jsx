@@ -10,7 +10,7 @@ const PostDetail = ({ post }) => {
     <>
       <section className="w-full  mb-6">
         <PostUserHeader slug={slug} />
-        <Link to={"/post/" + slug}>
+        <Link to={"/post/" + post._id}>
           <section className="mt-4 w-full">
             <div className="avatar ">
               <div className=" rounded-[32px] ">
