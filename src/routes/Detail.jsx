@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import NavBarBottom from "../components/Global/NavBarBottom";
 import NavBarTop from "../components/Global/NavBarTop";
@@ -13,6 +13,29 @@ import ProfileGallery from "../components/Global/ProfileGallery";
 
 const Detail = () => {
   const [isFollowing, setIsFollowing] = useState(false);
+  const [detailUserData, setDetailUserData] = useState(null);
+  const _id = "65ba1e3bf62d099c7f3c041c"; // user id aus params
+
+  useEffect(() => {
+    async function getUserData() {
+      const res = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/api/users?id=${_id}`,
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+          },
+          credentials: "include",
+        }
+      );
+      const data = await res.json();
+
+      if (res.ok) {
+        setDetailUserData(data);
+      }
+    }
+    getUserData();
+  }, []);
 
   const handleButtonClick = () => {
     setIsFollowing(!isFollowing);
@@ -24,6 +47,7 @@ const Detail = () => {
   ) : (
     <FollowSvg svgFillColor="fill-base-100" />
   );
+  if (!detailUserData) return <h1>Loading.....</h1>;
   return (
     <>
       <NavBarTop
@@ -34,7 +58,7 @@ const Detail = () => {
         rightLink="/"
       />
       <main className="p-6 pb-16">
-        <DetailUser />
+        <DetailUser user={detailUserData.user} />
         <article className="w-full">
           <button
             onClick={handleButtonClick}
@@ -48,7 +72,7 @@ const Detail = () => {
           <LineSvg />
         </article>
         <FeedsGallery />
-        <ProfileGallery />
+        <ProfileGallery postArr={detailUserData.user.posts} />
       </main>
       <NavBarBottom
         item={{ home: false, search: false, profile: false, add: false }}
