@@ -14,7 +14,7 @@ const UserLogin = (props) => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState("");
-  const [token, setToken] = useState("");
+  // const [token, setToken] = useState("");
 
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -43,9 +43,9 @@ const UserLogin = (props) => {
       if (response.ok) {
         let json = await response.json();
         console.log("sign up json-------------------------", json);
-        setToken(json.token);
-        console.log("-------token---in signup----", token);
-        localStorage.setItem("authToken", json.token);
+        // setToken(json.token);
+        // console.log("-------token---in signup----", token);
+        // localStorage.setItem("authToken", json.token);
         // navigate("/register");
       }
     } catch (error) {
@@ -58,7 +58,7 @@ const UserLogin = (props) => {
     const codeInput = codeRef.current.value;
 
     console.log("----------codeInput-------", codeInput);
-    console.log("--------------token--in register--------", token);
+    // console.log("--------------token--in register--------", token);
 
     try {
       const response = await fetch(
@@ -67,7 +67,7 @@ const UserLogin = (props) => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            // Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({ codeInput }),
           credentials: "include",
@@ -185,59 +185,70 @@ const UserLogin = (props) => {
         </div>
         <div className="flex flex-col gap-6">
           {/* -----------------------------------------------------------------EMAIL INPUT */}
-          <div
-            className={
-              theme === "dark"
-                ? "bg-[#9E9E9E] flex items-center pl-5  rounded-xl"
-                : "bg-[#FAFAFA] flex items-center pl-5  rounded-xl"
-            }
-          >
-            <EmailSvg />
-            <input
-              ref={emailRef}
-              type="text"
-              placeholder="Email"
-              // required
+
+          {props.authComponent === "register" ? (
+            ""
+          ) : (
+            <div
               className={
                 theme === "dark"
-                  ? "bg-transparent focus:border-none focus:outline-none w-[100%] px-6 py-4 placeholder:text-gray-500 text-black"
-                  : "bg-transparent focus:border-none focus:outline-none w-[100%] px-6 py-4"
+                  ? "bg-[#9E9E9E] flex items-center pl-5  rounded-xl"
+                  : "bg-[#FAFAFA] flex items-center pl-5  rounded-xl"
               }
-            />
-          </div>
+            >
+              <EmailSvg />
+              <input
+                ref={emailRef}
+                type="text"
+                placeholder="Email"
+                // required
+                className={
+                  theme === "dark"
+                    ? "bg-transparent focus:border-none focus:outline-none w-[100%] px-6 py-4 placeholder:text-gray-500 text-black"
+                    : "bg-transparent focus:border-none focus:outline-none w-[100%] px-6 py-4"
+                }
+              />
+            </div>
+          )}
+
           {/* -----------------------------------------------------------------PASSWORD INPUT */}
-          <div
-            className={
-              theme === "dark"
-                ? "bg-[#9E9E9E] flex items-center px-5  rounded-xl"
-                : "bg-[#FAFAFA] flex items-center px-5  rounded-xl"
-            }
-          >
-            <PasswordSvg />
-            <input
-              // required
-              ref={passwordRef}
-              type={showPassword ? "text" : "password"}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Password"
+
+          {props.authComponent === "register" ? (
+            ""
+          ) : (
+            <div
               className={
                 theme === "dark"
-                  ? "bg-transparent w-[100%] px-6 py-4  placeholder:text-gray-500 focus:border-none focus:outline-none  text-black "
-                  : "bg-transparent w-[100%] px-6 py-4 focus:border-none focus:outline-none "
+                  ? "bg-[#9E9E9E] flex items-center px-5  rounded-xl"
+                  : "bg-[#FAFAFA] flex items-center px-5  rounded-xl"
               }
-            />
-            <label htmlFor="check">
-              {showPassword ? <ShowPasswordSvg /> : <HiddenPasswordSvg />}
-            </label>
-            <input
-              id="check"
-              type="checkbox"
-              className="hidden"
-              value={showPassword}
-              onChange={() => setShowPassword((prev) => !prev)}
-            />
-          </div>
+            >
+              <PasswordSvg />
+              <input
+                // required
+                ref={passwordRef}
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Password"
+                className={
+                  theme === "dark"
+                    ? "bg-transparent w-[100%] px-6 py-4  placeholder:text-gray-500 focus:border-none focus:outline-none  text-black "
+                    : "bg-transparent w-[100%] px-6 py-4 focus:border-none focus:outline-none "
+                }
+              />
+              <label htmlFor="check">
+                {showPassword ? <ShowPasswordSvg /> : <HiddenPasswordSvg />}
+              </label>
+              <input
+                id="check"
+                type="checkbox"
+                className="hidden"
+                value={showPassword}
+                onChange={() => setShowPassword((prev) => !prev)}
+              />
+            </div>
+          )}
           {/* -----------------------------------------------------------------ONLY IN REGISTER: CODE INPUT */}
           {props.authComponent === "register" && (
             <div

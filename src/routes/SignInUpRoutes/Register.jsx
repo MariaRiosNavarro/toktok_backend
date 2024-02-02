@@ -7,7 +7,7 @@ const Register = () => {
       <UserLogin
         authComponent="register"
         headline="Register your Account"
-        btn_text="Sign up"
+        btn_text="Register"
         subtext="To send new code go to:"
         subLink="/sign-up"
         subLink_text="Sign up"
