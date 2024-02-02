@@ -1,4 +1,4 @@
-import { useTheme } from "../../context/userContext";
+import { useTheme } from "../../../context/userContext";
 const SettingsInfoSvg = () => {
   const { theme } = useTheme();
   return (
