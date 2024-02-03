@@ -14,10 +14,13 @@ import SettingsSavedSvg from "../../components/SVG/settingsSVG/SettingsSavedSvg"
 import SettingsArchiveSvg from "../../components/SVG/settingsSVG/SettingsArchiveSvg";
 import HearthSvg from "../../components/SVG/HearthSvg";
 import { useTheme } from "../../context/userContext";
+import { useUserContext } from "../../context/userContext";
 
 const ProfileDetail = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { theme } = useTheme();
+  const { loginUser } = useUserContext();
+  console.log("Login user from ProfileDetail =>", loginUser._id);
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -29,15 +32,23 @@ const ProfileDetail = () => {
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
       />
-      <main className="p-6 pb-16">
-        <DetailUser />
+      {!loginUser ? (
+        <h1>Kein Profile Details vorhanden.....</h1>
+      ) : (
+        <main className="p-6 pb-16">
+          {!loginUser ? <p></p> : <DetailUser user={loginUser.data} />}
 
-        <article className="mt-6 flex justify-center ">
-          <LineSvg />
-        </article>
-        <FeedsGallery />
-        <ProfileGallery />
-      </main>
+          <article className="mt-6 flex justify-center ">
+            <LineSvg />
+          </article>
+          <FeedsGallery />
+          {!loginUser.posts || loginUser.posts.length === 0 ? (
+            <h2 className="mt-6 text-2xl">no posts available</h2>
+          ) : (
+            <ProfileGallery postArr={loginUser.posts} />
+          )}
+        </main>
+      )}
 
       {isModalOpen && (
         <div

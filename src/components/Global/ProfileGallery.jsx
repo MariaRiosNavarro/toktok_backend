@@ -33,7 +33,7 @@ const ProfileGallery = ({ postArr }) => {
   }, []);
 
   if (!posts || posts.length === 0) {
-    return <h1>Loading.....</h1>;
+    return <h1>no posts available</h1>;
   }
 
   return (
