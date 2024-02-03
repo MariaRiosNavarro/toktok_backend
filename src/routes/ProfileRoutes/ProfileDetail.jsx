@@ -20,7 +20,6 @@ const ProfileDetail = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { theme } = useTheme();
   const { loginUser } = useUserContext();
-  console.log("Login user from ProfileDetail =>", loginUser._id);
 
   const closeModal = () => {
     setIsModalOpen(false);

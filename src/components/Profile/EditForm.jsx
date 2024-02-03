@@ -4,7 +4,8 @@ const EditForm = (props) => {
   const { theme } = useTheme();
   const [showToast, setShowToast] = useState(false);
   // Styling
-  let commonStyles = "rounded-xl px-[20px] p-4 h-6 ";
+  let commonStyles =
+    "rounded-xl px-[20px] p-4 h-6 focus:border-none focus:outline-none";
   const darkStyles = "bg-[#9E9E9E] placeholder:text-gray-500 text-gray-700";
   const lightStyles = "bg-[#FAFAFA]";
   const inputClassNames = `${commonStyles} ${
