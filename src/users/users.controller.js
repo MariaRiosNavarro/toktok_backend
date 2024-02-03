@@ -57,6 +57,28 @@ export const getUser = async (req, res, next) => {
   }
 };
 
+export const getLoginUserData = async (req, res, next) => {
+  const user_id = req.payload.id;
+
+  try {
+    const user = await User.findById(user_id)
+      .select({
+        password: 0,
+        salt: 0,
+        createdAt: 0,
+        updatedAt: 0,
+        __v: 0,
+      })
+      .exec();
+
+    if (!user) return next(createError(404, 'User not found'));
+    console.log(user);
+    res.json(user);
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const updateUser = async (req, res, next) => {
   try {
     res.end();
