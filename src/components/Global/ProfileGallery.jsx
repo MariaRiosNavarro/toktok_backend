@@ -19,9 +19,8 @@ const ProfileGallery = ({ postArr }) => {
         });
 
         const fetchedPosts = await Promise.all(fetchPromises);
-        const filteredPosts = fetchedPosts.filter((post) => post !== null);
 
-        setPosts((prevPosts) => [...prevPosts, ...filteredPosts]);
+        setPosts(fetchedPosts);
       } catch (error) {
         console.error("Error fetching posts:", error);
       }

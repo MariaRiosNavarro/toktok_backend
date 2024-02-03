@@ -9,7 +9,7 @@ const FeedsGallery = () => {
         <FeedsSvg />
         <p className="text-primary text-[16px]">Feeds</p>
       </div>
-      <FeedsRectangleSvg />
+      <FeedsRectangleSvg width={"127"} />
     </article>
   );
 };
