@@ -19,11 +19,20 @@ import { useUserContext } from "../../context/userContext";
 const ProfileDetail = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { theme } = useTheme();
-  const { loginUser } = useUserContext();
+  const { loginUser, setLoginUser } = useUserContext();
 
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
+  useEffect(() => {
+    if (loginUser) {
+      const storedUser = localStorage.getItem("user");
+      if (storedUser) {
+        setLoginUser(JSON.parse(storedUser));
+      }
+    }
+  }, [loginUser]);
 
   return (
     <>
