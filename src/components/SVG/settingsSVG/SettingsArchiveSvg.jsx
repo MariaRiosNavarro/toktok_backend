@@ -3,7 +3,7 @@ const SettingsArchiveSvg = () => {
   const { theme } = useTheme();
   return (
     <svg
-      width="24"
+      width="22"
       height="24"
       viewBox="0 0 24 24"
       fill="none"
