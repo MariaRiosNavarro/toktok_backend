@@ -9,11 +9,17 @@ export const app = express();
 import { router as usersRouter } from './users/users.router.js';
 import { router as postsRouter } from './posts/posts.router.js';
 import { router as authRouter } from './auth/auth.router.js';
+import { router as commentsRouter } from './comments/comments.router.js'
 
 app.use(cors({ credentials: true, origin: process.env.ALLOWED_ORIGIN }));
 app.use(express.json());
 app.use(morgan('dev'));
 app.use(cookieParser());
+
+app.use('/api/users', usersRouter);
+app.use('/api/posts', postsRouter);
+app.use('/api/auth', authRouter);
+app.use('/api/comments', commentsRouter)
 
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;
@@ -26,7 +32,3 @@ app.use((err, req, res, next) => {
     stack: err.stack,
   });
 });
-
-app.use('/api/users', usersRouter);
-app.use('/api/posts', postsRouter);
-app.use('/api/auth', authRouter);
