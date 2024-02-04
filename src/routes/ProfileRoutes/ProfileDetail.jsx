@@ -14,7 +14,7 @@ import SettingsSavedSvg from "../../components/SVG/settingsSVG/SettingsSavedSvg"
 import SettingsArchiveSvg from "../../components/SVG/settingsSVG/SettingsArchiveSvg";
 import HearthSvg from "../../components/SVG/HearthSvg";
 import { useTheme } from "../../context/userContext";
-import { useUserContext } from "../../context/userContext";
+import { useUserContext } from "../../context/loginContext";
 
 const ProfileDetail = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -35,7 +35,7 @@ const ProfileDetail = () => {
         <h1>Kein Profile Details vorhanden.....</h1>
       ) : (
         <main className="p-6 pb-16">
-          {!loginUser ? <p></p> : <DetailUser user={loginUser.data} />}
+          {!loginUser ? <p></p> : <DetailUser user={loginUser} />}
 
           <article className="mt-6 flex justify-center ">
             <LineSvg />
