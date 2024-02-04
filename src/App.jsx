@@ -18,6 +18,7 @@ import LoginProtector from "./routes/Protector/LoginProtector";
 
 function App() {
   const [selectedImage, setSelectedImage] = useState(null);
+  const [preview, setPreview] = useState(null);
   return (
     <BrowserRouter>
       <GlobalProvider>
@@ -39,11 +40,22 @@ function App() {
             {/* 4 Upload */}
             <Route
               path="/upload"
-              element={<NewPost setSelectedImage={setSelectedImage} />}
+              element={
+                <NewPost
+                  setSelectedImage={setSelectedImage}
+                  preview={preview}
+                  setPreview={setPreview}
+                />
+              }
             />
             <Route
               path="/upload-detail"
-              element={<NewPostDetails selectedImage={selectedImage} />}
+              element={
+                <NewPostDetails
+                  selectedImage={selectedImage}
+                  preview={preview}
+                />
+              }
             />
             {/* 5 Profile*/}
             <Route path="/profile" element={<ProfileDetail />}></Route>
