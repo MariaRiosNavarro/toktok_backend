@@ -6,10 +6,12 @@ const CommentDetail = ({ comment }) => {
     <>
       <section className="mb-6">
         <PostUserHeader />
-        <section className="my-3">
-          <p>{comment.text}</p>
+        <section className="my-3 p-1">
+          <p className=" whitespace-normal max-w-full break-words  overflow-wrap ">
+            {comment.text}
+          </p>
         </section>
-        <PostDetailsFooter />
+        <PostDetailsFooter user={true} />
       </section>
     </>
   );

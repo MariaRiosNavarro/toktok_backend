@@ -5,7 +5,7 @@ const PostUserHeader = (props) => {
   return (
     <>
       <section className="flex items-center justify-between mx-auto ">
-        <Link to={"/detail/" + slug}>
+        <Link to={"/detail/" + slug} className="inline-block">
           <article className="flex justify-between items-center gap-4">
             <div className="avatar">
               <div className="w-12 rounded-full">

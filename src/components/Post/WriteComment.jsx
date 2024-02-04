@@ -1,27 +1,19 @@
 import { useState, useEffect, useRef } from "react";
 import { useTheme } from "../../context/userContext";
 import { useUserContext } from "../../context/loginContext";
-const WriteComment = ({ id }) => {
+const WriteComment = ({ id, refresh, setRefresh }) => {
   const { theme } = useTheme();
   const [comment, setComment] = useState();
-  const [value, setValue] = useState("");
+  // const [value, setValue] = useState("");
   const commentRef = useRef();
   const { loginUser } = useUserContext();
 
-  let commonStyles =
-    "rounded-xl px-[20px] p-4 h-6 focus:border-none focus:outline-none";
+  let commonStyles = "rounded-xl px-[20px] p-4 mx-3 ";
   const darkStyles = "bg-[#9E9E9E] placeholder:text-gray-500 text-gray-700";
   const lightStyles = "bg-[#FAFAFA]";
   const inputClassNames = `${commonStyles} ${
     theme === "dark" ? darkStyles : lightStyles
   }`;
-  useEffect(() => {
-    if (commentRef.current) {
-      commentRef.current.style.height = "auto";
-      const scrollHeight = commentRef.current.scrollHeight;
-      commentRef.current.style.height = scrollHeight + "px";
-    }
-  }, [value]);
 
   async function saveComment() {
     const comment = commentRef.current.value;
@@ -42,6 +34,10 @@ const WriteComment = ({ id }) => {
         }
       );
       if (response.ok) {
+        console.log("___________ comment => ", comment);
+        await setRefresh(!refresh);
+        commentRef.current.value = "";
+        //setComment("");
       } else {
         // Handle error
         console.error("Failed to save comment");
@@ -50,10 +46,10 @@ const WriteComment = ({ id }) => {
       console.error("Error saving comment:", error);
     }
   }
-  const handleChange = (event) => {
-    const val = event.target?.value;
-    setValue(val);
-  };
+  // const handleChange = (event) => {
+  //   const val = event.target?.value;
+  //   setValue(val);
+  // };
 
   return (
     <>
@@ -70,9 +66,8 @@ const WriteComment = ({ id }) => {
           name="comment"
           placeholder="your Comment..."
           className={inputClassNames}
-          onChange={handleChange}
-          value={value}
           ref={commentRef}
+          rows="2"
         />
 
         <button className="btn btn-circle text-primary" onClick={saveComment}>

@@ -10,9 +10,13 @@ import Comments from "../components/Post/Comments";
 import LineSvg from "../components/SVG/LineSvg";
 import TimeDifferent from "../components/Global/TimeDifferent";
 import WriteComment from "../components/Post/WriteComment";
+import { useTheme } from "../context/userContext";
 const Post = () => {
   const { slug } = useParams();
   const [post, setPost] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { theme } = useTheme();
+  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     async function getPost() {
@@ -24,7 +28,11 @@ const Post = () => {
       }
     }
     getPost();
-  }, []);
+  }, [refresh]);
+
+  const changeModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
 
   if (!post) return <h1>Loading.....</h1>;
 
@@ -57,11 +65,42 @@ const Post = () => {
           <div className="my-6 flex justify-center">
             <LineSvg />
           </div>
-
-          <Comments comments={post.comments} />
-          <WriteComment id={post._id} />
+          {post.comments.length > 3 ? (
+            <button onClick={changeModal} className="mb-3">
+              view all {post.comments.length} comments
+            </button>
+          ) : (
+            ""
+          )}
+          <Comments comments={post.comments} count={"3"} />
+          <WriteComment
+            id={post._id}
+            refresh={refresh}
+            setRefresh={setRefresh}
+          />
         </section>
       </main>
+      {isModalOpen && (
+        <div
+          className=" fixed inset-0  bg-gray-800 bg-opacity-50"
+          onClick={changeModal}
+        ></div>
+      )}
+      <div
+        className={`[&>*]:mb-6 fixed  bottom-0 z-50   ${
+          theme === "dark"
+            ? "bg-slate-800 text-[#9E9E9E]"
+            : "bg-white text-[#212121]"
+        }  w-full p-6 pb-16 rounded-t-[40px] transform  ${
+          isModalOpen
+            ? "translate-y-0  transition-transform duration-300 ease-out"
+            : "translate-y-full  transition-transform duration-300 ease-in"
+        } overflow-y-auto h-[50%] max-h-[50%]`}
+      >
+        <section>
+          <Comments comments={post.comments} count={"all"} />
+        </section>
+      </div>
       <NavBarBottom
         item={{ home: false, search: false, profile: false, add: false }}
       />
