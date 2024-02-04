@@ -1,20 +1,19 @@
 import { Post } from "../posts/posts.model.js";
 import { Comment } from "./comments.model.js";
 
+
+
 export const createComment = async (req, res, next) => {
     const newComment= new Comment(req.body);
-    const postId = req.body.post
     try {
         const savedComment = await newComment.save()
-
-        const post = await Post.findByIdAndUpdate(postId, {
-            $push: { comments: newComment._id },
+        const post = await Post.findByIdAndUpdate(newComment.post, {
+            $push: { comments: newComment },
           });
 
         if (!post) {
             return res.status(404).json({ message: 'Post not found' });
         }
-      
         
         res.status(201).json({message: 'comment saved'})
         if (!savedComment) {
@@ -35,9 +34,31 @@ export const updateComment = async (req, res, next) => {
   };
   
   export const deleteComment = async (req, res, next) => {
+    const commentId = req.params.id;
   
     try {
-        res.end()
+      console.log('Comment ID:', commentId);
+      const comment = await Comment.findById(commentId);
+      
+      if (!comment) {
+        return res.status(404).json({ message: 'Comment not found' });
+      }
+      
+      const post = await Post.findById(comment.post);
+      if (!post) {
+        return res.status(404).json({ message: 'Post not found' });
+      }
+      console.log('Post Comments:', post.comments);
+  
+      if (post.comments && post.comments.length > 0) {
+        post.comments = post.comments.filter(postComment => postComment._id.toString() !== commentId.toString());
+      }
+  
+      await post.save();
+  
+      await Comment.findByIdAndDelete(commentId);
+  
+      res.status(200).json({ message: 'Comment deleted' });
     } catch (err) {
       next(err);
     }
