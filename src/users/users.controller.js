@@ -98,8 +98,6 @@ export const deleteUser = async (req, res, next) => {
 // /api/users/follow?id=${_id}
 export const updateFollowStatus = async (req, res, next) => {
   const loginUser_id = req.payload.id;
-  // const loginUser_id = '65ba1e3bf62d099c7f3c0423';
-
   const otherUser_id = req.query.id;
 
   try {

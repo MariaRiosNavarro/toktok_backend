@@ -12,6 +12,6 @@ import { verifyUser } from '../utils/middleware/auth.middleware..js';
 export const router = new express.Router();
 
 router.get('/login-user', verifyUser, getLoginUserData);
-router.get('/', verifyUser, getUser); // brauchen wir die middleware hier noch???
+router.get('/', verifyUser, getUser);
 router.get('/all', getAllUsers);
 router.patch('/follow', verifyUser, updateFollowStatus);
