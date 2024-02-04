@@ -1,6 +1,7 @@
 import multer from 'multer';
 import cloudinary from 'cloudinary';
 import mongoose from 'mongoose';
+import 'dotenv/config';
 
 // Cloudinary
 cloudinary.v2.config({

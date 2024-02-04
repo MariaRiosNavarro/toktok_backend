@@ -221,7 +221,7 @@ export const addImage = async (req, res, next) => {
         const img = cloudinaryResult.secure_url;
         const cloudinary_id = cloudinaryResult.public_id;
 
-        const updateResult = await user.updateOne(query, {
+        const updateResult = await User.updateOne(query, {
           $set: {
             img,
             cloudinary_id,
