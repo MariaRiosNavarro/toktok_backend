@@ -23,7 +23,7 @@ export const getAllUsers = async (_, res, next) => {
 
 // api/users?id=${_id}
 export const getUser = async (req, res, next) => {
-  const payload_id = req.payload._id; // id des eingeloggten users
+  const payload_id = req.payload.id; // id des eingeloggten users
 
   const { id } = req.query;
 
@@ -52,6 +52,28 @@ export const getUser = async (req, res, next) => {
 
       res.json({ user, followStatus: followStatus });
     }
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const getLoginUserData = async (req, res, next) => {
+  const user_id = req.payload.id;
+
+  try {
+    const user = await User.findById(user_id)
+      .select({
+        password: 0,
+        salt: 0,
+        createdAt: 0,
+        updatedAt: 0,
+        __v: 0,
+      })
+      .exec();
+
+    if (!user) return next(createError(404, 'User not found'));
+    console.log(user);
+    res.json(user);
   } catch (err) {
     next(err);
   }

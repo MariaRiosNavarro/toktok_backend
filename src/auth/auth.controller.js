@@ -1,5 +1,4 @@
 import { User } from '../users/users.model.js';
-import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import { createError } from '../utils/middleware/error.middleware.js';
 import {
@@ -9,7 +8,6 @@ import {
 } from './auth.service.js';
 import { sendEmail } from '../config/email.config.js';
 import { verifyEmailTemplate as template } from '../utils/templates/email.templates.js';
-import _ from 'lodash';
 
 //$ signUp ------------------------------------------------------------------
 
@@ -94,32 +92,9 @@ export const login = async (req, res, next) => {
     if (!isPasswordCorrect)
       return next(createError(400, 'Wrong password or username'));
 
-    const payload = {
-      _id: user._id,
-      email: user.email,
-      role: user.role,
-      birthday: user.birthday,
-      telephone: user.telephone,
-    };
+    const payload = { id: user._id };
     const token = createToken(payload, '1h');
 
-    const { password, role, ...otherDetails } = user._doc;
-    const data = _.pick(user, [
-      '_id',
-      'username',
-      'img',
-      'name',
-      'job',
-      'description',
-      'website',
-      'posts',
-      'followers',
-      'following',
-      'favorites',
-    ]);
-
-    console.log({ payload });
-    console.log({ data });
     res
       .cookie('toktok', token, {
         httpOnly: true,
@@ -129,7 +104,6 @@ export const login = async (req, res, next) => {
       .json({
         success: true,
         message: 'Login successful',
-        data: data,
       });
   } catch (err) {
     next(err);
