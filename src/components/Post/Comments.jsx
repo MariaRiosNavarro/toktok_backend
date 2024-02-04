@@ -1,21 +1,23 @@
 import CommentDetail from "./CommentDetail";
 
-const Comments = ({ comments }) => {
+const Comments = ({ comments, count }) => {
+  const start = comments.length - 3;
+  const lastThreeComments = comments.slice(start);
   return (
     <>
-      {comments.length > 3 ? (
-        <section className="my-4">
-          <button>view all {comments.length} comments</button>
+      {count === "3" ? (
+        <section>
+          {lastThreeComments.map((comment, key) => {
+            return <CommentDetail comment={comment} key={key} />;
+          })}
         </section>
       ) : (
-        ""
+        <section>
+          {comments.map((comment, key) => {
+            return <CommentDetail comment={comment} key={key} />;
+          })}
+        </section>
       )}
-
-      <section>
-        {comments.slice(0, 3).map((comment, key) => {
-          return <CommentDetail comment={comment} key={key} />;
-        })}
-      </section>
     </>
   );
 };

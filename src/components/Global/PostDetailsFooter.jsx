@@ -1,7 +1,7 @@
 import HearthSvg from "../SVG/HearthSvg";
 import CommentsSvg from "../SVG/CommentsSvg";
 import { useState } from "react";
-const PostDetailsFooter = ({ post }) => {
+const PostDetailsFooter = ({ post, user }) => {
   const [isHeartSelected, setIsHeartSelected] = useState(false);
   // const [likes, setLikes] = useState(post.likes.length);
 
@@ -30,10 +30,14 @@ const PostDetailsFooter = ({ post }) => {
           <HearthSvg selected={isHeartSelected} />
           <p>{post?.likes.length}</p>
         </button>
-        <article className=" flex gap-2 ">
-          <CommentsSvg />
-          <p>{post?.comments.length}</p>
-        </article>
+        {user ? (
+          <button>Reply</button>
+        ) : (
+          <article className=" flex gap-2 ">
+            <CommentsSvg />
+            <p>{post?.comments.length}</p>
+          </article>
+        )}
       </section>
     </>
   );
