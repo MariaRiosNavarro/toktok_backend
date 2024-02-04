@@ -1,5 +1,9 @@
 import { User } from './users.model.js';
+import { uploadImage, deleteImage } from '../config/storage.config.js';
 
+//! brauchen wir eine Route für getAllFollowing oder so um im Home Feed dann die Beiträge der user denen man folgt anzuzeigen?
+
+// für die search page:
 export const getAllUsers = async (_, res, next) => {
   try {
     const users = await User.find().select({
@@ -8,11 +12,6 @@ export const getAllUsers = async (_, res, next) => {
       img: 1,
       job: 1,
       posts: 1,
-      // followers: 1,
-      // following: 1,
-      // favorites: 0,
-      // name: 0,
-      // description: 0,
     });
     res.json(users);
   } catch (err) {
@@ -20,6 +19,8 @@ export const getAllUsers = async (_, res, next) => {
     next(err);
   }
 };
+
+//$ getUser --- user data des other users für 06 --------------------------------------------------
 
 // api/users?id=${_id}
 export const getUser = async (req, res, next) => {
@@ -57,6 +58,8 @@ export const getUser = async (req, res, next) => {
   }
 };
 
+//$ getLoginUserData --- data des eingeloggten users für den login context ------------------------
+
 export const getLoginUserData = async (req, res, next) => {
   const user_id = req.payload.id;
 
@@ -79,21 +82,7 @@ export const getLoginUserData = async (req, res, next) => {
   }
 };
 
-export const updateUser = async (req, res, next) => {
-  try {
-    res.end();
-  } catch (err) {
-    next(err);
-  }
-};
-
-export const deleteUser = async (req, res, next) => {
-  try {
-    res.end();
-  } catch (err) {
-    next(err);
-  }
-};
+//$ updateFollowStatus --- einem anderen user follown bzw. unfollown ------------------------------
 
 // /api/users/follow?id=${_id}
 export const updateFollowStatus = async (req, res, next) => {
@@ -167,6 +156,109 @@ export const updateFollowStatus = async (req, res, next) => {
         message: `loginUser '${loginUser.username}' followed otherUser '${otherUser.username}'`,
       });
     }
+  } catch (err) {
+    next(err);
+  }
+};
+
+//$ updateUser --- user profil data bearbeiten ----------------------------------------------------
+
+export const editUser = async (req, res, next) => {
+  const payload_id = req.payload.id;
+  const { username, name, telephone, birthday, description, job, website } =
+    req.body;
+
+  try {
+    const user = await User.findById(payload_id).exec();
+    const query = { _id: payload_id };
+
+    if (user) {
+      const updateResult = await User.updateOne(query, {
+        $set: {
+          username,
+          name,
+          telephone,
+          birthday,
+          description,
+          job,
+          website,
+        },
+      });
+      if (updateResult.modifiedCount > 0) {
+        const updatedUser = await User.findById(user._id).exec();
+        console.log({ updatedUser });
+        res.status(201).json({
+          success: true,
+          message: 'user data updated in database',
+        });
+      } else {
+        res.status(404).json({ success: false, message: 'user not found' });
+      }
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+
+//$ addImage --- profilbild hochladen oder ändern -------------------------------------------------
+
+export const addImage = async (req, res, next) => {
+  const payload_id = req.payload.id;
+
+  try {
+    const user = await User.findById(payload_id).exec();
+    const query = { _id: payload_id };
+
+    if (user) {
+      // if image already exists in db entry the old one will be deleted first
+      if (user.cloudinary_id) {
+        const deleteResult = await deleteImage(user.cloudinary_id);
+        console.log({ deleteResult });
+      }
+
+      try {
+        const cloudinaryResult = await uploadImage(req.file.buffer);
+        const img = cloudinaryResult.secure_url;
+        const cloudinary_id = cloudinaryResult.public_id;
+
+        const updateResult = await user.updateOne(query, {
+          $set: {
+            img,
+            cloudinary_id,
+          },
+        });
+        //
+
+        if (updateResult.modifiedCount > 0) {
+          const updatedUser = await User.findById(payload_id).exec();
+          console.log({ updatedUser });
+          res.status(201).json({
+            success: true,
+            message: 'user img saved to database',
+            secure_url: img,
+            public_id: cloudinary_id,
+          });
+        }
+        //
+      } catch (error) {
+        console.log(error);
+        res
+          .status(500)
+          .json({ success: false, message: 'img could not be updated' });
+      }
+      //
+    } else {
+      res.status(404).json({ success: false, message: 'user not found' });
+    }
+    //
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const deleteUser = async (req, res, next) => {
+  try {
+    res.end();
   } catch (err) {
     next(err);
   }
