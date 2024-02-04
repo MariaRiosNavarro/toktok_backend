@@ -1,15 +1,11 @@
 import { useRef, useState, useEffect } from "react";
 import SettingsMainSvg from "../../components/SVG/settingsSVG/SettingsMainSvg";
 import LocationSvg from "../../components/SVG/LocationSvg";
-
 import { useUserContext } from "../../context/loginContext";
-
 import { useTheme } from "../../context/userContext";
 
-const NewPostCaption = ({ selectedImage }) => {
+const NewPostCaption = ({ selectedImage, preview }) => {
   const { loginUser } = useUserContext();
-
-  // console.log("----------loginuser:_id--------", loginUser._id);
 
   const userImg = ""; //loginUser.img;
   const { theme } = useTheme();
@@ -17,7 +13,7 @@ const NewPostCaption = ({ selectedImage }) => {
   const [inputVisible, setInputVisible] = useState(false);
   // const [image, setImage] = useState("");
 
-  // const imgRef = useRef();
+  const imgRef = useRef();
   const descriptionRef = useRef();
   const locationRef = useRef();
   // db true/false
@@ -42,21 +38,23 @@ const NewPostCaption = ({ selectedImage }) => {
 
   const uploadPost = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
 
+    if (!(selectedImage instanceof File)) {
+      console.error("Not a File.");
+    } else {
+      console.log("image");
+    }
+
+    console.log("Selected Image:", selectedImage);
+
+    const formData = new FormData();
     formData.append("img", selectedImage);
     formData.append("description", descriptionRef.current.value);
     formData.append("location", locationRef.current.value);
-    // check
     formData.append("facebook", facebookRef.current.checked);
     formData.append("twitter", twitterRef.current.checked);
     formData.append("tumblr", tumblrRef.current.checked);
-
-    // formData.append("user", loginUser._id);
-
-    for (const pair of formData.entries()) {
-      console.log(pair[0] + ": " + pair[1]);
-    }
+    formData.append("user", loginUser._id);
 
     try {
       const response = await fetch(
@@ -110,11 +108,7 @@ const NewPostCaption = ({ selectedImage }) => {
           value={value}
         />
         {/* --------------------------------------------------preview : selectedImage - INPUT is below and Invisible */}
-        <img
-          className="w-[56px] h-[56px] rounded-xl"
-          src={selectedImage}
-          alt=""
-        />
+        <img className="w-[56px] h-[56px] rounded-xl" src={preview} alt="" />
       </div>
       <hr className="text-secondary" />
       {/* --------------------------------------------------form : location */}
@@ -188,13 +182,17 @@ const NewPostCaption = ({ selectedImage }) => {
 
       {/* --------------------------------------------------form : img -Invisible */}
       <input
-        // ref={imgRef}
+        ref={imgRef}
         type="file"
         style={{ display: "none" }}
-        // onChange={(event) => setImage(selectedImage)}
+        onChange={(event) => setImage(selectedImage)}
       />
       {/* --------------------------------------------------form : img -Invisible */}
-      <button className="bg-primary w-full text-lg text-base-100 rounded-3xl py-[10px] flex justify-center items-center gap-2">
+      <button
+        type="submit"
+        onClick={uploadPost}
+        className="bg-primary w-full text-lg text-base-100 rounded-3xl py-[10px] flex justify-center items-center gap-2"
+      >
         Post
       </button>
     </form>

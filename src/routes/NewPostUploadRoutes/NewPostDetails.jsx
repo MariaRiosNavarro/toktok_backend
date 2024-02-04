@@ -3,7 +3,7 @@ import NavBarTop from "../../components/Global/NavBarTop";
 import NavBarBottom from "../../components/Global/NavBarBottom";
 import NewPostCaption from "../../components/NewPostUpload/NewPostCaption";
 
-const NewPostDetails = ({ selectedImage }) => {
+const NewPostDetails = ({ selectedImage, preview }) => {
   return (
     <>
       <NavBarTop
@@ -13,7 +13,7 @@ const NewPostDetails = ({ selectedImage }) => {
         rightSvgComponent=""
       />
       <section className="p-6 pb-20">
-        <NewPostCaption selectedImage={selectedImage} />
+        <NewPostCaption selectedImage={selectedImage} preview={preview} />
       </section>
       <NavBarBottom
         item={{ home: false, search: false, profile: false, add: true }}
