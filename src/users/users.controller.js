@@ -23,7 +23,7 @@ export const getAllUsers = async (_, res, next) => {
 
 // api/users?id=${_id}
 export const getUser = async (req, res, next) => {
-  const payload_id = req.payload._id; // id des eingeloggten users
+  const payload_id = req.payload.id; // id des eingeloggten users
 
   const { id } = req.query;
 
