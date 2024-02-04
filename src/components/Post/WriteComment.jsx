@@ -1,10 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 import { useTheme } from "../../context/userContext";
+import { useUserContext } from "../../context/userContext";
 const WriteComment = ({ id }) => {
   const { theme } = useTheme();
   const [comment, setComment] = useState();
   const [value, setValue] = useState("");
   const commentRef = useRef();
+  const { loginUser } = useUserContext();
 
   let commonStyles =
     "rounded-xl px-[20px] p-4 h-6 focus:border-none focus:outline-none";
@@ -23,16 +25,29 @@ const WriteComment = ({ id }) => {
 
   async function saveComment() {
     const comment = commentRef.current.value;
-    console.log("___________- comment", comment);
-    const response = await fetch(
-      import.meta.env.VITE_BACKEND_URL + "/api/posts/" + id + "/commit",
-      {
-        method: "POST",
-        credentials: "include",
-        body: commentRef,
+    try {
+      const response = await fetch(
+        import.meta.env.VITE_BACKEND_URL + "/api/posts/" + id + "/commit",
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            user: loginUser._id,
+            post: id,
+            text: comment,
+          }),
+        }
+      );
+      if (response.ok) {
+      } else {
+        // Handle error
+        console.error("Failed to save comment");
       }
-    );
-    if (response.ok) {
+    } catch (error) {
+      console.error("Error saving comment:", error);
     }
   }
   const handleChange = (event) => {

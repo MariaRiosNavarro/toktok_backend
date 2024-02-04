@@ -4,8 +4,8 @@ const PostUserHeader = (props) => {
   let slug;
   return (
     <>
-      <Link to={"/detail/" + slug}>
-        <section className="flex items-center justify-between mx-auto ">
+      <section className="flex items-center justify-between mx-auto ">
+        <Link to={"/detail/" + slug}>
           <article className="flex justify-between items-center gap-4">
             <div className="avatar">
               <div className="w-12 rounded-full">
@@ -17,10 +17,9 @@ const PostUserHeader = (props) => {
               <p className="text-secondary">Marketing Coordinator</p>
             </div>
           </article>
-
-          <PointsSvg />
-        </section>
-      </Link>
+        </Link>
+        <PointsSvg />
+      </section>
     </>
   );
 };
