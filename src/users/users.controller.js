@@ -230,8 +230,8 @@ export const addImage = async (req, res, next) => {
         //
 
         if (updateResult.modifiedCount > 0) {
-          const updatedUser = await User.findById(payload_id).exec();
-          console.log({ updatedUser });
+          console.log({ updateResult: { result: 'ok' } });
+
           res.status(201).json({
             success: true,
             message: 'user img saved to database',
