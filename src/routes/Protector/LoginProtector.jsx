@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 // import { useNavigate } from "react-router-dom";
 import { LoginUserProvider } from "../../context/loginContext";
 
-const Protector = () => {
+const LoginProtector = () => {
   // const navigate = useNavigate();
   // const [authorized, setAuthorized] = useState(false);
   // const [loading, setLoading] = useState(true);
@@ -42,4 +42,4 @@ const Protector = () => {
   );
 };
 
-export default Protector;
+export default LoginProtector;

@@ -15,14 +15,41 @@ import SettingsArchiveSvg from "../../components/SVG/settingsSVG/SettingsArchive
 import HearthSvg from "../../components/SVG/HearthSvg";
 import { useTheme } from "../../context/userContext";
 import { useUserContext } from "../../context/loginContext";
+import { useNavigate } from "react-router-dom";
+import LogOutSvg from "../../components/SVG/loginSvgs/LogOutSvg";
 
 const ProfileDetail = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { theme } = useTheme();
-  const { loginUser } = useUserContext();
+  const { loginUser, setLoginUser } = useUserContext();
+
+  const navigate = useNavigate();
 
   const closeModal = () => {
     setIsModalOpen(false);
+  };
+
+  const handleLogout = async () => {
+    console.log("LOG OUT button works");
+    // try {
+    //   const response = await fetch(
+    //     import.meta.env.VITE_BACKEND_URL + "/api/auth/logout",
+    //     {
+    //       method: "POST",
+    //       credentials: "include",
+    //     }
+    //   );
+    //   if (!response.ok) {
+    //     console.log("Don´t Logout");
+    //   } else {
+    //     const json = await response.json();
+    //     console.log(json);
+    //     setLoginUser("");
+    //     navigate("/login");
+    //   }
+    // } catch (error) {
+    //   console.error("Logout Issue:", error);
+    // }
   };
 
   return (
@@ -97,6 +124,10 @@ const ProfileDetail = () => {
         <article className="flex gap-5 ">
           <SettingsInfoSvg />
           <p className="text-[18px]">Information Center</p>
+        </article>
+        <article onClick={handleLogout} className="flex gap-5 ">
+          <LogOutSvg />
+          <p className="text-[18px]">Log Out</p>
         </article>
       </div>
       <NavBarBottom

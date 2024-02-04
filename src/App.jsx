@@ -7,7 +7,6 @@ import NewPost from "./routes/NewPostUploadRoutes/NewPost";
 import NewPostDetails from "./routes/NewPostUploadRoutes/NewPostDetails";
 import ProfileDetail from "./routes/ProfileRoutes/ProfileDetail";
 import ProfileEdit from "./routes/ProfileRoutes/ProfileEdit";
-// import Protector from "./routes/Protector/Protector";
 import Search from "./routes/Search";
 import Detail from "./routes/Detail";
 import { GlobalProvider } from "./context/userContext";
