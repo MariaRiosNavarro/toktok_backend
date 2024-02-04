@@ -52,7 +52,7 @@ const NewPostCaption = ({ selectedImage }) => {
     formData.append("twitter", twitterRef.current.checked);
     formData.append("tumblr", tumblrRef.current.checked);
 
-    formData.append("user", loginUser._id);
+    // formData.append("user", loginUser._id);
 
     for (const pair of formData.entries()) {
       console.log(pair[0] + ": " + pair[1]);
@@ -60,7 +60,7 @@ const NewPostCaption = ({ selectedImage }) => {
 
     try {
       const response = await fetch(
-        import.meta.env.VITE_BACKEND_URL + "/api/upload",
+        import.meta.env.VITE_BACKEND_URL + "/api/posts/upload",
         {
           method: "POST",
           credentials: "include",
