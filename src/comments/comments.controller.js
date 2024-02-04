@@ -3,18 +3,29 @@ import { Comment } from "./comments.model.js";
 
 
 
-export const createComment = async (req, res, next) => {
+export const createComment = async (req, res, next, isCommentOnComment = false) => {
     const newComment= new Comment(req.body);
     try {
-        const savedComment = await newComment.save()
+      if (isCommentOnComment) {
+        const parentComment = await Comment.findByIdAndUpdate(newComment.comments.comment , {
+            $push: { comments: newComment },
+        });
+
+        if (!parentComment) {
+            return res.status(404).json({ message: 'Parent comment not found' });
+        }
+    } else {
+        // Es handelt sich um einen Kommentar zu einem Beitrag
         const post = await Post.findByIdAndUpdate(newComment.post, {
             $push: { comments: newComment },
-          });
+        });
 
         if (!post) {
             return res.status(404).json({ message: 'Post not found' });
         }
-        
+    }
+      
+      const savedComment = await newComment.save()
         res.status(201).json({message: 'comment saved'})
         if (!savedComment) {
             res.status(400).json({message:'Comment not saved! Try again.'});
@@ -23,6 +34,8 @@ export const createComment = async (req, res, next) => {
         next(err);
     }
 };
+
+// wie korrigiere ich die create Comment funktion um bei isCommentOnComment das Comment im CommentReplySchema in dem CommentSchema gespeichert wird und gleichzeit 
 
 export const updateComment = async (req, res, next) => {
 

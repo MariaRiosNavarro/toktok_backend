@@ -9,7 +9,6 @@ export const createPost = async (req, res, next) => {
 
     try {
         const cloudinaryResult = await uploadImage(req.file.buffer);
-        newPost.user = req.payload.id
         newPost.img = cloudinaryResult.secure_url;
         newPost.cloudinaryId = cloudinaryResult.public_id;
         const savedPost = await newPost.save();

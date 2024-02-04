@@ -15,6 +15,13 @@ router.delete("/:id",deletePost)
 // GET ONE
 router.get("/:id" ,getPost)
 // CREATE COMMENT
-router.post("/:id/commit", createComment)
+router.post("/:id/commit", async (req, res, next) => {
+    try {
+        await createComment(req, res, next, false); // Der dritte Parameter ist false für einen Beitrag
+    } catch (err) {
+        next(err);
+    }
+});
+
 // GET ALL
 router.get("/",getPosts)
