@@ -5,7 +5,7 @@ import cloudinary from 'cloudinary';
 
 export const createPost = async (req, res, next) => {
   const newPost = new Post(req.body);
-
+  
   try {
     const cloudinaryResult = await uploadImage(req.file.buffer);
     newPost.img = cloudinaryResult.secure_url;
@@ -14,7 +14,6 @@ export const createPost = async (req, res, next) => {
     if (!savedPost) {
       res.status(400).json({ message: 'Post not saved! Try again.' });
     }
-
     // * Funktion um den Post direkt in den User zu pushen
     const user = await User.findById(newPost.user);
     if (!user) {
