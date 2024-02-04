@@ -5,7 +5,7 @@ const SettingsSavedSvg = () => {
   return (
     <>
       <svg
-        width="20"
+        width="22"
         height="24"
         viewBox="0 0 20 24"
         fill="none"

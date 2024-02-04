@@ -4,7 +4,7 @@ const SettingsFriendsSVG = () => {
   return (
     <>
       <svg
-        width="26"
+        width="22"
         height="22"
         viewBox="0 0 26 22"
         fill="none"
