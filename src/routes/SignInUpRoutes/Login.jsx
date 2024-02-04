@@ -1,5 +1,4 @@
 import UserLogin from "../../components/SignInUp/UserLogin";
-import LoadingSpin from "../../components/LoadingSpin";
 
 const Login = () => {
   return (

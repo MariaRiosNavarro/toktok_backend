@@ -1,7 +1,7 @@
 const LoadingSpin = () => {
   return (
     <>
-      <section className="h-screen flex flex-col justify-center items-center ">
+      <section className="h-[100%] flex flex-col justify-center items-center py-[3rem]">
         {/* -------------------------------------------------------------------------Loading Circle */}
         <div className=" ">
           <svg
