@@ -14,6 +14,7 @@ import { GlobalProvider } from "./context/userContext";
 import { useState } from "react";
 import SignUp from "./routes/SignInUpRoutes/SignUp";
 import LoadingScreen from "./routes/LoadingScreen";
+import LoginProtector from "./routes/Protector/LoginProtector";
 
 function App() {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -29,27 +30,27 @@ function App() {
 
           {/* ↓ --------------USER ROUTES ---------------------------↓ */}
 
-          {/* <Route element={<Protector />}></Route> */}
-
-          {/* 2 Home & Post*/}
-          <Route path="/" element={<Home />}></Route>
-          <Route path="/post/:slug" element={<Post />} />
-          {/* 3 Search*/}
-          <Route path="/search" element={<Search />} />
-          {/* 4 Upload */}
-          <Route
-            path="/upload"
-            element={<NewPost setSelectedImage={setSelectedImage} />}
-          />
-          <Route
-            path="/upload-detail"
-            element={<NewPostDetails selectedImage={selectedImage} />}
-          />
-          {/* 5 Profile*/}
-          <Route path="/profile" element={<ProfileDetail />}></Route>
-          <Route path="/edit" element={<ProfileEdit />}></Route>
-          {/* 6 Detail/Other Accounts */}
-          <Route path="/detail/:slug" element={<Detail />} />
+          <Route element={<LoginProtector />}>
+            {/* 2 Home & Post*/}
+            <Route path="/" element={<Home />}></Route>
+            <Route path="/post/:slug" element={<Post />} />
+            {/* 3 Search*/}
+            <Route path="/search" element={<Search />} />
+            {/* 4 Upload */}
+            <Route
+              path="/upload"
+              element={<NewPost setSelectedImage={setSelectedImage} />}
+            />
+            <Route
+              path="/upload-detail"
+              element={<NewPostDetails selectedImage={selectedImage} />}
+            />
+            {/* 5 Profile*/}
+            <Route path="/profile" element={<ProfileDetail />}></Route>
+            <Route path="/edit" element={<ProfileEdit />}></Route>
+            {/* 6 Detail/Other Accounts */}
+            <Route path="/detail/:slug" element={<Detail />} />
+          </Route>
         </Routes>
       </GlobalProvider>
     </BrowserRouter>

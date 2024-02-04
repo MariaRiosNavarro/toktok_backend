@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import SettingsMainSvg from "../../components/SVG/settingsSVG/SettingsMainSvg";
 import LocationSvg from "../../components/SVG/LocationSvg";
 
-import { useUserContext } from "../../context/userContext";
+import { useUserContext } from "../../context/loginContext";
 
 import { useTheme } from "../../context/userContext";
 
@@ -52,30 +52,32 @@ const NewPostCaption = ({ selectedImage }) => {
     formData.append("twitter", twitterRef.current.checked);
     formData.append("tumblr", tumblrRef.current.checked);
 
+    formData.append("user", loginUser._id);
+
     for (const pair of formData.entries()) {
       console.log(pair[0] + ": " + pair[1]);
     }
 
-    // try {
-    //   const response = await fetch(
-    //     import.meta.env.VITE_BACKEND_URL + "UNSERE API ADRESSE",
-    //     {
-    //       method: "POST",
-    //       credentials: "include",
-    //       body: formData,
-    //     }
-    //   );
+    try {
+      const response = await fetch(
+        import.meta.env.VITE_BACKEND_URL + "/api/upload",
+        {
+          method: "POST",
+          credentials: "include",
+          body: formData,
+        }
+      );
 
-    //   if (response.ok) {
-    //     console.log("✅", await response.json());
-    //   } else {
-    //     console.log("Request failed with status:👺", response.status);
-    //     const errorBody = await response.text();
-    //     console.log("Error Body:", errorBody);
-    //   }
-    // } catch (error) {
-    //   console.log(error.message);
-    // }
+      if (response.ok) {
+        console.log("✅", await response.json());
+      } else {
+        console.log("Request failed with status:👺", response.status);
+        const errorBody = await response.text();
+        console.log("Error Body:", errorBody);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   const placeholder =
