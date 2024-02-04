@@ -9,7 +9,7 @@ import { useTheme } from "../../context/userContext";
 const NewPostCaption = ({ selectedImage }) => {
   const { loginUser } = useUserContext();
 
-  console.log("----------loginuser:_id--------", loginUser._id);
+  // console.log("----------loginuser:_id--------", loginUser._id);
 
   const userImg = ""; //loginUser.img;
   const { theme } = useTheme();

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useTheme } from "../../context/userContext";
-import { useUserContext } from "../../context/userContext";
+import { useUserContext } from "../../context/loginContext";
 const WriteComment = ({ id }) => {
   const { theme } = useTheme();
   const [comment, setComment] = useState();
