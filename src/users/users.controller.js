@@ -94,3 +94,82 @@ export const deleteUser = async (req, res, next) => {
     next(err);
   }
 };
+
+// /api/users/follow?id=${_id}
+export const updateFollowStatus = async (req, res, next) => {
+  const loginUser_id = req.payload.id;
+  // const loginUser_id = '65ba1e3bf62d099c7f3c0423';
+
+  const otherUser_id = req.query.id;
+
+  try {
+    const loginUser = await User.findById(loginUser_id).exec();
+    console.log(
+      'loginUser --',
+      loginUser._id,
+      loginUser.username,
+      ' -- number of following before - ',
+      loginUser.following.length
+    );
+
+    const otherUser = await User.findById(otherUser_id).exec();
+
+    console.log(
+      'otherUser --',
+      otherUser._id,
+      otherUser.username,
+      ' -- number of followers before - ',
+      otherUser.followers.length
+    );
+
+    if (loginUser.following.includes(otherUser_id)) {
+      console.log(
+        'Does loginUser currently follow otherUser? -- Y E S --> unfollow!'
+      );
+
+      loginUser.following.pull(otherUser_id);
+      otherUser.followers.pull(loginUser_id);
+
+      await Promise.all([loginUser.save(), otherUser.save()]);
+
+      console.log(
+        'loginUser number of following after - ',
+        loginUser.following.length
+      );
+      console.log(
+        'otherUser number of followers after - ',
+        otherUser.followers.length
+      );
+
+      res.status(200).json({
+        success: true,
+        message: `loginUser '${loginUser.username}' unfollowed otherUser '${otherUser.username}'`,
+      });
+    } else if (!loginUser.following.includes(otherUser_id)) {
+      console.log(
+        'Does loginUser currently follow otherUser? -- N O --> follow!'
+      );
+
+      loginUser.following.push(otherUser_id);
+      otherUser.followers.push(loginUser_id);
+
+      await Promise.all([loginUser.save(), otherUser.save()]);
+
+      console.log(
+        'loginUser number of following after - ',
+        loginUser.following.length
+      );
+      console.log(
+        'otherUser number of followers after - ',
+        otherUser.followers.length
+      );
+
+      res.status(200).json({
+        success: true,
+        message: `loginUser '${loginUser.username}' followed otherUser '${otherUser.username}'`,
+      });
+    }
+  } catch (err) {
+    next(err);
+  }
+};
