@@ -9,6 +9,7 @@ import PostDetailsFooter from "../components/Global/PostDetailsFooter";
 import Comments from "../components/Post/Comments";
 import LineSvg from "../components/SVG/LineSvg";
 import TimeDifferent from "../components/Global/TimeDifferent";
+import WriteComment from "../components/Post/WriteComment";
 const Post = () => {
   const { slug } = useParams();
   const [post, setPost] = useState(null);
@@ -58,6 +59,7 @@ const Post = () => {
           </div>
 
           <Comments comments={post.comments} />
+          <WriteComment id={post._id} />
         </section>
       </main>
       <NavBarBottom
