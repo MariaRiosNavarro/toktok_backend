@@ -30,26 +30,25 @@ const ProfileDetail = () => {
   };
 
   const handleLogout = async () => {
-    console.log("LOG OUT button works");
-    // try {
-    //   const response = await fetch(
-    //     import.meta.env.VITE_BACKEND_URL + "/api/auth/logout",
-    //     {
-    //       method: "POST",
-    //       credentials: "include",
-    //     }
-    //   );
-    //   if (!response.ok) {
-    //     console.log("Don´t Logout");
-    //   } else {
-    //     const json = await response.json();
-    //     console.log(json);
-    //     setLoginUser("");
-    //     navigate("/login");
-    //   }
-    // } catch (error) {
-    //   console.error("Logout Issue:", error);
-    // }
+    try {
+      const response = await fetch(
+        import.meta.env.VITE_BACKEND_URL + "/api/auth/logout",
+        {
+          method: "GET",
+          credentials: "include",
+        }
+      );
+      if (!response.ok) {
+        console.log("Don´t Logout");
+      } else {
+        const json = await response.json();
+        console.log(json);
+        setLoginUser("");
+        navigate("/login");
+      }
+    } catch (error) {
+      console.error("Logout Issue:", error);
+    }
   };
 
   return (
