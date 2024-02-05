@@ -109,3 +109,18 @@ export const login = async (req, res, next) => {
     next(err);
   }
 };
+
+//$ logout ---------------------------------------------------------------------
+
+export const logout = async (req, res, next) => {
+  // const cookie = req.cookies.toktok;
+  // console.log({ cookie });
+  try {
+    res
+      .clearCookie('toktok')
+      .status(200)
+      .json({ success: true, message: 'Logout successful' });
+  } catch (err) {
+    next(err);
+  }
+};

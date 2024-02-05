@@ -78,4 +78,26 @@ const UserSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+UserSchema.pre('updateOne', async function (next) {
+  const update = this.getUpdate();
+  const username = update.$set.username;
+
+  if (username) {
+    const userId = this.getQuery()._id;
+    const existingUser = await mongoose.model('User').findOne({
+      username,
+      _id: { $ne: userId },
+    });
+
+    if (existingUser) {
+      const error = new Error(
+        'This username is already taken. Please pick another one.'
+      );
+      return next(error);
+    }
+  }
+
+  return next();
+});
+
 export const User = mongoose.model('User', UserSchema);

@@ -1,6 +1,7 @@
 import multer from 'multer';
 import cloudinary from 'cloudinary';
 import mongoose from 'mongoose';
+import 'dotenv/config';
 
 // Cloudinary
 cloudinary.v2.config({
@@ -10,12 +11,32 @@ cloudinary.v2.config({
   secure: true,
 });
 
-
 export async function uploadImage(buffer) {
-  const uploadResult = await new Promise((resolve) => {
-      cloudinary.v2.uploader.upload_stream((error, result) => { return resolve(result) }).end(buffer)
-  })
-  return uploadResult
+  try {
+    const uploadResult = await new Promise((resolve) => {
+      cloudinary.v2.uploader
+        .upload_stream({ folder: 'toktok' }, (error, result) => {
+          if (error) {
+            console.log(error);
+          }
+          return resolve(result);
+        })
+        .end(buffer);
+    });
+    return uploadResult;
+  } catch (error) {
+    console.error('cloudinary uploadImage error: ', error);
+  }
+}
+
+export async function deleteImage(cloudinary_id) {
+  //   console.log('deleteImage imageId:', imageId);
+  try {
+    const result = await cloudinary.v2.uploader.destroy(cloudinary_id);
+    return result;
+  } catch (error) {
+    console.error('cloudinary deleteImage error: ', error);
+  }
 }
 
 // Multer
@@ -34,5 +55,3 @@ export const connect = async () => {
 mongoose.connection.on('disconnected', () => {
   console.log('mongoDB disconnected!');
 });
-
-
