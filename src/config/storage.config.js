@@ -1,6 +1,7 @@
 import multer from 'multer';
 import cloudinary from 'cloudinary';
 import mongoose from 'mongoose';
+import 'dotenv/config';
 
 // Cloudinary
 cloudinary.v2.config({
@@ -11,28 +12,30 @@ cloudinary.v2.config({
 });
 
 export async function uploadImage(buffer) {
-  const uploadResult = await new Promise((resolve) => {
-    cloudinary.v2.uploader
-      .upload_stream({ folder: 'toktok' }, (error, result) => {
-        if (error) {
-          console.log(error);
-        }
-        return resolve(result);
-      })
-      .end(buffer);
-  });
-  console.log('uploadImage uploadResult:', uploadResult);
-  return uploadResult;
+  try {
+    const uploadResult = await new Promise((resolve) => {
+      cloudinary.v2.uploader
+        .upload_stream({ folder: 'toktok' }, (error, result) => {
+          if (error) {
+            console.log(error);
+          }
+          return resolve(result);
+        })
+        .end(buffer);
+    });
+    return uploadResult;
+  } catch (error) {
+    console.error('cloudinary uploadImage error: ', error);
+  }
 }
 
 export async function deleteImage(cloudinary_id) {
   //   console.log('deleteImage imageId:', imageId);
   try {
     const result = await cloudinary.v2.uploader.destroy(cloudinary_id);
-    console.log('deleteImage result:', result);
     return result;
   } catch (error) {
-    console.log(error);
+    console.error('cloudinary deleteImage error: ', error);
   }
 }
 

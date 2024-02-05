@@ -164,13 +164,21 @@ export const updateFollowStatus = async (req, res, next) => {
 //$ updateUser --- user profil data bearbeiten ----------------------------------------------------
 
 export const editUser = async (req, res, next) => {
-  const payload_id = req.payload.id;
-  const { username, name, telephone, birthday, description, job, website } =
-    req.body;
+  // const payload_id = req.payload.id;
+  const {
+    username,
+    name,
+    telephone,
+    birthday,
+    description,
+    job,
+    website,
+    userId,
+  } = req.body;
 
   try {
-    const user = await User.findById(payload_id).exec();
-    const query = { _id: payload_id };
+    const user = await User.findById(userId).exec();
+    const query = { _id: userId };
 
     if (user) {
       const updateResult = await User.updateOne(query, {
@@ -203,11 +211,12 @@ export const editUser = async (req, res, next) => {
 //$ addImage --- profilbild hochladen oder ändern -------------------------------------------------
 
 export const addImage = async (req, res, next) => {
-  const payload_id = req.payload.id;
+  // const payload_id = req.payload.id;
+  const userId = req.body.userId;
 
   try {
-    const user = await User.findById(payload_id).exec();
-    const query = { _id: payload_id };
+    const user = await User.findById(userId).exec();
+    const query = { _id: userId };
 
     if (user) {
       // if image already exists in db entry the old one will be deleted first
@@ -221,7 +230,7 @@ export const addImage = async (req, res, next) => {
         const img = cloudinaryResult.secure_url;
         const cloudinary_id = cloudinaryResult.public_id;
 
-        const updateResult = await user.updateOne(query, {
+        const updateResult = await User.updateOne(query, {
           $set: {
             img,
             cloudinary_id,
@@ -230,8 +239,8 @@ export const addImage = async (req, res, next) => {
         //
 
         if (updateResult.modifiedCount > 0) {
-          const updatedUser = await User.findById(payload_id).exec();
-          console.log({ updatedUser });
+          console.log({ updateResult: { result: 'ok' } });
+
           res.status(201).json({
             success: true,
             message: 'user img saved to database',
