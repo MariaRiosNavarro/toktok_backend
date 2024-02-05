@@ -22,7 +22,7 @@ export const createPost = async (req, res, next) => {
         }
         user.posts.push(savedPost._id);
         await user.save();
-        res.status(201).json({ message: 'Post sucessfully created!'});
+        res.status(201).json({ message: 'Post sucessfully created!', id: savedPost._id});
     } catch (err) {
         next(err);
     }
@@ -41,7 +41,7 @@ export const updatePost = async (req, res, next) => {
       const cloudinaryResult = await uploadImage(req.file.buffer);
       updatedPost.img = cloudinaryResult.secure_url;
       updatedPost.cloudinaryId = cloudinaryResult.public_id;
-      await cloudinary.v2.uploader.destroy(post.cloudinaryId);
+      deleteImage(post.cloudinaryId)
     }
     const savedPost = await Post.findByIdAndUpdate(postId, {
       $set: updatedPost,
