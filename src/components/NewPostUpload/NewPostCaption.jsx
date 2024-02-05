@@ -9,11 +9,11 @@ import LoadingScreen from "../../routes/LoadingScreen";
 
 const NewPostCaption = ({ selectedImage, preview, setPreview }) => {
   const { loginUser } = useUserContext();
-  // const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const userImg = loginUser?.img; //loginUser.img;
   const { theme } = useTheme();
-  // const { setRefresh } = useUserContext();
+  const { setRefresh } = useUserContext();
   const [value, setValue] = useState("");
   const [inputVisible, setInputVisible] = useState(false);
   const navigate = useNavigate();
@@ -59,15 +59,15 @@ const NewPostCaption = ({ selectedImage, preview, setPreview }) => {
     formData.append("facebook", facebookRef.current.checked);
     formData.append("twitter", twitterRef.current.checked);
     formData.append("tumblr", tumblrRef.current.checked);
-    formData.append("user", loginUser._id);
 
     try {
-      // setLoading(true);
+      setLoading(true);
       const response = await fetch(
         import.meta.env.VITE_BACKEND_URL + "/api/posts/upload",
         {
           method: "POST",
           credentials: "include",
+
           body: formData,
         }
       );
@@ -75,29 +75,29 @@ const NewPostCaption = ({ selectedImage, preview, setPreview }) => {
       if (response.ok) {
         console.log("✅");
         const responseJson = await response.json();
-        // setRefresh((prev) => !prev);
-        // setPreview("");
-        const postId = responseJson.id;
-        // setLoading(false);
-        // navigate("/post/" + postId);
+        setRefresh((prev) => !prev);
+        setPreview("");
+        const postId = responseJson.postId;
+        console.log(postId);
+
+        setLoading(false);
+        navigate("/post/" + postId);
       } else {
         console.log("Request failed with status:👺", response.status);
-        // const errorBody = await response.text();
-        // console.log("Error Body:", errorBody);
       }
     } catch (error) {
       console.log(error.message);
     }
   };
 
-  // if (loading) return <LoadingScreen />;
+  if (loading) return <LoadingScreen />;
 
   const handleInputVisibility = () => {
     setInputVisible((prev) => !prev);
   };
 
   return (
-    <form onSubmit={uploadPost}>
+    <form>
       <div className="flex gap-4 items-start">
         {/* --------------------------------------------------USER IMG PREVIEW - NO INPUT*/}
 
@@ -126,7 +126,11 @@ const NewPostCaption = ({ selectedImage, preview, setPreview }) => {
           value={value}
         />
         {/* --------------------------------------------------preview : selectedImage - INPUT is below and Invisible */}
-        <img className="w-[56px] h-[56px] rounded-xl" src={preview} alt="" />
+        {preview ? (
+          <img className="w-[56px] h-[56px] rounded-xl" src={preview} alt="" />
+        ) : (
+          <div className="w-[56px] h-[56px] rounded-xl bg-[#DFDFDF]" />
+        )}
       </div>
       <hr className="text-secondary" />
       {/* --------------------------------------------------form : location */}
