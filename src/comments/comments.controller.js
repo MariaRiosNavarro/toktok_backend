@@ -1,38 +1,53 @@
 import { Post } from "../posts/posts.model.js";
-import { Comment } from "./comments.model.js";
-
-
+import { Comment, CommentReply } from "./comments.model.js";
 
 export const createComment = async (req, res, next, isCommentOnComment = false) => {
-    const newComment= new Comment(req.body);
-    try {
-      if (isCommentOnComment) {
-        const parentComment = await Comment.findByIdAndUpdate(req.body._id , {
-            $push: { replies: newComment },
-        });
+  const newReplyComment = new CommentReply(req.body);
+  const newComment = new Comment(req.body);
 
-        if (!parentComment) {
-            return res.status(404).json({ message: 'Parent comment not found' });
-        }
+  try {
+    if (isCommentOnComment) {
+      // * newReplyComment on Comment
+      const parentComment = await Comment.findByIdAndUpdate(req.body.parentComment, {
+        $push: { replies: newReplyComment },
+      });
+
+      if (!parentComment) {
+        return res.status(404).json({ message: 'Parent comment not found' });
+      }
+
+      const savedReplyComment = await newReplyComment.save();
+
+      const post = await Post.findByIdAndUpdate(parentComment.post, {
+        $push: { 'comments.$[comment].replies': newReplyComment },
+      }, { arrayFilters: [{ 'comment._id': parentComment._id }] });
+
+      if (!savedReplyComment) {
+        return res.status(400).json({ message: 'Reply not saved! Try again.' });
+      }
+
+      return res.status(201).json({ message: 'Reply saved successfully' });
     } else {
-        // Es handelt sich um einen Kommentar zu einem Beitrag
-        const post = await Post.findByIdAndUpdate(newComment.post, {
-            $push: { comments: newComment },
-        });
+      // * newComment on Post
+      const post = await Post.findByIdAndUpdate(newComment.post, {
+        $push: { comments: newComment },
+      });
 
-        if (!post) {
-            return res.status(404).json({ message: 'Post not found' });
-        }
+      if (!post) {
+        return res.status(404).json({ message: 'Post not found' });
+      }
+
+      const savedComment = await newComment.save();
+
+      if (!savedComment) {
+        return res.status(400).json({ message: 'Comment not saved! Try again.' });
+      }
+
+      return res.status(201).json({ message: 'Comment saved successfully' });
     }
-      
-      const savedComment = await newComment.save()
-        res.status(201).json({message: 'comment saved'})
-        if (!savedComment) {
-            res.status(400).json({message:'Comment not saved! Try again.'});
-        }
-    } catch (err) {
-        next(err);
-    }
+  } catch (err) {
+    next(err);
+  }
 };
 
 // wie korrigiere ich die create Comment funktion um bei isCommentOnComment das Comment im CommentReplySchema in dem CommentSchema gespeichert wird und gleichzeit 

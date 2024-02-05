@@ -41,4 +41,4 @@ const CommentReplySchema = new mongoose.Schema({
   });
   
   export const Comment = mongoose.model('Comment', CommentSchema);
-  export const CommentReply = mongoose.model('Replies', CommentReplySchema);
+  export const CommentReply = mongoose.model('Reply', CommentReplySchema);
