@@ -15,7 +15,9 @@ const CommentReplySchema = new mongoose.Schema({
       ref: 'Comment',
       required: true,
     },
-  });
+  },
+  { timestamps: true }
+  );
   
   const CommentSchema = new mongoose.Schema({
     user: {
@@ -38,7 +40,9 @@ const CommentReplySchema = new mongoose.Schema({
         required: true,
       },
     ],
-  });
+  },
+  { timestamps: true }
+  );
   
   export const Comment = mongoose.model('Comment', CommentSchema);
   export const CommentReply = mongoose.model('Reply', CommentReplySchema);

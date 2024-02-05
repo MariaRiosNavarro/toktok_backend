@@ -1,6 +1,6 @@
 import { User } from '../users/users.model.js';
 import { Post } from './posts.model.js';
-import { uploadImage } from '../config/storage.config.js';
+import { deleteImage, uploadImage } from '../config/storage.config.js';
 import cloudinary from 'cloudinary';
 
 export const createPost = async (req, res, next) => {
@@ -22,7 +22,7 @@ export const createPost = async (req, res, next) => {
         }
         user.posts.push(savedPost._id);
         await user.save();
-        res.status(201).json({ message: 'Post sucessfully created!'});
+        res.status(201).json({ message: 'Post sucessfully created!', id: savedPost._id});
     } catch (err) {
         next(err);
     }
@@ -41,7 +41,7 @@ export const updatePost = async (req, res, next) => {
       const cloudinaryResult = await uploadImage(req.file.buffer);
       updatedPost.img = cloudinaryResult.secure_url;
       updatedPost.cloudinaryId = cloudinaryResult.public_id;
-      await cloudinary.v2.uploader.destroy(post.cloudinaryId);
+      deleteImage(post.cloudinaryId)
     }
     const savedPost = await Post.findByIdAndUpdate(postId, {
       $set: updatedPost,
@@ -67,7 +67,7 @@ export const deletePost = async (req, res, next) => {
     if (!user) {
       return res.status(404).json({ message: 'User not found!' });
     }
-
+    await deleteImage(post.cloudinaryId)
     user.posts = user.posts.filter(
       (userPostId) => userPostId.toString() !== postId
     );
