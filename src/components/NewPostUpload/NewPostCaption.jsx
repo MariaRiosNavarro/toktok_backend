@@ -72,7 +72,10 @@ const NewPostCaption = ({ selectedImage, preview, setPreview }) => {
         console.log("✅", await response.json());
         setRefresh((prev) => !prev);
         setPreview("");
-        navigate("/detail/" + loginUser._id);
+        let postArray = loginUser?.posts;
+        let lengthArrayPost = postArray.length;
+        const lastPostId = postArray[lengthArrayPost - 1];
+        navigate("/post/" + lastPostId);
       } else {
         console.log("Request failed with status:👺", response.status);
         const errorBody = await response.text();
