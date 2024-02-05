@@ -4,9 +4,11 @@ import EditSvg from "../SVG/EditSvg";
 import PointsSvg from "../SVG/PointsSvg";
 import { useTheme } from "../../context/userContext";
 import BackArrowSvg from "../SVG/BackArrowSvg";
+import { useUserContext } from "../../context/loginContext";
 
 const ProfileHeader = (props) => {
   const { theme, toggleTheme } = useTheme();
+  const { loginUser } = useUserContext();
   const navigate = useNavigate();
 
   const openModal = () => {
@@ -23,7 +25,7 @@ const ProfileHeader = (props) => {
           </Link>
 
           <h3 className="text-left pl-4 text-2xl font-bold rounded-xl mx-auto">
-            John_doe
+            {loginUser?.username}
           </h3>
         </div>
         {/* Right Side Components */}

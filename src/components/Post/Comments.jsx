@@ -3,7 +3,6 @@ import CommentDetail from "./CommentDetail";
 const Comments = ({ comments, count }) => {
   const start = comments.length - 3;
   const lastThreeComments = comments.slice(start);
-  console.log("comment", comments);
   return (
     <>
       {count === "3" ? (
