@@ -6,9 +6,6 @@ const EditForm = (props) => {
   const { loginUser } = useUserContext();
   const { theme } = useTheme();
   const [showToast, setShowToast] = useState(false);
-  const [showBirthdayInput, setShowBirthdayInput] = useState(
-    loginUser?.birthday === null
-  );
 
   // -----------------------------------------------------Styling
   let commonStyles =
@@ -116,7 +113,7 @@ const EditForm = (props) => {
           className={inputClassNames}
         />
         {/* -------------------------------------------------------------------------Birthday Value*/}
-        {loginUser?.birthday && (
+        {loginUser?.birthday ? (
           <div className="flex flex-col gap-4">
             <p
               className={`rounded-xl px-[20px] p-[4px]  focus:border-none focus:outline-none ${
@@ -127,14 +124,8 @@ const EditForm = (props) => {
             >
               {formattedDateStr}
             </p>
-            {/* <span className="block px-[18px] mt-4 text-gray-500">
-              Change Birthday:
-            </span> */}
           </div>
-        )}
-        {/* -------------------------------------------------------------------------Birthday Input*/}
-
-        {showBirthdayInput && (
+        ) : (
           <input
             type="date"
             name="birthday"
@@ -142,6 +133,7 @@ const EditForm = (props) => {
             className={inputClassNames}
           />
         )}
+        {/* -------------------------------------------------------------------------Birthday Input*/}
 
         {/* -------------------------------------------------------------------------tel*/}
         <input
