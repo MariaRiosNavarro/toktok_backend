@@ -2,20 +2,22 @@ import express from 'express';
 import { createPost, deletePost, getPost, getPosts, updatePost } from './posts.controller.js';
 import { upload } from '../config/storage.config.js';
 import { createComment } from '../comments/comments.controller.js';
+import { verify } from 'jsonwebtoken';
+import { verifyUser } from '../utils/middleware/auth.middleware..js';
 
 
 export const router = new express.Router();
 
 // CREATE
-router.post("/upload", upload.single("img"), createPost)
+router.post("/upload", upload.single("img"),verifyUser, createPost)
 // UPDATE
-router.put("/editpost/:id",upload.single("img"), updatePost)
+router.put("/editpost/:id",upload.single("img"),verifyUser, updatePost)
 // DELETE 
-router.delete("/:id",deletePost)
+router.delete("/:id",verifyUser,deletePost)
 // GET ONE
-router.get("/:id" ,getPost)
+router.get("/:id" , verifyUser, getPost)
 // CREATE COMMENT
-router.post("/:id/commit", async (req, res, next) => {
+router.post("/:id/commit",verifyUser, async (req, res, next) => {
     try {
         await createComment(req, res, next, false); // Der dritte Parameter ist false für einen Beitrag
     } catch (err) {
@@ -24,4 +26,4 @@ router.post("/:id/commit", async (req, res, next) => {
 });
 
 // GET ALL
-router.get("/",getPosts)
+router.get("/", verifyUser, getPosts)
