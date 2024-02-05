@@ -4,15 +4,29 @@ import { uploadImage } from '../config/storage.config.js';
 import cloudinary from 'cloudinary';
 
 export const createPost = async (req, res, next) => {
-  const newPost = new Post(req.body);
-  
-  try {
-    const cloudinaryResult = await uploadImage(req.file.buffer);
-    newPost.img = cloudinaryResult.secure_url;
-    newPost.cloudinaryId = cloudinaryResult.public_id;
-    const savedPost = await newPost.save();
-    if (!savedPost) {
-      res.status(400).json({ message: 'Post not saved! Try again.' });
+    const newPost = new Post(req.body);
+
+    try {
+        const cloudinaryResult = await uploadImage(req.file.buffer);
+        newPost.img = cloudinaryResult.secure_url;
+        newPost.cloudinaryId = cloudinaryResult.public_id;
+        const savedPost = await newPost.save();
+        if (!savedPost) {
+            res.status(400).json({message:'Post not saved! Try again.'});
+        }
+
+        // * Funktion um den Post direkt in den User zu pushen 
+        const user = await User.findById(newPost.user);
+        if (!user) {
+          return res.status(404).json({ message: 'User not found!' });
+        }
+        user.posts.push(savedPost._id);
+        await user.save();
+        res.status(201).json({ message: 'Post sucessfully created!'});
+    } catch (err) {
+        next(err);
+
+
     }
     // * Funktion um den Post direkt in den User zu pushen
     const user = await User.findById(newPost.user);
@@ -56,7 +70,6 @@ export const updatePost = async (req, res, next) => {
 
 export const deletePost = async (req, res, next) => {
   const postId = req.params.id;
-
   try {
     const post = await Post.findById(postId);
     if (!post) {
