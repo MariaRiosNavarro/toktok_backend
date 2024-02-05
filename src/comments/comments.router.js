@@ -10,7 +10,7 @@ router.delete("/:id", deleteComment)
 // CREATE COMMENT
 router.post("/:id/commit", async (req, res, next) => {
     try {
-        await createComment(req, res, next, true); // Der dritte Parameter ist false für einen Beitrag
+        await createComment(req, res, next, true); 
     } catch (err) {
         next(err);
     }

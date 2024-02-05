@@ -7,8 +7,8 @@ export const createComment = async (req, res, next, isCommentOnComment = false) 
     const newComment= new Comment(req.body);
     try {
       if (isCommentOnComment) {
-        const parentComment = await Comment.findByIdAndUpdate(newComment.comments.comment , {
-            $push: { comments: newComment },
+        const parentComment = await Comment.findByIdAndUpdate(req.body._id , {
+            $push: { replies: newComment },
         });
 
         if (!parentComment) {

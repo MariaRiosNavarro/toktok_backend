@@ -10,8 +10,9 @@ const CommentReplySchema = new mongoose.Schema({
       type: String,
       required: true,
     },
-    _id: {
+    parentComment: {
       type: mongoose.Schema.Types.ObjectId,
+      ref: 'Comment',
       required: true,
     },
   });
@@ -37,11 +38,7 @@ const CommentReplySchema = new mongoose.Schema({
         required: true,
       },
     ],
-    _id: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: true,
-    },
   });
   
   export const Comment = mongoose.model('Comment', CommentSchema);
-  export const CommentReply = mongoose.model('CommentReply', CommentReplySchema);
+  export const CommentReply = mongoose.model('Replies', CommentReplySchema);
