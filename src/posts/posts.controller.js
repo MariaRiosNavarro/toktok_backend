@@ -1,7 +1,6 @@
 import { User } from '../users/users.model.js';
 import { Post } from './posts.model.js';
 import { deleteImage, uploadImage } from '../config/storage.config.js';
-import cloudinary from 'cloudinary';
 
 export const createPost = async (req, res, next) => {
     const newPost = new Post(req.body);
@@ -14,15 +13,21 @@ export const createPost = async (req, res, next) => {
         if (!savedPost) {
             res.status(400).json({message:'Post not saved! Try again.'});
         }
-
+        
         // * Funktion um den Post direkt in den User zu pushen 
-        const user = await User.findById(newPost.user);
+        const user = await User.findById(newPost.user).select({
+          _id: 1,
+          username: 1,
+          img: 1,
+          job: 1,
+        }).exec();
         if (!user) {
           return res.status(404).json({ message: 'User not found!' });
         }
+
         user.posts.push(savedPost._id);
         await user.save();
-        res.status(201).json({ message: 'Post sucessfully created!', id: savedPost._id});
+        res.status(201).json({ message: 'Post sucessfully created!', postId: savedPost._id, user: user});
     } catch (err) {
         next(err);
     }
