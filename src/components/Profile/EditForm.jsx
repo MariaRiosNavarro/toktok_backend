@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { useTheme } from "../../context/userContext";
+import { useUserContext } from "../../context/loginContext";
+
 const EditForm = (props) => {
+  const { loginUser } = useUserContext();
   const { theme } = useTheme();
   const [showToast, setShowToast] = useState(false);
   // Styling
@@ -13,35 +16,39 @@ const EditForm = (props) => {
   }`;
   const uploadProfile = async (e) => {
     e.preventDefault();
-    const form = new FormData(e.target);
-    console.log("form", form);
-    setShowToast(true);
-    // Timeout zum Ausblenden des Toasts nach einer bestimmten Zeit
-    setTimeout(() => {
-      setShowToast(false);
-    }, 3000);
+    const formData = new FormData(e.target);
+
+    const formDataObject = Object.fromEntries(formData.entries());
+    console.log("form data:", formDataObject);
+    formData.append("userId", loginUser._id);
+
     //commonStyles += "skeleton"; Ich muss später was in der klasse ändern_______
 
-    // try {
-    //   const response = await fetch(
-    //     import.meta.env.VITE_BACKEND_URL + "api",
-    //     {
-    //       method: "POST",
-    //       credentials: "include",
-    //       body: formData,
-    //     }
-    //   );
+    try {
+      const response = await fetch(
+        import.meta.env.VITE_BACKEND_URL + "/api/users/edit",
+        {
+          method: "PUT",
+          credentials: "include",
+          body: formData,
+        }
+      );
 
-    //   if (response.ok) {
-    //     console.log("✅", await response.json());
-    //   } else {
-    //     console.log("Request failed with status:👺", response.status);
-    //     const errorBody = await response.text();
-    //     console.log("Error Body:", errorBody);
-    //   }
-    // } catch (error) {
-    //   console.log(error.message);
-    // }
+      if (response.ok) {
+        setShowToast(true);
+        // Timeout zum Ausblenden des Toasts nach einer bestimmten Zeit
+        setTimeout(() => {
+          setShowToast(false);
+        }, 3000);
+        console.log("✅", await response.json());
+      } else {
+        console.log("Request failed with status:👺", response.status);
+        const errorBody = await response.text();
+        console.log("Error Body:", errorBody);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
   };
   return (
     <>
