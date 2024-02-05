@@ -11,7 +11,7 @@ import { useUserContext } from "../context/loginContext";
 
 const Search = () => {
   const { theme } = useTheme();
-  const { refresh, setRefresh } = useUserContext();
+  const { refresh, setRefresh, loginUser } = useUserContext();
   const [searchTerm, setSearchTerm] = useState("");
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
@@ -35,7 +35,9 @@ const Search = () => {
         );
         if (response.ok) {
           const data = await response.json();
-          console.log(data);
+          // console.log(data);
+          // console.log("ich bin da", loginUser?._id);
+          removeUserById(data, loginUser?._id);
           setUsers(data);
         }
       } catch (error) {
@@ -45,6 +47,15 @@ const Search = () => {
 
     fetchData();
   }, [detailUserData]);
+
+  function removeUserById(arr, userId) {
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i].id === userId) {
+        arr.splice(i, 1);
+        break;
+      }
+    }
+  }
 
   const fetchFollowStatus = async (userId) => {
     try {
@@ -95,6 +106,7 @@ const Search = () => {
     if (res.ok) {
       const response = await res.json();
       console.log(response.message);
+      setRefresh(!refresh);
     }
   }
 
@@ -109,7 +121,6 @@ const Search = () => {
       [userId]: !prevStatus[userId],
     }));
     updateFollow(userId);
-    setRefresh(!refresh);
   };
 
   const handleChange = (event) => {

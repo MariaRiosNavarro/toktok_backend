@@ -22,7 +22,6 @@ const PostUserHeader = ({ userId }) => {
       if (res.ok) {
         const data = await res.json();
         setUser(data.user);
-        console.log("_____- data", data.user);
       }
     }
     getUserData();
