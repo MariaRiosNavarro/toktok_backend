@@ -50,6 +50,17 @@ const EditForm = (props) => {
       console.log(error.message);
     }
   };
+
+  let formattedDateStr;
+
+  if (loginUser.birthday) {
+    const originalDate = new Date(loginUser.birthday);
+    const day = originalDate.getDate();
+    const month = originalDate.getMonth() + 1;
+    const year = originalDate.getFullYear();
+    formattedDateStr = `${day}-${month}-${year}`;
+  }
+
   return (
     <>
       {showToast && (
@@ -63,31 +74,47 @@ const EditForm = (props) => {
         <input
           type="text"
           name="name"
-          placeholder="your name"
+          placeholder={loginUser.name}
           className={inputClassNames}
         />
         <input
           type="text"
           name="username"
-          placeholder="your username"
+          placeholder={loginUser.username}
           className={inputClassNames}
         />
         <input
           type="text"
           name="job"
-          placeholder="your job"
+          placeholder={loginUser.job}
           className={inputClassNames}
         />
+        {loginUser.birthday && (
+          <div className="flex flex-col gap-4">
+            <p
+              className={`rounded-xl px-[20px] p-[4px]  focus:border-none focus:outline-none ${
+                theme === "dark"
+                  ? "bg-[#9E9E9E]  text-gray-600"
+                  : "bg-[#FAFAFA] text-secondary "
+              }`}
+            >
+              {formattedDateStr}
+            </p>
+            <span className="block px-[18px] mt-4 text-gray-500">
+              Change Birthday:
+            </span>
+          </div>
+        )}
         <input
           type="date"
           name="birthday"
           className={inputClassNames}
-          placeholder="Select date"
+          placeholder=""
         />
         <input
           type="tel"
           name="telephone"
-          placeholder="your telephone"
+          placeholder={loginUser.telephone}
           className={inputClassNames}
         />
         {/* <select
@@ -103,7 +130,7 @@ const EditForm = (props) => {
         /> */}
         <textarea
           name="description"
-          placeholder="description"
+          placeholder={loginUser.description}
           className={`rounded-xl px-[20px] p-4   ${
             theme === "dark"
               ? "bg-[#9E9E9E] placeholder:text-gray-500 text-gray-700"
