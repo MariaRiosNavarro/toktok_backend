@@ -11,7 +11,11 @@ const Home = () => {
   useEffect(() => {
     async function getPosts() {
       const response = await fetch(
-        import.meta.env.VITE_BACKEND_URL + "/api/posts/"
+        import.meta.env.VITE_BACKEND_URL + "/api/posts/",
+        {
+          method: "GET",
+          credentials: "include",
+        }
       );
       if (response.ok) {
         const data = await response.json();
@@ -20,7 +24,7 @@ const Home = () => {
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
         setPosts(sortedPosts);
-        console.log(data);
+        // console.log(data);
       }
     }
     getPosts();
