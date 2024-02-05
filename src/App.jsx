@@ -53,6 +53,7 @@ function App() {
                 <NewPostDetails
                   selectedImage={selectedImage}
                   preview={preview}
+                  setPreview={setPreview}
                 />
               }
             />

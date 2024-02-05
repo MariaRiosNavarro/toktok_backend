@@ -3,16 +3,17 @@ import SettingsMainSvg from "../../components/SVG/settingsSVG/SettingsMainSvg";
 import LocationSvg from "../../components/SVG/LocationSvg";
 import { useUserContext } from "../../context/loginContext";
 import { useTheme } from "../../context/userContext";
+import { useNavigate } from "react-router-dom";
 
-const NewPostCaption = ({ selectedImage, preview }) => {
+const NewPostCaption = ({ selectedImage, preview, setPreview }) => {
   const { loginUser } = useUserContext();
 
   const userImg = ""; //loginUser.img;
   const { theme } = useTheme();
-  const { refresh, setRefresh } = useUserContext();
+  const { setRefresh } = useUserContext();
   const [value, setValue] = useState("");
   const [inputVisible, setInputVisible] = useState(false);
-  // const [image, setImage] = useState("");
+  const navigate = useNavigate();
 
   const imgRef = useRef();
   const descriptionRef = useRef();
@@ -69,7 +70,9 @@ const NewPostCaption = ({ selectedImage, preview }) => {
 
       if (response.ok) {
         console.log("✅", await response.json());
-        setRefresh(!refresh);
+        setRefresh((prev) => !prev);
+        setPreview("");
+        navigate("/detail/" + loginUser._id);
       } else {
         console.log("Request failed with status:👺", response.status);
         const errorBody = await response.text();
