@@ -1,6 +1,6 @@
 import { User } from '../users/users.model.js';
 import { Post } from './posts.model.js';
-import { uploadImage } from '../config/storage.config.js';
+import { deleteImage, uploadImage } from '../config/storage.config.js';
 import cloudinary from 'cloudinary';
 
 export const createPost = async (req, res, next) => {
@@ -67,7 +67,7 @@ export const deletePost = async (req, res, next) => {
     if (!user) {
       return res.status(404).json({ message: 'User not found!' });
     }
-
+    await deleteImage(post.cloudinaryId)
     user.posts = user.posts.filter(
       (userPostId) => userPostId.toString() !== postId
     );
