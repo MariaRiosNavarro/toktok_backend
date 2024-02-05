@@ -22,7 +22,11 @@ const Post = () => {
   useEffect(() => {
     async function getPost() {
       const response = await fetch(
-        import.meta.env.VITE_BACKEND_URL + "/api/posts/" + slug
+        import.meta.env.VITE_BACKEND_URL + "/api/posts/" + slug,
+        {
+          method: "GET",
+          credentials: "include",
+        }
       );
       if (response.ok) {
         const data = await response.json();
@@ -49,7 +53,12 @@ const Post = () => {
       />
       <main className="p-6 pb-20">
         <section className="w-full  mb-6">
-          <PostUserHeader userId={post?.user} />
+          <PostUserHeader
+            userId={post.user._id}
+            userImg={post.user.img}
+            userName={post.user.username ? post.user.username : "unknow"}
+            userJob={post.user.job ? post.user.job : "unknow"}
+          />
           <section>
             <section className="mt-4 w-full">
               <div className="avatar ">

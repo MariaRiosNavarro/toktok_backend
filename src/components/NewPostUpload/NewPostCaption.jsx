@@ -82,7 +82,7 @@ const NewPostCaption = ({ selectedImage, preview, setPreview }) => {
         navigate("/post/" + postId);
       } else {
         console.log("Request failed with status:👺", response.status);
-        const errorBody = await response.text();
+        // const errorBody = await response.text();
         console.log("Error Body:", errorBody);
       }
     } catch (error) {
@@ -96,6 +96,7 @@ const NewPostCaption = ({ selectedImage, preview, setPreview }) => {
     setInputVisible((prev) => !prev);
   };
   return (
+    // {loading? <LoadingScreen />:{}}
     <form onSubmit={uploadPost}>
       <div className="flex gap-4 items-start">
         {/* --------------------------------------------------USER IMG PREVIEW - NO INPUT*/}
