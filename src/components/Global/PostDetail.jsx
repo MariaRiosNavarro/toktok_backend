@@ -12,8 +12,8 @@ const PostDetail = ({ post }) => {
         <PostUserHeader userId={post.user} />
         <Link to={"/post/" + post._id}>
           <section className="mt-4 w-full">
-            <div className="avatar ">
-              <div className=" rounded-[32px] ">
+            <div className="avatar w-full">
+              <div className=" rounded-[32px] w-full">
                 <img src={post.img} />
               </div>
             </div>
