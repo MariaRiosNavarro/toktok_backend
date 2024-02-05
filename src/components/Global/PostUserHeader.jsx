@@ -1,11 +1,11 @@
 import { Link, useParams } from "react-router-dom";
 import PointsSvg from "../SVG/PointsSvg";
-const PostUserHeader = (props) => {
-  let slug;
+const PostUserHeader = ({ userId }) => {
+  console.log("____ userId from PostUserHeader", userId);
   return (
     <>
       <section className="flex items-center justify-between mx-auto ">
-        <Link to={"/detail/" + slug} className="inline-block">
+        <Link to={"/detail/" + userId} className="inline-block">
           <article className="flex justify-between items-center gap-4">
             <div className="avatar">
               <div className="w-12 rounded-full">

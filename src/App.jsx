@@ -60,7 +60,7 @@ function App() {
             <Route path="/profile" element={<ProfileDetail />}></Route>
             <Route path="/edit" element={<ProfileEdit />}></Route>
             {/* 6 Detail/Other Accounts */}
-            <Route path="/detail/:slug" element={<Detail />} />
+            <Route path="/detail/:userid" element={<Detail />} />
           </Route>
         </Routes>
       </GlobalProvider>

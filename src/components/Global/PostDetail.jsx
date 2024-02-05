@@ -9,7 +9,7 @@ const PostDetail = ({ post }) => {
   return (
     <>
       <section className="w-full  mb-6">
-        <PostUserHeader slug={slug} />
+        <PostUserHeader userId={post.user} />
         <Link to={"/post/" + post._id}>
           <section className="mt-4 w-full">
             <div className="avatar ">
