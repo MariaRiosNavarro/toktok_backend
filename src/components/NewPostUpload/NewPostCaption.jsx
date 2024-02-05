@@ -4,9 +4,12 @@ import LocationSvg from "../../components/SVG/LocationSvg";
 import { useUserContext } from "../../context/loginContext";
 import { useTheme } from "../../context/userContext";
 import { useNavigate } from "react-router-dom";
+import AvatarSvg from "../SVG/AvatarSvg";
+import LoadingScreen from "../../routes/LoadingScreen";
 
 const NewPostCaption = ({ selectedImage, preview, setPreview }) => {
   const { loginUser } = useUserContext();
+  const [loading, setLoading] = useState(false);
 
   const userImg = ""; //loginUser.img;
   const { theme } = useTheme();
@@ -59,6 +62,7 @@ const NewPostCaption = ({ selectedImage, preview, setPreview }) => {
     formData.append("user", loginUser._id);
 
     try {
+      setLoading(true);
       const response = await fetch(
         import.meta.env.VITE_BACKEND_URL + "/api/posts/upload",
         {
@@ -69,13 +73,13 @@ const NewPostCaption = ({ selectedImage, preview, setPreview }) => {
       );
 
       if (response.ok) {
-        console.log("✅", await response.json());
+        console.log("✅");
+        const responseJson = await response.json();
         setRefresh((prev) => !prev);
         setPreview("");
-        let postArray = loginUser?.posts;
-        let lengthArrayPost = postArray.length;
-        const lastPostId = postArray[lengthArrayPost - 1];
-        navigate("/post/" + lastPostId);
+        const postId = responseJson.id;
+        setLoading(false);
+        navigate("/post/" + postId);
       } else {
         console.log("Request failed with status:👺", response.status);
         const errorBody = await response.text();
@@ -86,8 +90,7 @@ const NewPostCaption = ({ selectedImage, preview, setPreview }) => {
     }
   };
 
-  const placeholder =
-    "https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg";
+  if (loading) return <LoadingScreen />;
 
   const handleInputVisibility = () => {
     setInputVisible((prev) => !prev);
@@ -96,11 +99,17 @@ const NewPostCaption = ({ selectedImage, preview, setPreview }) => {
     <form onSubmit={uploadPost}>
       <div className="flex gap-4 items-start">
         {/* --------------------------------------------------USER IMG PREVIEW - NO INPUT*/}
-        <img
-          src={userImg ? userImg : placeholder}
-          className="w-[56px] h-[56px] rounded-full"
-          alt="userImage"
-        />
+
+        {userImg ? (
+          <img
+            src={userImg}
+            className="w-[56px] h-[56px] rounded-full"
+            alt="userImage"
+          />
+        ) : (
+          <AvatarSvg width="48" />
+        )}
+
         {/* --------------------------------------------------form : description */}
         <textarea
           id="description"
