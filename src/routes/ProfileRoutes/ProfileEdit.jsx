@@ -14,7 +14,7 @@ const ProfileEdit = () => {
   const [image, setImage] = useState(loginUser?.img);
   const [showToast, setShowToast] = useState(false);
 
-  console.log("----------", loginUser?.img);
+  // console.log("----------", loginUser?.img);
 
   const handleFileChange = async (event) => {
     event.preventDefault();
