@@ -2,7 +2,6 @@ import express from 'express';
 import { createPost, deletePost, getPost, getPosts, updatePost } from './posts.controller.js';
 import { upload } from '../config/storage.config.js';
 import { createComment } from '../comments/comments.controller.js';
-import { verify } from 'jsonwebtoken';
 import { verifyUser } from '../utils/middleware/auth.middleware..js';
 
 
