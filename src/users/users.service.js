@@ -2,7 +2,7 @@
 // post -> post document aus der db
 // user -> login user id
 
-export const getFavoriteStatus = async (post, user) => {
+export const getFavoriteStatus = (post, user) => {
   const likes = post.likes.map((like) => like.toJSON());
   const favoriteStatus = likes.includes(user) ? true : false;
   console.log({ favoriteStatus });

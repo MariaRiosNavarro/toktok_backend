@@ -104,7 +104,7 @@ export const getPost = async (req, res, next) => {
 
     if (post) {
       const favoriteStatus = getFavoriteStatus(post, payload_id);
-      res.json({ post, favoriteStatus });
+      res.json({ post, favoriteStatus: favoriteStatus });
     }
   } catch (err) {
     next(err);
