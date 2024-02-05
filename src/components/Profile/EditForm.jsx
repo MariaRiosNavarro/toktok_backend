@@ -6,7 +6,11 @@ const EditForm = (props) => {
   const { loginUser } = useUserContext();
   const { theme } = useTheme();
   const [showToast, setShowToast] = useState(false);
-  // Styling
+  const [showBirthdayInput, setShowBirthdayInput] = useState(
+    loginUser?.birthday === null
+  );
+
+  // -----------------------------------------------------Styling
   let commonStyles =
     "rounded-xl px-[20px] p-4 h-6 focus:border-none focus:outline-none";
   const darkStyles = "bg-[#9E9E9E] placeholder:text-gray-500 text-gray-700";
@@ -14,49 +18,60 @@ const EditForm = (props) => {
   const inputClassNames = `${commonStyles} ${
     theme === "dark" ? darkStyles : lightStyles
   }`;
+
+  // ------------------------------------------------ EDIT FETCH
   const uploadProfile = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
 
-    const formDataObject = Object.fromEntries(formData.entries());
-    console.log("form data:", formDataObject);
-    formData.append("userId", loginUser._id);
+    // Felder herausfiltern, die geändert wurden (keinen Standardwert haben)
+    const formDataObject = Object.fromEntries(
+      Array.from(formData.entries()).filter(
+        ([key, value]) => value.trim() !== "" && value.trim() !== loginUser[key]
+      )
+    );
 
-    //commonStyles += "skeleton"; Ich muss später was in der klasse ändern_______
+    // Prüfen, ob mindestens ein Feld geändert wurde
+    if (Object.keys(formDataObject).length > 0) {
+      formData.append("userId", loginUser._id);
 
-    try {
-      const response = await fetch(
-        import.meta.env.VITE_BACKEND_URL + "/api/users/edit",
-        {
-          method: "PUT",
-          headers: {
-            "content-type": "application/json",
-          },
-          credentials: "include",
-          body: formData,
+      console.log("form data:", formDataObject);
+
+      try {
+        const response = await fetch(
+          import.meta.env.VITE_BACKEND_URL + "/api/users/edit",
+          {
+            method: "PUT",
+            credentials: "include",
+            body: formData,
+          }
+        );
+
+        if (response.ok) {
+          // toast
+          setShowToast(true);
+          setTimeout(() => {
+            setShowToast(false);
+          }, 3000);
+          console.log("✅", await response.json());
+        } else {
+          console.log("Request failed with status:👺", response.status);
+          const errorBody = await response.text();
+          console.log("Error Body:", errorBody);
         }
-      );
-
-      if (response.ok) {
-        setShowToast(true);
-        // Timeout zum Ausblenden des Toasts nach einer bestimmten Zeit
-        setTimeout(() => {
-          setShowToast(false);
-        }, 3000);
-        console.log("✅", await response.json());
-      } else {
-        console.log("Request failed with status:👺", response.status);
-        const errorBody = await response.text();
-        console.log("Error Body:", errorBody);
+      } catch (error) {
+        console.log(error.message);
       }
-    } catch (error) {
-      console.log(error.message);
+    } else {
+      console.log("Gar nichts würde geändert");
     }
   };
 
+  // ---------------------Formated Date
+
   let formattedDateStr;
 
-  if (loginUser.birthday) {
+  if (loginUser?.birthday) {
     const originalDate = new Date(loginUser.birthday);
     const day = originalDate.getDate();
     const month = originalDate.getMonth() + 1;
@@ -74,25 +89,34 @@ const EditForm = (props) => {
         </div>
       )}
       <form onSubmit={uploadProfile} className="flex flex-col [&>*]:m-6">
+        {/* -------------------------------------------------------------------------name */}
         <input
           type="text"
           name="name"
-          placeholder={loginUser.name}
+          placeholder="Name"
+          defaultValue={loginUser?.name || ""}
           className={inputClassNames}
         />
+        {/* -------------------------------------------------------------------------username */}
         <input
+          // ref={userNameRef}
           type="text"
           name="username"
-          placeholder={loginUser.username}
+          // placeholder={loginUser?.username || "Username"}
+          defaultValue={loginUser?.username || ""}
           className={inputClassNames}
+          // onChange={handleUserNameChange}
         />
+        {/* -------------------------------------------------------------------------job*/}
         <input
           type="text"
           name="job"
-          placeholder={loginUser.job}
+          placeholder="Job"
+          defaultValue={loginUser?.job || ""}
           className={inputClassNames}
         />
-        {loginUser.birthday && (
+        {/* -------------------------------------------------------------------------Birthday Value*/}
+        {loginUser?.birthday && (
           <div className="flex flex-col gap-4">
             <p
               className={`rounded-xl px-[20px] p-[4px]  focus:border-none focus:outline-none ${
@@ -103,37 +127,35 @@ const EditForm = (props) => {
             >
               {formattedDateStr}
             </p>
-            <span className="block px-[18px] mt-4 text-gray-500">
+            {/* <span className="block px-[18px] mt-4 text-gray-500">
               Change Birthday:
-            </span>
+            </span> */}
           </div>
         )}
-        <input
-          type="date"
-          name="birthday"
-          className={inputClassNames}
-          placeholder=""
-        />
+        {/* -------------------------------------------------------------------------Birthday Input*/}
+
+        {showBirthdayInput && (
+          <input
+            type="date"
+            name="birthday"
+            // defaultValue={loginUser?.birthday || ""}
+            className={inputClassNames}
+          />
+        )}
+
+        {/* -------------------------------------------------------------------------tel*/}
         <input
           type="tel"
           name="telephone"
-          placeholder={loginUser.telephone}
+          placeholder="Telephone"
+          defaultValue={loginUser?.telephone || ""}
           className={inputClassNames}
         />
-        {/* <select
-          className={inputClassNames}
-        >
-          <option value="male">Male</option>
-          <option value="female">Female</option>
-        </select> */}
-        {/* <input
-          type="url"
-          placeholder="your Website"
-          className={inputClassNames}
-        /> */}
+        {/* -------------------------------------------------------------------------description*/}
         <textarea
           name="description"
-          placeholder={loginUser.description}
+          placeholder="About you"
+          defaultValue={loginUser?.description || ""}
           className={`rounded-xl px-[20px] p-4   ${
             theme === "dark"
               ? "bg-[#9E9E9E] placeholder:text-gray-500 text-gray-700"
