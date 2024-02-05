@@ -29,6 +29,9 @@ const EditForm = (props) => {
         import.meta.env.VITE_BACKEND_URL + "/api/users/edit",
         {
           method: "PUT",
+          headers: {
+            "content-type": "application/json",
+          },
           credentials: "include",
           body: formData,
         }
