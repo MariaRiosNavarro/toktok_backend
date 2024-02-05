@@ -9,11 +9,11 @@ import LoadingScreen from "../../routes/LoadingScreen";
 
 const NewPostCaption = ({ selectedImage, preview, setPreview }) => {
   const { loginUser } = useUserContext();
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
 
-  const userImg = ""; //loginUser.img;
+  const userImg = loginUser?.img; //loginUser.img;
   const { theme } = useTheme();
-  const { setRefresh } = useUserContext();
+  // const { setRefresh } = useUserContext();
   const [value, setValue] = useState("");
   const [inputVisible, setInputVisible] = useState(false);
   const navigate = useNavigate();
@@ -62,7 +62,7 @@ const NewPostCaption = ({ selectedImage, preview, setPreview }) => {
     formData.append("user", loginUser._id);
 
     try {
-      setLoading(true);
+      // setLoading(true);
       const response = await fetch(
         import.meta.env.VITE_BACKEND_URL + "/api/posts/upload",
         {
@@ -75,28 +75,28 @@ const NewPostCaption = ({ selectedImage, preview, setPreview }) => {
       if (response.ok) {
         console.log("✅");
         const responseJson = await response.json();
-        setRefresh((prev) => !prev);
-        setPreview("");
+        // setRefresh((prev) => !prev);
+        // setPreview("");
         const postId = responseJson.id;
-        setLoading(false);
-        navigate("/post/" + postId);
+        // setLoading(false);
+        // navigate("/post/" + postId);
       } else {
         console.log("Request failed with status:👺", response.status);
         // const errorBody = await response.text();
-        console.log("Error Body:", errorBody);
+        // console.log("Error Body:", errorBody);
       }
     } catch (error) {
       console.log(error.message);
     }
   };
 
-  if (loading) return <LoadingScreen />;
+  // if (loading) return <LoadingScreen />;
 
   const handleInputVisibility = () => {
     setInputVisible((prev) => !prev);
   };
+
   return (
-    // {loading? <LoadingScreen />:{}}
     <form onSubmit={uploadPost}>
       <div className="flex gap-4 items-start">
         {/* --------------------------------------------------USER IMG PREVIEW - NO INPUT*/}
