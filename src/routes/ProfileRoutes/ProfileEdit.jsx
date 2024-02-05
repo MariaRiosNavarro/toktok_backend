@@ -51,7 +51,7 @@ const ProfileEdit = () => {
         // console.log("✅", await response.json());
       } else {
         console.log("Request failed with status:👺", response.status);
-        const errorBody = await response.text();
+        // const errorBody = await response.text();
         console.log("Error Body:", errorBody);
       }
     } catch (error) {
