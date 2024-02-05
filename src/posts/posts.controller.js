@@ -25,21 +25,8 @@ export const createPost = async (req, res, next) => {
         res.status(201).json({ message: 'Post sucessfully created!'});
     } catch (err) {
         next(err);
-
-
     }
-    // * Funktion um den Post direkt in den User zu pushen
-    const user = await User.findById(newPost.user);
-    if (!user) {
-      return res.status(404).json({ message: 'User not found!' });
-    }
-    user.posts.push(savedPost._id);
-    await user.save();
-    res.status(201).json({ message: 'Post sucessfully created!' });
-  } catch (err) {
-    next(err);
   }
-};
 
 export const updatePost = async (req, res, next) => {
   const postId = req.params.id;
