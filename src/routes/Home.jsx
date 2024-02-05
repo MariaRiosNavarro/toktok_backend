@@ -4,6 +4,7 @@ import PostDetail from "../components/Global/PostDetail";
 import NavBarTop from "../components/Global/NavBarTop";
 import TockTockLogoSvg from "../components/SVG/TockTockLogoSvg";
 import HearthSvg from "../components/SVG/HearthSvg";
+import LoadingScreen from "./LoadingScreen";
 
 const Home = () => {
   const [posts, setPosts] = useState();
@@ -14,14 +15,18 @@ const Home = () => {
       );
       if (response.ok) {
         const data = await response.json();
-        setPosts(data);
+
+        const sortedPosts = [...data].sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
+        setPosts(sortedPosts);
         console.log(data);
       }
     }
     getPosts();
   }, []);
 
-  if (!posts) return <h1>Loading.....</h1>;
+  if (!posts) return <LoadingScreen />;
   return (
     <>
       <NavBarTop
@@ -33,7 +38,7 @@ const Home = () => {
       />
       <main className="p-6 pb-12">
         <section>
-          {posts.map((post, key) => {
+          {posts?.map((post, key) => {
             return <PostDetail post={post} key={key} />;
           })}
         </section>

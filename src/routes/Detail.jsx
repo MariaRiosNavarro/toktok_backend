@@ -10,35 +10,62 @@ import LineSvg from "../components/SVG/LineSvg";
 import FeedsGallery from "../components/Global/FeedsGallery";
 import UnFollowSvg from "../components/SVG/UnFollowSvg";
 import ProfileGallery from "../components/Global/ProfileGallery";
+import { useParams } from "react-router-dom";
+import LoadingScreen from "./LoadingScreen";
 
 const Detail = () => {
   const [isFollowing, setIsFollowing] = useState(false);
   const [detailUserData, setDetailUserData] = useState(null);
-  const _id = "65ba1e3bf62d099c7f3c041c"; // user id aus params
+  const { userid } = useParams();
 
-  useEffect(() => {
-    async function getUserData() {
-      const res = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/api/users?id=${_id}`,
-        {
-          method: "GET",
-          headers: {
-            "content-type": "application/json",
-          },
-          credentials: "include",
-        }
-      );
-      const data = await res.json();
-
-      if (res.ok) {
-        setDetailUserData(data);
+  async function getUserData() {
+    const res = await fetch(
+      `${import.meta.env.VITE_BACKEND_URL}/api/users?id=${userid}`,
+      {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+        },
+        credentials: "include",
       }
+    );
+    const data = await res.json();
+
+    if (res.ok) {
+      setDetailUserData(data);
     }
+  }
+  useEffect(() => {
     getUserData();
   }, []);
 
+  async function updateFollow() {
+    const res = await fetch(
+      `${import.meta.env.VITE_BACKEND_URL}/api/users/follow?id=${userid}`,
+      {
+        method: "PATCH",
+        headers: {
+          "content-type": "application/json",
+        },
+        credentials: "include",
+      }
+    );
+    const response = await res.json();
+
+    if (res.ok) {
+      console.log(response.message);
+      getUserData();
+    }
+  }
+
+  // isFollowing muss immer abhängig sein vom followStatus in der Datenbank
+  useEffect(() => {
+    setIsFollowing(detailUserData?.followStatus);
+  }, [detailUserData]);
+
   const handleButtonClick = () => {
-    setIsFollowing(!isFollowing);
+    // setIsFollowing(!isFollowing);
+    updateFollow();
   };
 
   const buttonText = isFollowing ? "Unfollow" : "Follow";
@@ -47,7 +74,7 @@ const Detail = () => {
   ) : (
     <FollowSvg svgFillColor="fill-base-100" />
   );
-  if (!detailUserData) return <h1>Loading.....</h1>;
+  if (!detailUserData) return <LoadingScreen />;
   return (
     <>
       <NavBarTop

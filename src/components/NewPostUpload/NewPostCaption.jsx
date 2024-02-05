@@ -9,6 +9,7 @@ const NewPostCaption = ({ selectedImage, preview }) => {
 
   const userImg = ""; //loginUser.img;
   const { theme } = useTheme();
+  const { refresh, setRefresh } = useUserContext();
   const [value, setValue] = useState("");
   const [inputVisible, setInputVisible] = useState(false);
   // const [image, setImage] = useState("");
@@ -68,6 +69,7 @@ const NewPostCaption = ({ selectedImage, preview }) => {
 
       if (response.ok) {
         console.log("✅", await response.json());
+        setRefresh(!refresh);
       } else {
         console.log("Request failed with status:👺", response.status);
         const errorBody = await response.text();

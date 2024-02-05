@@ -7,6 +7,8 @@ export const useUserContext = () => useContext(UserContext);
 
 export const LoginUserProvider = ({ children }) => {
   const [loginUser, setLoginUser] = useState(null);
+  const [refresh, setRefresh] = useState(false);
+
   const navigate = useNavigate();
   useEffect(() => {
     async function getUser() {
@@ -26,11 +28,13 @@ export const LoginUserProvider = ({ children }) => {
       }
     }
     getUser();
-  }, []);
+  }, [refresh]);
 
   return (
     <>
-      <UserContext.Provider value={{ loginUser, setLoginUser }}>
+      <UserContext.Provider
+        value={{ loginUser, setLoginUser, refresh, setRefresh }}
+      >
         {children}
       </UserContext.Provider>
     </>

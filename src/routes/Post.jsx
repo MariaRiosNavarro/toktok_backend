@@ -11,6 +11,7 @@ import LineSvg from "../components/SVG/LineSvg";
 import TimeDifferent from "../components/Global/TimeDifferent";
 import WriteComment from "../components/Post/WriteComment";
 import { useTheme } from "../context/userContext";
+import LoadingScreen from "./LoadingScreen";
 const Post = () => {
   const { slug } = useParams();
   const [post, setPost] = useState(null);
@@ -24,7 +25,8 @@ const Post = () => {
         import.meta.env.VITE_BACKEND_URL + "/api/posts/" + slug
       );
       if (response.ok) {
-        setPost(await response.json());
+        const data = await response.json();
+        setPost(data);
       }
     }
     getPost();
@@ -34,32 +36,32 @@ const Post = () => {
     setIsModalOpen(!isModalOpen);
   };
 
-  if (!post) return <h1>Loading.....</h1>;
+  if (!post) return <LoadingScreen />;
 
   return (
     <>
       <NavBarTop
         leftSvgComponent={<BackArrowSvg />}
-        leftLink="/"
+        leftLink="back"
         leftText=""
         rightSvgComponent=""
         rightLink="/"
       />
       <main className="p-6 pb-20">
         <section className="w-full  mb-6">
-          <PostUserHeader slug={slug} />
+          <PostUserHeader userId={post?.user} />
           <section>
             <section className="mt-4 w-full">
               <div className="avatar ">
                 <div className=" rounded-[32px] ">
-                  <img src={post.img} />
+                  <img src={post?.img} />
                 </div>
               </div>
             </section>
           </section>
           <section className="mt-4 mx-3 ">
             <p>{post.description}</p>
-            <TimeDifferent date={post.createdAt} />
+            <TimeDifferent date={post?.createdAt} />
           </section>
           <PostDetailsFooter post={post} />
           <div className="my-6 flex justify-center">
@@ -67,12 +69,12 @@ const Post = () => {
           </div>
           {post.comments.length > 3 ? (
             <button onClick={changeModal} className="mb-3">
-              view all {post.comments.length} comments
+              view all {post?.comments.length} comments
             </button>
           ) : (
             ""
           )}
-          <Comments comments={post.comments} count={"3"} />
+          <Comments comments={post?.comments} count={"3"} />
           <WriteComment
             id={post._id}
             refresh={refresh}
@@ -98,7 +100,7 @@ const Post = () => {
         } overflow-y-auto h-[50%] max-h-[50%]`}
       >
         <section>
-          <Comments comments={post.comments} count={"all"} />
+          <Comments comments={post?.comments} count={"all"} />
         </section>
       </div>
       <NavBarBottom
