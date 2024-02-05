@@ -1,8 +1,8 @@
-const AvatarSvg = (props) => {
+const AvatarSvg = ({ width }) => {
   return (
     <svg
-      width="120"
-      height="120"
+      width={width}
+      height={width}
       viewBox="0 0 13 17"
       fill="#9E9E9E"
       xmlns="http://www.w3.org/2000/svg"

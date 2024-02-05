@@ -5,7 +5,7 @@ const ProfileAvatar = ({ image }) => {
     <>
       <div className="avatar">
         <div className="w-[120px] rounded-full">
-          {image ? <img src={image} /> : <AvatarSvg />}
+          {image ? <img src={image} /> : <AvatarSvg width={"120"} />}
         </div>
       </div>
     </>
