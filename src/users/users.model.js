@@ -78,25 +78,26 @@ const UserSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// pre save middleware zum checken ob der username schon vergeben ist
 UserSchema.pre('updateOne', async function (next) {
   const update = this.getUpdate();
   const username = update.$set.username;
 
   if (username) {
-    const existingUser = await mongoose.model('User').findOne({ username });
+    const userId = this.getQuery()._id;
+    const existingUser = await mongoose.model('User').findOne({
+      username,
+      _id: { $ne: userId },
+    });
 
     if (existingUser) {
       const error = new Error(
-        'This unsername is already taken. Please pick another one.'
+        'This username is already taken. Please pick another one.'
       );
-      next(error);
-    } else {
-      next();
+      return next(error);
     }
-  } else {
-    next();
   }
+
+  return next();
 });
 
 export const User = mongoose.model('User', UserSchema);
