@@ -4,7 +4,7 @@ const DetailUser = ({ user }) => {
   return (
     <>
       <section className="flex flex-col gap-3 items-center  justify-center">
-        <ProfileAvatar />
+        <ProfileAvatar image={user.img} />
         <article className="flex flex-col gap-2 text-center">
           <h3 className="font-bold text-2xl text-accent">
             {user ? user.name : "no name available"}

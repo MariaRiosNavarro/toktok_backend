@@ -20,7 +20,7 @@ const Home = () => {
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
         setPosts(sortedPosts);
-        console.log(data);
+        // console.log(data);
       }
     }
     getPosts();
