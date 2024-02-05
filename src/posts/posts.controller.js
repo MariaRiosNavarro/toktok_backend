@@ -20,7 +20,7 @@ export const createPost = async (req, res, next) => {
           username: 1,
           img: 1,
           job: 1,
-        }).exec();;
+        }).exec();
         if (!user) {
           return res.status(404).json({ message: 'User not found!' });
         }
