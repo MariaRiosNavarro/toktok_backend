@@ -28,7 +28,7 @@ export const getUser = async (req, res, next) => {
 
   const { id } = req.query;
 
-  console.log({ payload_id });
+  // console.log({ payload_id });
   try {
     const user = await User.findById(id).lean().select({
       _id: 1,
@@ -48,8 +48,8 @@ export const getUser = async (req, res, next) => {
     if (user) {
       const followers = user.followers.map((follower) => follower.toJSON());
       const followStatus = followers.includes(payload_id) ? true : false;
-      console.log({ followStatus });
-      console.log({ followers });
+      // console.log({ followStatus });
+      // console.log({ followers });
 
       res.json({ user, followStatus: followStatus });
     }
