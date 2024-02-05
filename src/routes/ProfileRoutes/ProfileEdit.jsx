@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import NavBarTop from "../../components/Global/NavBarTop";
 import ProfileAvatar from "../../components/Global/ProfileAvatar";
@@ -9,9 +9,12 @@ import { useUserContext } from "../../context/loginContext";
 
 const ProfileEdit = () => {
   const fileInputRef = useRef();
-  const [image, setImage] = useState();
-  const { loginUser } = useUserContext();
+  const { loginUser, setRefresh } = useUserContext();
+
+  const [image, setImage] = useState(loginUser?.img);
   const [showToast, setShowToast] = useState(false);
+
+  console.log("----------", loginUser?.img);
 
   const handleFileChange = async (event) => {
     event.preventDefault();
@@ -26,8 +29,6 @@ const ProfileEdit = () => {
     for (const pair of formData.entries()) {
       console.log(pair[0] + ": " + pair[1]);
     }
-
-    setImage(imageUrl);
 
     try {
       const response = await fetch(
@@ -46,7 +47,8 @@ const ProfileEdit = () => {
         setTimeout(() => {
           setShowToast(false);
         }, 3000);
-        console.log("✅", await response.json());
+        setRefresh((prev) => !prev);
+        // console.log("✅", await response.json());
       } else {
         console.log("Request failed with status:👺", response.status);
         const errorBody = await response.text();
@@ -59,6 +61,13 @@ const ProfileEdit = () => {
 
   return (
     <>
+      {showToast && (
+        <div className="toast toast-center toast-middle ">
+          <div className="alert alert-info bg-primary text-base-100">
+            <span>Picture Upload successfully</span>
+          </div>
+        </div>
+      )}
       <NavBarTop
         leftSvgComponent={<BackArrowSvg />}
         leftLink="back"
