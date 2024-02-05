@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 import NavBarTop from "../../components/Global/NavBarTop";
 import ProfileAvatar from "../../components/Global/ProfileAvatar";
