@@ -13,6 +13,10 @@ const Home = () => {
       const response = await fetch(
         import.meta.env.VITE_BACKEND_URL + "/api/posts/",
         {
+
+
+          method: "GET",
+
           credentials: "include",
         }
       );
@@ -23,7 +27,7 @@ const Home = () => {
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
         setPosts(sortedPosts);
-        console.log(data);
+        // console.log(data);
       }
     }
     getPosts();

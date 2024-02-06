@@ -21,7 +21,7 @@ export const LoginUserProvider = ({ children }) => {
       if (response.ok) {
         let json = await response.json();
 
-        console.log("--------------user------JA", json);
+        console.log("--------------LoginUser-------->", json);
         setLoginUser(json);
       } else {
         navigate("/loading");

@@ -10,7 +10,10 @@ const ProfileGallery = ({ postArr }) => {
         const fetchPromises = postArr.map(async (postId) => {
           const response = await fetch(
             `${import.meta.env.VITE_BACKEND_URL}/api/posts/${postId}`,
-            { credentials: "include" }
+            {
+              method: "GET",
+              credentials: "include",
+            }
           );
           if (response.ok) {
             const data = await response.json();
