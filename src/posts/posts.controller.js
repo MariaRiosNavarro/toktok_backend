@@ -1,7 +1,7 @@
 import { User } from '../users/users.model.js';
 import { Post } from './posts.model.js';
 import { deleteImage, uploadImage } from '../config/storage.config.js';
-import { getFavoriteStatus } from '../users/users.service.js';
+import { getFavoriteStatus, getPostUserData } from '../users/users.service.js';
 
 export const createPost = async (req, res, next) => {
   const newPost = new Post(req.body);
@@ -26,6 +26,7 @@ export const createPost = async (req, res, next) => {
         job: 1,
       })
       .exec();
+    // ? müssen wir hier noch die daten von dem user mitschicken im response???
     if (!user) {
       return res.status(404).json({ message: 'User not found!' });
     }
@@ -106,9 +107,18 @@ export const getPost = async (req, res, next) => {
 
     if (post) {
       const favoriteStatus = getFavoriteStatus(post, payload_id);
-      res.json({ post, favoriteStatus: favoriteStatus });
+      const postUserData = await getPostUserData(User, post.user);
+      res.json({
+        success: true,
+        post,
+        favoriteStatus: favoriteStatus,
+        postUserData: postUserData,
+      });
+    } else {
+      res.status(404).json({ success: false, message: 'Post not found.' });
     }
   } catch (err) {
+    console.error(err);
     next(err);
   }
 };
