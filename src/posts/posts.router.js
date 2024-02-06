@@ -25,4 +25,4 @@ router.post("/:id/commit",verifyUser, async (req, res, next) => {
 });
 
 // GET ALL
-router.get("/", verifyUser, getPosts)
+router.get("/", getPosts)

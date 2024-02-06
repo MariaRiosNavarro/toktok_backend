@@ -99,8 +99,24 @@ export const getPost = async (req, res, next) => {
 };
 
 export const getPosts = async (req, res, next) => {
+  const userId = req.body.user; 
+  // const payloadId = req.payload.id
   try {
-    const posts = await Post.find();
+    const currentUser = await User.findById(userId);
+    if (!currentUser) {
+      return res.status(404).json({ message: 'User not found!' });
+    }
+    
+    const followingIds = currentUser.following.map(user => user._id);
+    if (!followingIds || followingIds.length === 0) {
+      return res.status(404).json({ message: 'Please follow someone to see posts!' });
+    }
+    
+    const posts = await Post.find({ 'user': { $in: followingIds } });
+    if (!posts || posts.length === 0) {
+      return res.status(404).json({ message: 'People you followed havent any Posts yets!' });
+    }
+
     res.status(200).json(posts);
   } catch (err) {
     next(err);
