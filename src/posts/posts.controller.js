@@ -4,9 +4,11 @@ import { deleteImage, uploadImage } from '../config/storage.config.js';
 
 export const createPost = async (req, res, next) => {
     const newPost = new Post(req.body);
+    const payloadId = req.payload.id
 
     try {
         const cloudinaryResult = await uploadImage(req.file.buffer);
+        newPost.user = payloadId
         newPost.img = cloudinaryResult.secure_url;
         newPost.cloudinaryId = cloudinaryResult.public_id;
         const savedPost = await newPost.save();
