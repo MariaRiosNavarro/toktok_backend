@@ -5,7 +5,7 @@ import { useUserContext } from "../../context/loginContext";
 import { useTheme } from "../../context/userContext";
 import { useNavigate } from "react-router-dom";
 import AvatarSvg from "../SVG/AvatarSvg";
-import LoadingScreen from "../../routes/LoadingScreen";
+import LoadingSpin from "../SVG/LoadingSpin";
 
 const NewPostCaption = ({ selectedImage, preview, setPreview }) => {
   const { loginUser } = useUserContext();
@@ -90,7 +90,7 @@ const NewPostCaption = ({ selectedImage, preview, setPreview }) => {
     }
   };
 
-  if (loading) return <LoadingScreen />;
+  if (loading) return <LoadingSpin />;
 
   const handleInputVisibility = () => {
     setInputVisible((prev) => !prev);

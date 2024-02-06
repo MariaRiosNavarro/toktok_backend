@@ -34,10 +34,8 @@ const WriteComment = ({ id, refresh, setRefresh }) => {
         }
       );
       if (response.ok) {
-        console.log("___________ comment => ", comment);
         await setRefresh(!refresh);
         commentRef.current.value = "";
-        //setComment("");
       } else {
         // Handle error
         console.error("Failed to save comment");

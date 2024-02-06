@@ -6,26 +6,26 @@ const PostUserHeader = ({ userId }) => {
   const [user, setUser] = useState();
   //console.log("____ userId from PostUserHeader", userId);
 
-  useEffect(() => {
-    async function getUserData() {
-      const res = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/api/users?id=${userId}`,
-        {
-          method: "GET",
-          headers: {
-            "content-type": "application/json",
-          },
-          credentials: "include",
-        }
-      );
+  // useEffect(() => {
+  //   async function getUserData() {
+  //     const res = await fetch(
+  //       `${import.meta.env.VITE_BACKEND_URL}/api/users?id=${userId}`,
+  //       {
+  //         method: "GET",
+  //         headers: {
+  //           "content-type": "application/json",
+  //         },
+  //         credentials: "include",
+  //       }
+  //     );
 
-      if (res.ok) {
-        const data = await res.json();
-        setUser(data.user);
-      }
-    }
-    getUserData();
-  }, []);
+  //     if (res.ok) {
+  //       const data = await res.json();
+  //       setUser(data.user);
+  //     }
+  //   }
+  //   getUserData();
+  // }, []);
 
   return (
     <>

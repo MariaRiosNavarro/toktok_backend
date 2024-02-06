@@ -4,14 +4,17 @@ import PostDetail from "../components/Global/PostDetail";
 import NavBarTop from "../components/Global/NavBarTop";
 import TockTockLogoSvg from "../components/SVG/TockTockLogoSvg";
 import HearthSvg from "../components/SVG/HearthSvg";
-import LoadingScreen from "./LoadingScreen";
+import LoadingSpin from "../components/SVG/LoadingSpin";
 
 const Home = () => {
   const [posts, setPosts] = useState();
   useEffect(() => {
     async function getPosts() {
       const response = await fetch(
-        import.meta.env.VITE_BACKEND_URL + "/api/posts/"
+        import.meta.env.VITE_BACKEND_URL + "/api/posts/",
+        {
+          credentials: "include",
+        }
       );
       if (response.ok) {
         const data = await response.json();
@@ -26,7 +29,7 @@ const Home = () => {
     getPosts();
   }, []);
 
-  if (!posts) return <LoadingScreen />;
+  if (!posts) return <LoadingSpin />;
   return (
     <>
       <NavBarTop

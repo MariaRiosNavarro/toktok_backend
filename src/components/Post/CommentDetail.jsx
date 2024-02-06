@@ -2,6 +2,7 @@ import PostDetailsFooter from "../Global/PostDetailsFooter";
 import PostUserHeader from "../Global/PostUserHeader";
 
 const CommentDetail = ({ comment }) => {
+  console.log("comment from CommentDetail", comment);
   return (
     <>
       <section className="mb-6">
@@ -11,7 +12,7 @@ const CommentDetail = ({ comment }) => {
             {comment.text}
           </p>
         </section>
-        <PostDetailsFooter user={true} />
+        <PostDetailsFooter reply={true} commentId={comment._id} />
       </section>
     </>
   );
