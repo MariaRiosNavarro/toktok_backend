@@ -78,7 +78,12 @@ const Post = () => {
           ) : (
             ""
           )}
-          <Comments comments={post?.comments} count={"3"} />
+          <Comments
+            comments={post?.comments}
+            count={"3"}
+            refresh={refresh}
+            setRefresh={setRefresh}
+          />
           <WriteComment
             id={post._id}
             refresh={refresh}
