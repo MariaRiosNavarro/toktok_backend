@@ -9,3 +9,21 @@ export const getFavoriteStatus = (post, user) => {
 
   return favoriteStatus;
 };
+
+export const getPostUserData = async (User, postUser) => {
+  try {
+    const user = await User.findById(postUser)
+      .select({
+        _id: 1,
+        username: 1,
+        img: 1,
+        job: 1,
+      })
+      .exec();
+    console.log({ user });
+    return user;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+};
