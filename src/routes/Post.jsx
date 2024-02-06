@@ -40,7 +40,12 @@ const Post = () => {
     setIsModalOpen(!isModalOpen);
   };
 
-  if (!post) return <LoadingSpin />;
+  if (!post)
+    return (
+      <div className="h-screen flex justify-center items-center">
+        <LoadingSpin />
+      </div>
+    );
 
   return (
     <>

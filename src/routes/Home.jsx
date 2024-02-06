@@ -13,8 +13,6 @@ const Home = () => {
       const response = await fetch(
         import.meta.env.VITE_BACKEND_URL + "/api/posts/",
         {
-
-
           method: "GET",
 
           credentials: "include",
@@ -33,7 +31,12 @@ const Home = () => {
     getPosts();
   }, []);
 
-  if (!posts) return <LoadingSpin />;
+  if (!posts)
+    return (
+      <div className="h-screen flex justify-center items-center">
+        <LoadingSpin />
+      </div>
+    );
   return (
     <>
       <NavBarTop

@@ -74,7 +74,12 @@ const Detail = () => {
   ) : (
     <FollowSvg svgFillColor="fill-base-100" />
   );
-  if (!detailUserData) return <LoadingSpin />;
+  if (!detailUserData)
+    return (
+      <div className="h-screen flex justify-center items-center">
+        <LoadingSpin />
+      </div>
+    );
   return (
     <>
       <NavBarTop
