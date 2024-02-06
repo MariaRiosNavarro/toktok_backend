@@ -17,6 +17,7 @@ const SearchSvg = (props) => {
           strokeWidth="1.5"
           strokeLinecap="round"
           strokeLinejoin="round"
+          className={props.selectedIcon ? "stroke-primary" : ""}
         />
         <path
           d="M18.1433 18.4851L21.6673 22"

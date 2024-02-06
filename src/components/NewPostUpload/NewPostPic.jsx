@@ -4,38 +4,32 @@ import GallerySvg from "../SVG/GallerySvg";
 import ArrowDownSvg from "../SVG/ArrowDownSvg";
 import { useTheme } from "../../context/userContext";
 import { useNavigate } from "react-router-dom";
-
 import { useRef, useState, useEffect } from "react";
 
-const NewPostPic = ({ setSelectedImage }) => {
+const NewPostPic = ({ setSelectedImage, preview, setPreview }) => {
   const { theme } = useTheme();
   const navigate = useNavigate();
 
-  const [image, setImage] = useState();
-  const [preview, setPreview] = useState();
-
-  //create reference
   const fileInputRef = useRef();
-  //simulate click on this input  -attach ref to input
-  // to put value in state we need to put onChange
 
-  useEffect(() => {
-    if (image) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreview(reader.result);
-      };
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    setSelectedImage(file);
 
-      //reader.readAsArrayBuffer <-  arraybuffer
-      reader.readAsDataURL(image); //represented as a base64string
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setPreview(reader.result);
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
     } else {
       setPreview(null);
     }
-  }, [image]);
+  };
 
   const navigateToEditPost = () => {
     navigate("/upload-detail");
-    setSelectedImage(preview);
   };
 
   return (
@@ -71,14 +65,7 @@ const NewPostPic = ({ setSelectedImage }) => {
             style={{ display: "none" }}
             ref={fileInputRef}
             accept="image/*"
-            onChange={(event) => {
-              const file = event.target.files[0];
-              if (file && file.type.substring(0, 5) === "image") {
-                setImage(file);
-              } else {
-                setImage(null);
-              }
-            }}
+            onChange={handleImageChange}
           />
         </form>
         {preview && (
@@ -118,7 +105,6 @@ const NewPostPic = ({ setSelectedImage }) => {
             />
           </div>
         </div>
-
         <div className="py-6">
           <PostFakeGallery />
         </div>

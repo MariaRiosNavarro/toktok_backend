@@ -14,7 +14,6 @@ const UserLogin = (props) => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState("");
-  // const [token, setToken] = useState("");
 
   const emailRef = useRef();
   const passwordRef = useRef();

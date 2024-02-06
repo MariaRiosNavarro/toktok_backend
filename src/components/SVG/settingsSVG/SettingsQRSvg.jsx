@@ -4,7 +4,7 @@ const SettingsQRSvg = () => {
   return (
     <>
       <svg
-        width="28"
+        width="22"
         height="24"
         viewBox="0 0 28 24"
         fill="none"

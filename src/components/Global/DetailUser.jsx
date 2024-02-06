@@ -1,32 +1,37 @@
 import ProfileAvatar from "./ProfileAvatar";
 
-const DetailUser = () => {
+const DetailUser = ({ user }) => {
   return (
     <>
       <section className="flex flex-col gap-3 items-center  justify-center">
-        <ProfileAvatar />
+        <ProfileAvatar image={user.img} />
         <article className="flex flex-col gap-2 text-center">
-          <h3 className="font-bold text-2xl text-accent">Julia Adaline</h3>
-          <p className="text-accent">Photographer</p>
-          <p className="text-secondary text-sm">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore.
-          </p>
-          <a href="https://www.google.com" className="font-bold">
+          <h3 className="font-bold text-2xl text-accent">
+            {user ? user.name : "no name available"}
+          </h3>
+          <p className="text-accent">{user ? user.job : ""}</p>
+          <p className="text-secondary text-sm">{user?.description}</p>
+          {/* <a href="https://www.google.com" className="font-bold">
             www.yourdomain.com
-          </a>
+          </a> */}
         </article>
         <article className="w-full flex justify-around items-center mt-5 mb-6">
           <div className="text-center">
-            <h3 className="font-bold text-2xl text-accent">267</h3>
+            <h3 className="font-bold text-2xl text-accent">
+              {user ? user.posts.length : "0"}
+            </h3>
             <p className="text-secondary text-sm">posts</p>
           </div>
           <div className="text-center">
-            <h3 className="font-bold text-2xl text-accent">26.47</h3>
+            <h3 className="font-bold text-2xl text-accent">
+              {user ? user.followers?.length : "0"}
+            </h3>
             <p className="text-secondary text-sm">Followers</p>
           </div>
           <div className="text-center">
-            <h3 className="font-bold text-2xl text-accent">400</h3>
+            <h3 className="font-bold text-2xl text-accent">
+              {user ? user.following?.length : "0"}
+            </h3>
             <p className="text-secondary text-sm">Following</p>
           </div>
         </article>

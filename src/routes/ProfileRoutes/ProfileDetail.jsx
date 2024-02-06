@@ -14,13 +14,41 @@ import SettingsSavedSvg from "../../components/SVG/settingsSVG/SettingsSavedSvg"
 import SettingsArchiveSvg from "../../components/SVG/settingsSVG/SettingsArchiveSvg";
 import HearthSvg from "../../components/SVG/HearthSvg";
 import { useTheme } from "../../context/userContext";
+import { useUserContext } from "../../context/loginContext";
+import { useNavigate } from "react-router-dom";
+import LogOutSvg from "../../components/SVG/loginSvgs/LogOutSvg";
 
 const ProfileDetail = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { theme } = useTheme();
+  const { loginUser, setLoginUser } = useUserContext();
+
+  const navigate = useNavigate();
 
   const closeModal = () => {
     setIsModalOpen(false);
+  };
+
+  const handleLogout = async () => {
+    try {
+      const response = await fetch(
+        import.meta.env.VITE_BACKEND_URL + "/api/auth/logout",
+        {
+          method: "GET",
+          credentials: "include",
+        }
+      );
+      if (!response.ok) {
+        console.log("Don´t Logout");
+      } else {
+        const json = await response.json();
+        console.log(json);
+        setLoginUser("");
+        navigate("/loading");
+      }
+    } catch (error) {
+      console.error("Logout Issue:", error);
+    }
   };
 
   return (
@@ -29,15 +57,23 @@ const ProfileDetail = () => {
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
       />
-      <main className="p-6 pb-16">
-        <DetailUser />
+      {!loginUser ? (
+        <h1>Kein Profile Details vorhanden.....</h1>
+      ) : (
+        <main className="p-6 pb-16">
+          {!loginUser ? <p></p> : <DetailUser user={loginUser} />}
 
-        <article className="mt-6 flex justify-center ">
-          <LineSvg />
-        </article>
-        <FeedsGallery />
-        <ProfileGallery />
-      </main>
+          <article className="mt-6 flex justify-center ">
+            <LineSvg />
+          </article>
+          <FeedsGallery />
+          {!loginUser.posts || loginUser.posts.length === 0 ? (
+            <h2 className="mt-6 text-2xl">no posts available</h2>
+          ) : (
+            <ProfileGallery postArr={loginUser.posts} />
+          )}
+        </main>
+      )}
 
       {isModalOpen && (
         <div
@@ -87,6 +123,10 @@ const ProfileDetail = () => {
         <article className="flex gap-5 ">
           <SettingsInfoSvg />
           <p className="text-[18px]">Information Center</p>
+        </article>
+        <article onClick={handleLogout} className="flex gap-5 ">
+          <LogOutSvg />
+          <p className="text-[18px]">Log Out</p>
         </article>
       </div>
       <NavBarBottom
