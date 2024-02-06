@@ -11,7 +11,7 @@ import FeedsGallery from "../components/Global/FeedsGallery";
 import UnFollowSvg from "../components/SVG/UnFollowSvg";
 import ProfileGallery from "../components/Global/ProfileGallery";
 import { useParams } from "react-router-dom";
-import LoadingScreen from "./LoadingScreen";
+import LoadingSpin from "../components/SVG/LoadingSpin";
 
 const Detail = () => {
   const [isFollowing, setIsFollowing] = useState(false);
@@ -74,7 +74,7 @@ const Detail = () => {
   ) : (
     <FollowSvg svgFillColor="fill-base-100" />
   );
-  if (!detailUserData) return <LoadingScreen />;
+  if (!detailUserData) return <LoadingSpin />;
   return (
     <>
       <NavBarTop

@@ -4,7 +4,7 @@ import PostDetail from "../components/Global/PostDetail";
 import NavBarTop from "../components/Global/NavBarTop";
 import TockTockLogoSvg from "../components/SVG/TockTockLogoSvg";
 import HearthSvg from "../components/SVG/HearthSvg";
-import LoadingScreen from "./LoadingScreen";
+import LoadingSpin from "../components/SVG/LoadingSpin";
 
 const Home = () => {
   const [posts, setPosts] = useState();
@@ -13,7 +13,10 @@ const Home = () => {
       const response = await fetch(
         import.meta.env.VITE_BACKEND_URL + "/api/posts/",
         {
+
+
           method: "GET",
+
           credentials: "include",
         }
       );
@@ -30,7 +33,7 @@ const Home = () => {
     getPosts();
   }, []);
 
-  if (!posts) return <LoadingScreen />;
+  if (!posts) return <LoadingSpin />;
   return (
     <>
       <NavBarTop

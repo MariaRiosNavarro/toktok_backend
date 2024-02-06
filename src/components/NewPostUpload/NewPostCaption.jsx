@@ -91,6 +91,10 @@ const NewPostCaption = ({ selectedImage, preview, setPreview }) => {
     }
   };
 
+
+  if (loading) return <LoadingSpin />;
+
+
   const handleInputVisibility = () => {
     setInputVisible((prev) => !prev);
   };

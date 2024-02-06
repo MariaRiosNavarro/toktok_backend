@@ -11,7 +11,7 @@ import LineSvg from "../components/SVG/LineSvg";
 import TimeDifferent from "../components/Global/TimeDifferent";
 import WriteComment from "../components/Post/WriteComment";
 import { useTheme } from "../context/userContext";
-import LoadingScreen from "./LoadingScreen";
+import LoadingSpin from "../components/SVG/LoadingSpin";
 const Post = () => {
   const { slug } = useParams();
   const [post, setPost] = useState(null);
@@ -22,11 +22,15 @@ const Post = () => {
   useEffect(() => {
     async function getPost() {
       const response = await fetch(
-        import.meta.env.VITE_BACKEND_URL + "/api/posts/" + slug
+        import.meta.env.VITE_BACKEND_URL + "/api/posts/" + slug,
+        {
+          credentials: "include",
+        }
       );
       if (response.ok) {
         const data = await response.json();
         setPost(data);
+        console.log(data);
       }
     }
     getPost();
@@ -36,7 +40,7 @@ const Post = () => {
     setIsModalOpen(!isModalOpen);
   };
 
-  if (!post) return <LoadingScreen />;
+  if (!post) return <LoadingSpin />;
 
   return (
     <>
@@ -52,8 +56,8 @@ const Post = () => {
           <PostUserHeader userId={post?.user} />
           <section>
             <section className="mt-4 w-full">
-              <div className="avatar ">
-                <div className=" rounded-[32px] ">
+              <div className="avatar w-full">
+                <div className=" rounded-[32px] w-full">
                   <img src={post?.img} />
                 </div>
               </div>
