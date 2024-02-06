@@ -43,8 +43,8 @@ const ProfileDetail = () => {
       } else {
         const json = await response.json();
         console.log(json);
-        setLoginUser("");
-        navigate("/login");
+        // setLoginUser("");
+        // navigate("/login");
       }
     } catch (error) {
       console.error("Logout Issue:", error);
