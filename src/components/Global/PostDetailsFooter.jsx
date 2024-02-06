@@ -4,14 +4,23 @@ import { useRef, useState } from "react";
 import { useTheme } from "../../context/userContext";
 import WriteComment from "../Post/WriteComment";
 import { useUserContext } from "../../context/loginContext";
-const PostDetailsFooter = ({ post, reply, commentId }) => {
+import TimeDifferent from "./TimeDifferent";
+
+const PostDetailsFooter = ({
+  post,
+  reply,
+  commentId,
+  date,
+  refresh,
+  setRefresh,
+}) => {
   const [isHeartSelected, setIsHeartSelected] = useState(false);
   const [replyComment, setReplyComment] = useState(false);
   const { theme } = useTheme();
   const { loginUser } = useUserContext();
   const commentRef = useRef();
-  // const [likes, setLikes] = useState(post.likes.length);
-  let commonStyles = "rounded-xl px-[20px] p-3 mx-4 ";
+
+  let commonStyles = "rounded-xl  p-2 mx-4 ";
   const darkStyles = "bg-[#9E9E9E] placeholder:text-gray-500 text-gray-700";
   const lightStyles = "bg-[#FAFAFA]";
   const inputClassNames = `${commonStyles} ${
@@ -20,6 +29,7 @@ const PostDetailsFooter = ({ post, reply, commentId }) => {
 
   const handleHeartClick = async () => {
     setIsHeartSelected(!isHeartSelected);
+
     // setLikes((prevLikes) => (isHeartSelected ? prevLikes - 1 : prevLikes + 1));
 
     // const response = await fetch(
@@ -36,6 +46,7 @@ const PostDetailsFooter = ({ post, reply, commentId }) => {
     //   console.log("Like wurde hinzugefügt");
     // }
   };
+
   async function saveReplyComment() {
     const comment = commentRef.current.value;
     try {
@@ -58,10 +69,8 @@ const PostDetailsFooter = ({ post, reply, commentId }) => {
         }
       );
       if (response.ok) {
-        console.log("___________ comment => ", comment);
-        // await setRefresh(!refresh);
+        await setRefresh(!refresh);
         commentRef.current.value = "";
-        //setComment("");
       } else {
         // Handle error
         console.error("Failed to save comment");
@@ -71,10 +80,8 @@ const PostDetailsFooter = ({ post, reply, commentId }) => {
     }
   }
   const handleReplyClick = async () => {
-    console.log("handleReplyClick");
     setReplyComment(!replyComment);
   };
-
   return (
     <>
       <section className="w-full flex flex-col gap-6 items-center ml-3 mt-4">
@@ -84,8 +91,9 @@ const PostDetailsFooter = ({ post, reply, commentId }) => {
             <p>{post?.likes.length}</p>
           </button>
           {reply ? (
-            <div>
+            <div className="flex gap-6">
               <button onClick={handleReplyClick}>Reply</button>
+              <TimeDifferent date={date} />
             </div>
           ) : (
             <article className=" flex gap-2 ">
@@ -98,7 +106,7 @@ const PostDetailsFooter = ({ post, reply, commentId }) => {
         {replyComment && (
           <section className="flex items-center">
             <div className="avatar">
-              <div className="w-12 rounded-full">
+              <div className="w-8 rounded-full">
                 <img
                   src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
                   alt=""
@@ -107,7 +115,7 @@ const PostDetailsFooter = ({ post, reply, commentId }) => {
             </div>
             <textarea
               name="comment"
-              placeholder="your Comment..."
+              placeholder="your reply..."
               className={inputClassNames}
               ref={commentRef}
               rows="1"
@@ -117,7 +125,7 @@ const PostDetailsFooter = ({ post, reply, commentId }) => {
               className="btn btn-circle text-primary"
               onClick={saveReplyComment}
             >
-              Post
+              reply
             </button>
           </section>
         )}
