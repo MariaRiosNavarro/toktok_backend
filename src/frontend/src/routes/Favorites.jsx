@@ -12,7 +12,7 @@ const Favorites = () => {
   // useEffect(() => {
   //   async function getFavorites() {
   //     const response = await fetch(
-  //       import.meta.env.VITE_BACKEND_URL + "/api/favorites/",
+  //       import.meta.env.VITE_BACKEND_URL + "/api/users/favorites",
   //       {
   //         method: "GET",
   //         credentials: "include",
@@ -20,13 +20,12 @@ const Favorites = () => {
   //     );
   //     if (response.ok) {
   //       let data = await response.json();
-  //       console.log(data);
-  //       data = data.detailedPosts;
-  //       console.log("NEUER DATA RESPONSE VOM BACKEND-post: ", data);
-  //       const sortedPosts = [...data].sort(
-  //         (a, b) => new Date(b.post.createdAt) - new Date(a.post.createdAt)
+  //       // let favoritesJson = data.post;
+  //       const sortedFavorites = [...favoritesJson].sort(
+  //         (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
   //       );
-  //       setFavorites(sortedPosts);
+  //       console.log("NEUER DATA RESPONSE VOM BACKEND-post: ", sortedFavorites);
+  //       setFavorites(sortedFavorites);
   //     }
   //   }
   //   getFavorites();
@@ -41,10 +40,10 @@ const Favorites = () => {
         rightSvgComponent={<HearthSvg selected={true} />}
         rightLink="/"
       />
-      <main className="p-6 pb-12">
+      {/* <main className="p-6 pb-12">
         {favorites ? (
           <section>
-            {posts?.map((post, key) => {
+            {favorites?.map((post, key) => {
               return (
                 <PostDetail
                   post={post.post}
@@ -59,7 +58,7 @@ const Favorites = () => {
             You don´t have favorites
           </section>
         )}
-      </main>
+      </main> */}
       <NavBarBottom
         item={{ home: false, search: false, profile: false, add: false }}
       />

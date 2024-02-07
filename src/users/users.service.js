@@ -8,6 +8,16 @@ export const getFavoriteStatus = (post, user) => {
   return favoriteStatus;
 };
 
+// check if login-user follows user
+// user = user document
+// loginUser = id
+export const getFollowerStatus = (user, loginUser) => {
+  const followers = user.followers.map((follower) => follower.toJSON());
+  const followStatus = followers.includes(loginUser) ? true : false;
+
+  return followStatus;
+};
+
 export const getPostUserData = async (User, postUser) => {
   try {
     const user = await User.findById(postUser)
@@ -26,12 +36,38 @@ export const getPostUserData = async (User, postUser) => {
   }
 };
 
-// check if login-user follows user
-// user = user document
-// loginUser = id
-export const getFollowerStatus = (user, loginUser) => {
-  const followers = user.followers.map((follower) => follower.toJSON());
-  const followStatus = followers.includes(loginUser) ? true : false;
+export const getCommentUserData = async (User, commentUser) => {
+  try {
+    const user = await User.findById(commentUser)
+      .select({
+        _id: 1,
+        username: 1,
+        img: 1,
+        job: 1,
+      })
+      .exec();
+    // console.log({ user });
+    return user;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}
 
-  return followStatus;
+export const getReplyUserData = async (User, replyUser) => {
+  try {
+    const user = await User.findById(replyUser)
+    .select({
+      _id: 1,
+      username: 1,
+      img: 1,
+      job: 1,
+    })
+    .exec();
+        // console.log({ user });
+    return user;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
 };
