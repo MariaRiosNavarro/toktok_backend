@@ -88,7 +88,7 @@ const PostDetailsFooter = ({
         <section className="w-full flex gap-6 items-center">
           <button className=" flex gap-2 " onClick={handleHeartClick}>
             <HearthSvg selected={isHeartSelected} />
-            <p>{post?.likes.length}</p>
+            <p>{post?.likes?.length}</p>
           </button>
           {reply ? (
             <div className="flex gap-6">
@@ -98,7 +98,7 @@ const PostDetailsFooter = ({
           ) : (
             <article className=" flex gap-2 ">
               <CommentsSvg />
-              <p>{post?.comments.length}</p>
+              <p>{post?.comments?.length}</p>
             </article>
           )}
         </section>
