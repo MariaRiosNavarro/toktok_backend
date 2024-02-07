@@ -41,7 +41,7 @@ const Home = () => {
         setNewUserFollows("Please first follow some users");
         setTimeout(() => {
           navigate("/search");
-        }, 4000);
+        }, 3000);
       }
     }
     getPosts();
