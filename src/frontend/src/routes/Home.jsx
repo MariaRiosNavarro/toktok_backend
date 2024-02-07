@@ -5,11 +5,17 @@ import NavBarTop from "../components/Global/NavBarTop";
 import TockTockLogoSvg from "../components/SVG/TockTockLogoSvg";
 import HearthSvg from "../components/SVG/HearthSvg";
 import LoadingSpin from "../components/SVG/LoadingSpin";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [posts, setPosts] = useState();
+  const [newUserFollows, setNewUserFollows] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
+    setLoading(true);
     async function getPosts() {
       const response = await fetch(
         import.meta.env.VITE_BACKEND_URL + "/api/posts/",
@@ -20,6 +26,7 @@ const Home = () => {
         }
       );
       if (response.ok) {
+        setLoading(false);
         let data = await response.json();
         data = data.detailedPosts;
         console.log("NEUER DATA RESPONSE VOM BACKEND-post: ", data);
@@ -28,16 +35,18 @@ const Home = () => {
         );
         setPosts(sortedPosts);
       }
+      // (response.status === 202)
+      if (response.status === 202) {
+        setLoading(false);
+        setNewUserFollows("Please first follow some users");
+        setTimeout(() => {
+          navigate("/search");
+        }, 3000);
+      }
     }
     getPosts();
   }, []);
 
-  if (!posts)
-    return (
-      <div className="h-screen flex justify-center items-center">
-        <LoadingSpin />
-      </div>
-    );
   return (
     <>
       <NavBarTop
@@ -48,13 +57,29 @@ const Home = () => {
         rightLink="/favorites"
       />
       <main className="p-6 pb-12">
-        <section>
-          {posts?.map((post, key) => {
-            return (
-              <PostDetail post={post.post} user={post.postUserData} key={key} />
-            );
-          })}
-        </section>
+        {loading ? (
+          <LoadingSpin />
+        ) : (
+          <section>
+            {newUserFollows ? (
+              <section className="h-[70vw] flex justify-center items-center">
+                <p>{newUserFollows}</p>
+              </section>
+            ) : (
+              <section>
+                {posts?.map((post, key) => {
+                  return (
+                    <PostDetail
+                      post={post.post}
+                      user={post.postUserData}
+                      key={key}
+                    />
+                  );
+                })}
+              </section>
+            )}
+          </section>
+        )}
       </main>
       <NavBarBottom
         item={{ home: true, search: false, profile: false, add: false }}
