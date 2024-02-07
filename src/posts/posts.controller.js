@@ -125,7 +125,6 @@ export const getPost = async (req, res, next) => {
 
 export const getPosts = async (req, res, next) => {
   const payload_id = req.payload.id;
-  // const userId = req.body.user;
 
   try {
     const loginUser = await User.findById(payload_id);
@@ -152,21 +151,6 @@ export const getPosts = async (req, res, next) => {
           .status(404)
           .json({ message: 'People you followed havent any Posts yets!' });
       }
-
-      // const postsWithFavoriteStatus = posts.map((post) => {
-      //   const favoriteStatus = getFavoriteStatus(post, userId);
-      //   return { post, favoriteStatus };
-      // });
-
-      // const postsWithUserDataPromises = posts.map(async (post) => {
-      //   const postUserData = await getPostUserData(User, post.user);
-      //   return { post, postUserData };
-      // });
-
-      // const postsWithUserData = await Promise.all(postsWithUserDataPromises);
-
-      // console.log({ postsWithFavoriteStatus });
-      // console.log({ postsWithUserData });
 
       const getDetailedPosts = async (posts, userId) => {
         const postsPromises = posts.map(async (post) => {
@@ -261,6 +245,3 @@ export const updateFavoriteStatus = async (req, res, next) => {
     next(err);
   }
 };
-
-// 65ba1e3cf62d099c7f3c0434
-// 65c0e8a2b894d00ff93324f4 post ohne comments
