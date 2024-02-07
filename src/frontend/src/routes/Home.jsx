@@ -21,7 +21,6 @@ const Home = () => {
         import.meta.env.VITE_BACKEND_URL + "/api/posts/",
         {
           method: "GET",
-
           credentials: "include",
         }
       );
@@ -42,14 +41,6 @@ const Home = () => {
           (a, b) => new Date(b.post.createdAt) - new Date(a.post.createdAt)
         );
         setPosts(sortedPosts);
-      }
-      // (response.status === 202)
-      if (response.status === 202) {
-        setLoading(false);
-        setNewUserFollows("Please first follow some users");
-        // setTimeout(() => {
-        //   navigate("/search");
-        // }, 3000);
       }
     }
     getPosts();

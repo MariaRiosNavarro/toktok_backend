@@ -85,7 +85,7 @@ const EditForm = (props) => {
           </div>
         </div>
       )}
-      <form onSubmit={uploadProfile} className="flex flex-col [&>*]:m-6">
+      <form onSubmit={uploadProfile} className="flex flex-col [&>*]:m-6 pb-20">
         {/* -------------------------------------------------------------------------name */}
         <input
           type="text"
