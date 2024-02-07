@@ -2,7 +2,7 @@ import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import PointsSvg from "../SVG/PointsSvg";
 import AvatarSvg from "../SVG/AvatarSvg";
-const PostUserHeader = ({ user }) => {
+const PostUserHeader = ({ user, comment }) => {
   return (
     <>
       <section className="flex items-center justify-between mx-auto ">
@@ -25,7 +25,23 @@ const PostUserHeader = ({ user }) => {
             </div>
           </article>
         </Link>
-        <PointsSvg />
+        {comment ? (
+          <details className="dropdown dropdown-end">
+            <summary className="m-1 btn">
+              <PointsSvg />
+            </summary>
+            <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box ">
+              <li>
+                <a>Delete</a>
+              </li>
+              <li>
+                <a>Edit</a>
+              </li>
+            </ul>
+          </details>
+        ) : (
+          <PointsSvg />
+        )}
       </section>
     </>
   );

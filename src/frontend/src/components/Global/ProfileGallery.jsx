@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const ProfileGallery = ({ postArr }) => {
   const [posts, setPosts] = useState([]);
-
+  console.log("Profile Gallery_____", postArr);
   useEffect(() => {
     const getPosts = async () => {
       try {
@@ -23,8 +23,8 @@ const ProfileGallery = ({ postArr }) => {
         });
 
         const fetchedPosts = await Promise.all(fetchPromises);
-
         setPosts(fetchedPosts);
+        console.log("Posts=>", posts);
       } catch (error) {
         console.error("Error fetching posts:", error);
       }
@@ -43,10 +43,10 @@ const ProfileGallery = ({ postArr }) => {
     <>
       <section className="grid grid-cols-3 gap-[4px] mt-4">
         {posts.map((post, key) => (
-          <Link key={key} to={"/post/" + post._id}>
+          <Link key={key} to={"/post/" + post.post._id}>
             <img
-              className="h-[124px] rounded-lg"
-              src={post.img}
+              className="h-[124px] rounded-lg object-cover"
+              src={post.post.img}
               alt={`Post ${key}`}
             />
           </Link>
