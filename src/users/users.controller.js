@@ -1,20 +1,37 @@
 import { User } from './users.model.js';
 import { uploadImage, deleteImage } from '../config/storage.config.js';
 import { Post } from '../posts/posts.model.js';
-
-//! brauchen wir eine Route für getAllFollowing oder so um im Home Feed dann die Beiträge der user denen man folgt anzuzeigen?
+import { getFollowerStatus } from './users.service.js';
 
 // für die search page:
-export const getAllUsers = async (_, res, next) => {
+export const getAllUsers = async (req, res, next) => {
+  const payload_id = req.payload.id;
+
   try {
-    const users = await User.find().select({
-      _id: 1,
-      username: 1,
-      img: 1,
-      job: 1,
-      posts: 1,
-    });
-    res.json(users);
+    const users = await User.find({ _id: { $ne: payload_id } })
+      .lean()
+      .select({
+        _id: 1,
+        username: 1,
+        img: 1,
+        job: 1,
+        followers: 1,
+      });
+
+    if (users) {
+      console.log('users example: ', users[1]);
+      console.log(users.length);
+
+      const userIds = users.map((user) => user._id.toJSON());
+      console.log('user id example: ', userIds[1]);
+
+      const usersWithFollowStatus = users.map((user) => {
+        const followStatus = getFollowerStatus(user, payload_id);
+        return { user, followStatus };
+      });
+      console.log({ usersWithFollowStatus });
+      res.json(usersWithFollowStatus);
+    }
   } catch (err) {
     console.log(err);
     next(err);
@@ -47,11 +64,7 @@ export const getUser = async (req, res, next) => {
     // console.log({ user });
 
     if (user) {
-      const followers = user.followers.map((follower) => follower.toJSON());
-      const followStatus = followers.includes(payload_id) ? true : false;
-      // console.log({ followStatus });
-      // console.log({ followers });
-
+      const followStatus = getFollowerStatus(user, payload_id);
       res.json({ user, followStatus: followStatus });
     }
   } catch (err) {
