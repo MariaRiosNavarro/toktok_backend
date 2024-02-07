@@ -70,7 +70,7 @@ const ProfileDetail = () => {
           {!loginUser.posts || loginUser.posts.length === 0 ? (
             <h2 className="mt-6 text-2xl">no posts available</h2>
           ) : (
-            <ProfileGallery postArr={loginUser?.posts} />
+            <ProfileGallery userId={loginUser?._id} />
           )}
         </main>
       )}
