@@ -6,7 +6,7 @@ const CommentDetail = ({ comment, refresh, setRefresh }) => {
   return (
     <>
       <section className="mb-6">
-        <PostUserHeader userId={comment?.user} />
+        <PostUserHeader userId={comment?.user} comment={true} />
         <section className="my-3 p-1">
           <p className=" whitespace-normal max-w-full break-words  overflow-wrap ">
             {comment?.text}

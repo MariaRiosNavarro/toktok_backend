@@ -11,9 +11,6 @@ const DetailUser = ({ user }) => {
           </h3>
           <p className="text-accent">{user ? user.job : ""}</p>
           <p className="text-secondary text-sm">{user?.description}</p>
-          {/* <a href="https://www.google.com" className="font-bold">
-            www.yourdomain.com
-          </a> */}
         </article>
         <article className="w-full flex justify-around items-center mt-5 mb-6">
           <div className="text-center">
