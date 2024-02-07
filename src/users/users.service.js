@@ -5,7 +5,7 @@
 export const getFavoriteStatus = (post, user) => {
   const likes = post.likes.map((like) => like.toJSON());
   const favoriteStatus = likes.includes(user) ? true : false;
-  console.log({ favoriteStatus });
+  // console.log({ favoriteStatus });
 
   return favoriteStatus;
 };
@@ -20,7 +20,7 @@ export const getPostUserData = async (User, postUser) => {
         job: 1,
       })
       .exec();
-    console.log({ user });
+    // console.log({ user });
     return user;
   } catch (error) {
     console.error(error);
