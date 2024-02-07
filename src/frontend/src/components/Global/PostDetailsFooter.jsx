@@ -61,8 +61,8 @@ const PostDetailsFooter = ({
       }
     );
     if (response.ok) {
-      console.log("Favorite status updated successfully");
-      console.log(response);
+      // console.log("Favorite status updated successfully");
+      // console.log(response);
       setLikesNumber(newHeartSelection ? likesNumber + 1 : likesNumber - 1);
     } else {
       console.error("Failed to update favorite status");
