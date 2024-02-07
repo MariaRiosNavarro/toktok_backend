@@ -20,34 +20,24 @@ const Home = () => {
         }
       );
       if (response.ok) {
-        const data = await response.json();
-
-        //   const sortedPosts = [...data].sort(
-        //     (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-        //   );
-        //   setPosts(sortedPosts);
-
-        console.log(
-          "NEUER DATA RESPONSE VOM BACKEND-post: ",
-          data.detailedPosts[0].post
+        let data = await response.json();
+        data = data.detailedPosts;
+        console.log("NEUER DATA RESPONSE VOM BACKEND-post: ", data);
+        const sortedPosts = [...data].sort(
+          (a, b) => new Date(b.post.createdAt) - new Date(a.post.createdAt)
         );
-
-        console.log(
-          "NEUER DATA RESPONSE VOM BACKEND-user: ",
-          data.detailedPosts[0].postUserData
-        );
-        setPosts(data.detailedPosts);
+        setPosts(sortedPosts);
       }
     }
     getPosts();
   }, []);
 
-  // if (!posts)
-  //   return (
-  //     <div className='h-screen flex justify-center items-center'>
-  //       <LoadingSpin />
-  //     </div>
-  //   );
+  if (!posts)
+    return (
+      <div className="h-screen flex justify-center items-center">
+        <LoadingSpin />
+      </div>
+    );
   return (
     <>
       <NavBarTop
@@ -60,7 +50,9 @@ const Home = () => {
       <main className="p-6 pb-12">
         <section>
           {posts?.map((post, key) => {
-            return <PostDetail post={post} key={key} />;
+            return (
+              <PostDetail post={post.post} user={post.postUserData} key={key} />
+            );
           })}
         </section>
       </main>

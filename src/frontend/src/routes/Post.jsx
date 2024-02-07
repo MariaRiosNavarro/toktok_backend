@@ -32,7 +32,8 @@ const Post = () => {
         const data = await response.json();
         setPost(data.post);
         setUser(data.postUserData);
-        console.log("----------------getPost", data);
+        // console.log("----------------getPost", post);
+        // console.log("**********", user);
       }
     }
     getPost();
