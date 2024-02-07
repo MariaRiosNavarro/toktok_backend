@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./routes/Home";
+import Favorites from "./routes/Favorites";
 import Login from "./routes/SignInUpRoutes/Login";
 import Register from "./routes/SignInUpRoutes/Register";
 import Post from "./routes/Post";
@@ -32,7 +33,8 @@ function App() {
 
           <Route element={<LoginProtector />}>
             {/* 2 Home & Post*/}
-            <Route path="/" element={<Home />}></Route>
+            <Route path="/" element={<Home />} />
+            <Route path="/favorites" element={<Favorites />} />
             <Route path="/post/:slug" element={<Post />} />
             {/* 3 Search*/}
             <Route path="/search" element={<Search />} />
