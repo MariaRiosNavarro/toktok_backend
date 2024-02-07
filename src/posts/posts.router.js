@@ -4,6 +4,7 @@ import {
   deletePost,
   getPost,
   getPosts,
+  getUserFavorites,
   updateFavoriteStatus,
   updatePost,
 } from './posts.controller.js';
@@ -36,3 +37,6 @@ router.get('/', verifyUser, getPosts);
 
 // UPDATE FAVORITES / LIKES
 router.patch('/like', verifyUser, updateFavoriteStatus);
+
+// GET FAVORITES
+router.get('/favorites', verifyUser, getUserFavorites);
