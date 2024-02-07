@@ -27,8 +27,16 @@ const Home = () => {
       );
       if (response.ok) {
         setLoading(false);
+        if (response.status === 202) {
+          setLoading(false);
+          setNewUserFollows("Please first follow some users");
+          setTimeout(() => {
+            navigate("/search");
+          }, 3000);
+          return;
+        }
         let data = await response.json();
-        data = data.detailedPosts;
+        data = data?.detailedPosts;
         console.log("NEUER DATA RESPONSE VOM BACKEND-post: ", data);
         const sortedPosts = [...data].sort(
           (a, b) => new Date(b.post.createdAt) - new Date(a.post.createdAt)
@@ -39,9 +47,9 @@ const Home = () => {
       if (response.status === 202) {
         setLoading(false);
         setNewUserFollows("Please first follow some users");
-        setTimeout(() => {
-          navigate("/search");
-        }, 3000);
+        // setTimeout(() => {
+        //   navigate("/search");
+        // }, 3000);
       }
     }
     getPosts();
@@ -63,7 +71,7 @@ const Home = () => {
           <section>
             {newUserFollows ? (
               <section className="h-[70vw] flex justify-center items-center">
-                <p>{newUserFollows}</p>
+                <p className="">{newUserFollows}</p>
               </section>
             ) : (
               <section>
