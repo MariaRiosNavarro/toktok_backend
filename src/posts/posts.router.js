@@ -9,7 +9,8 @@ import {
 } from './posts.controller.js';
 import { upload } from '../config/storage.config.js';
 import { createComment } from '../comments/comments.controller.js';
-import { verifyUser } from '../utils/middleware/auth.middleware..js';
+import { verifyUser } from '../utils/middleware/auth.middleware.js';
+import { limiter } from '../utils/middleware/server.middleware.js';
 
 export const router = new express.Router();
 
@@ -20,7 +21,7 @@ router.put('/editpost/:id', upload.single('img'), verifyUser, updatePost);
 // DELETE
 router.delete('/:id', verifyUser, deletePost);
 // GET ONE
-router.get('/:id', verifyUser, getPost);
+router.get('/:id', verifyUser, limiter, getPost);
 // CREATE COMMENT
 router.post('/:id/commit', verifyUser, async (req, res, next) => {
   try {

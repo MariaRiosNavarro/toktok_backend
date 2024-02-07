@@ -27,7 +27,7 @@ export const createPost = async (req, res, next) => {
         posts: 1,
       })
       .exec();
- 
+
     if (!user) {
       return res.status(404).json({ message: 'User not found!' });
     }
@@ -38,7 +38,7 @@ export const createPost = async (req, res, next) => {
     } catch (err) {
       return res.status(500).json({ message: 'Failed to add post to user.' });
     }
-    
+
     await user.save();
     res.status(201).json({
       message: 'Post sucessfully created!',
