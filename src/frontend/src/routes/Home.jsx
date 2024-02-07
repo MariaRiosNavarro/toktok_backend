@@ -45,7 +45,7 @@ const Home = () => {
         leftLink="/"
         leftText="Tok Tok"
         rightSvgComponent={<HearthSvg selected={false} />}
-        rightLink="/"
+        rightLink="/favorites"
       />
       <main className="p-6 pb-12">
         <section>
