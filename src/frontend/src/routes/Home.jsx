@@ -36,7 +36,7 @@ const Home = () => {
         setPosts(sortedPosts);
       }
       // (response.status === 202)
-      if (response.status === 404) {
+      if (response.status === 202) {
         setLoading(false);
         setNewUserFollows("Please first follow some users");
         setTimeout(() => {
