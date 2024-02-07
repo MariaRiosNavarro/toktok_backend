@@ -28,9 +28,75 @@ const Search = () => {
     theme === "dark" ? darkStyles : lightStyles
   }`;
 
+  async function getAllUsers() {
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/api/users/all`,
+        {
+          method: "GET",
+          headers: {
+            "content-type": "application/json",
+          },
+          credentials: "include",
+        }
+      );
+      if (res.ok) {
+        const data = await res.json();
+        const followingStatusObject = {};
+        data.forEach((user) => {
+          followingStatusObject[user.user._id] = user.followStatus;
+        });
+
+        setFollowingStatus(followingStatusObject);
+        setRefresh(!refresh);
+        setUsers(data);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
+
+  useEffect(() => {
+    getAllUsers();
+  }, []);
+
+  async function updateFollow(userId) {
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/api/users/follow?id=${userId}`,
+        {
+          method: "PATCH",
+          headers: {
+            "content-type": "application/json",
+          },
+          credentials: "include",
+        }
+      );
+
+      if (res.ok) {
+        const response = await res.json();
+        console.log(response.message);
+        getAllUsers();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   const handleChange = (event) => {
     const searchTerm = event.target.value.toLowerCase();
     setSearchTerm(searchTerm);
+    const filteredUsers = users.filter(
+      (user) =>
+        user &&
+        user.user.username &&
+        user.user.username.toLowerCase().includes(searchTerm)
+    );
+
+    setFilteredUsers(filteredUsers);
+  };
+  const handleFollowClick = (userId) => {
+    updateFollow(userId);
   };
 
   return (
@@ -64,7 +130,57 @@ const Search = () => {
             <FeedsRectangleSvg width={"100%"} />
           </div>
         </section>
-        <section></section>
+        <section>
+          {(searchTerm.trim() !== "" ? filteredUsers : users).map(
+            (result) =>
+              result?.user?.username && (
+                <section
+                  key={result?.user?._id}
+                  className="w-full flex justify-between items-center mt-6"
+                >
+                  <Link
+                    to={"/detail/" + result?.user?._id}
+                    className="flex justify-between items-center gap-5"
+                  >
+                    <div className="avatar">
+                      <div className="w-14 rounded-full">
+                        {result?.img ? (
+                          <img src={result?.user?.img} />
+                        ) : (
+                          <AvatarSvg width={"48"} />
+                        )}
+                      </div>
+                    </div>
+                    <div>
+                      <h3 className="text-[18px] font-bold text-accent mx-auto max-w-[110px] overflow-hidden  ">
+                        {result?.user?.username}
+                      </h3>
+                      <p className="text-[14px]  text-secondary">
+                        {result?.user?.job}
+                      </p>
+                    </div>
+                  </Link>
+
+                  <article>
+                    <button
+                      onClick={() => handleFollowClick(result?.user?._id)}
+                      className={`flex justify-center items-center gap-2  text-lg  rounded-3xl py-[6px] px-4 ${
+                        followingStatus[result?.user?._id]
+                          ? "bg-base-100 text-primary border-2 border-primary"
+                          : "bg-primary text-base-100"
+                      }`}
+                    >
+                      <span>
+                        {followingStatus[result?.user?._id]
+                          ? "Following"
+                          : "Follow"}
+                      </span>
+                    </button>
+                  </article>
+                </section>
+              )
+          )}
+        </section>
       </main>
 
       <NavBarBottom

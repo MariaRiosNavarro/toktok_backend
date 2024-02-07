@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 
 const ProfileGallery = ({ userId }) => {
   const [posts, setPosts] = useState([]);
-  console.log("Profile Gallery_____", userId);
   useEffect(() => {
     const getPosts = async () => {
       try {
@@ -18,7 +17,6 @@ const ProfileGallery = ({ userId }) => {
         if (response.ok) {
           const data = await response.json();
           setPosts(data.posts);
-          console.log("Post from PostGallery", data.posts);
         }
 
         // });
