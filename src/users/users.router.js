@@ -17,7 +17,7 @@ export const router = new express.Router();
 
 router.get('/login-user', verifyUser, getLoginUserData);
 router.get('/', verifyUser, limiter, getUser);
-router.get('/all', getAllUsers);
+router.get('/all', verifyUser, getAllUsers);
 router.patch('/follow', verifyUser, updateFollowStatus);
 router.put('/edit', verifyUser, upload.none(), editUser);
 router.put('/image', verifyUser, upload.single('img'), addImage);
