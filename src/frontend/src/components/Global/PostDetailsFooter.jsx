@@ -30,21 +30,21 @@ const PostDetailsFooter = ({
   const handleHeartClick = async () => {
     setIsHeartSelected(!isHeartSelected);
 
-    // setLikes((prevLikes) => (isHeartSelected ? prevLikes - 1 : prevLikes + 1));
+    setLikes((prevLikes) => (isHeartSelected ? prevLikes - 1 : prevLikes + 1));
 
-    // const response = await fetch(
-    //   import.meta.env.VITE_BACKEND_URL + "/api/posts/editpost/" + post._id,
-    //   {
-    //     method: "PUT",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({ likes }),
-    //   }
-    // );
-    // if (response.ok) {
-    //   console.log("Like wurde hinzugefügt");
-    // }
+    const response = await fetch(
+      import.meta.env.VITE_BACKEND_URL + "/api/posts/like?id=" + post._id,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ likes }),
+      }
+    );
+    if (response.ok) {
+      console.log("Like wurde hinzugefügt");
+    }
   };
 
   async function saveReplyComment() {

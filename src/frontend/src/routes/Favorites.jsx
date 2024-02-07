@@ -10,7 +10,7 @@ const Favorites = () => {
   const [favorites, setFavorites] = useState(null);
 
   useEffect(() => {
-    async function getPosts() {
+    async function getFavorites() {
       const response = await fetch(
         import.meta.env.VITE_BACKEND_URL + "/api/favorites/",
         {
@@ -29,32 +29,36 @@ const Favorites = () => {
         // setFavorites(sortedPosts);
       }
     }
-    getPosts();
+    getFavorites();
   }, []);
 
-  if (!posts)
-    return (
-      <div className="h-screen flex justify-center items-center">
-        <LoadingSpin />
-      </div>
-    );
   return (
     <>
       <NavBarTop
         leftSvgComponent={<TockTockLogoSvg />}
         leftLink="/"
         leftText="Tok Tok"
-        rightSvgComponent={<HearthSvg selected={false} />}
+        rightSvgComponent={<HearthSvg selected={true} />}
         rightLink="/"
       />
       <main className="p-6 pb-12">
-        {/* <section>
-          {favorites?.map((post, key) => {
-            return (
-              <PostDetail post={post.post} user={post.postUserData} key={key} />
-            );
-          })}
-        </section> */}
+        {favorites ? (
+          <section>
+            {posts?.map((post, key) => {
+              return (
+                <PostDetail
+                  post={post.post}
+                  user={post.postUserData}
+                  key={key}
+                />
+              );
+            })}
+          </section>
+        ) : (
+          <section className="h-[70vh] flex justify-center items-center">
+            You don´t have favorites
+          </section>
+        )}
       </main>
       <NavBarBottom
         item={{ home: true, search: false, profile: false, add: false }}
