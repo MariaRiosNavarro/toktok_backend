@@ -1,5 +1,6 @@
 import { User } from './users.model.js';
 import { uploadImage, deleteImage } from '../config/storage.config.js';
+import { Post } from '../posts/posts.model.js';
 
 //! brauchen wir eine Route für getAllFollowing oder so um im Home Feed dann die Beiträge der user denen man folgt anzuzeigen?
 
@@ -261,6 +262,59 @@ export const addImage = async (req, res, next) => {
     }
     //
   } catch (err) {
+    next(err);
+  }
+};
+
+//$ getUserGalleryPosts --- posts für gallery auf user detail pages ------------------------------
+
+export const getUserGalleryPosts = async (req, res, next) => {
+  const { id } = req.query;
+  try {
+    const userPosts = await User.findById(id).lean().select({
+      _id: 1,
+      posts: 1,
+    });
+
+    if (userPosts && userPosts.posts && userPosts.posts.length > 0) {
+      try {
+        const posts = await Post.find({ _id: { $in: userPosts.posts } });
+        res.json({ user: userPosts._id, posts: posts });
+      } catch (error) {
+        console.error('posts error', error);
+      }
+    } else if (userPosts.posts.length === 0) {
+      res.json({ message: 'This User has no posts' });
+    }
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+};
+
+// //$ getUserFavorites --- ein fetch für alle favorites ------------------------------
+
+export const getUserFavorites = async (req, res, next) => {
+  const { id } = req.payload;
+  try {
+    const user = await User.findById(id).lean().select({
+      _id: 1,
+      favorites: 1,
+    });
+
+    if (user && user.favorites && user.favorites.length > 0) {
+      try {
+        const posts = await Post.find({ _id: { $in: user.favorites } });
+        res.json({ user: user._id, favorites: posts });
+      } catch (error) {
+        console.error('posts error', error);
+      }
+    } else if (userPosts.posts.length === 0) {
+      res.json({ message: 'This User has no favorites' });
+    }
+    res.end();
+  } catch (err) {
+    console.error(err);
     next(err);
   }
 };
