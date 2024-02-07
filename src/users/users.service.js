@@ -27,3 +27,39 @@ export const getPostUserData = async (User, postUser) => {
     return error;
   }
 };
+
+export const getCommentUserData = async (User, commentUser) => {
+  try {
+    const user = await User.findById(commentUser)
+      .select({
+        _id: 1,
+        username: 1,
+        img: 1,
+        job: 1,
+      })
+      .exec();
+    // console.log({ user });
+    return user;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+}
+
+export const getReplyUserData = async (User, replyUser) => {
+  try {
+    const user = await User.findById(replyUser)
+    .select({
+      _id: 1,
+      username: 1,
+      img: 1,
+      job: 1,
+    })
+    .exec();
+        // console.log({ user });
+    return user;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+};
