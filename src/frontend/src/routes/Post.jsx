@@ -30,10 +30,8 @@ const Post = () => {
       );
       if (response.ok) {
         const data = await response.json();
-        setPost(data.post);
-        setUser(data.postUserData);
-        // console.log("----------------getPost", post);
-        // console.log("**********", user);
+        setPost(data.detailedPost);
+        setUser(data.detailedPost.postUserData);
       }
     }
     getPost();
@@ -72,7 +70,7 @@ const Post = () => {
             </section>
           </section>
           <section className="mt-4 mx-3 ">
-            <p>{post.description}</p>
+            <p>{post?.description}</p>
             <TimeDifferent date={post?.createdAt} />
           </section>
           <PostDetailsFooter post={post} />

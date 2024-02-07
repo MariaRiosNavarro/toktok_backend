@@ -4,7 +4,7 @@ import { useState } from "react";
 import PostUserHeader from "./PostUserHeader";
 import PostDetailsFooter from "./PostDetailsFooter";
 const PostDetail = ({ post, user }) => {
-  const { slug } = useParams();
+  //const { slug } = useParams();
 
   return (
     <>
