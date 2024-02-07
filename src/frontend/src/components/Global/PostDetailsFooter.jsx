@@ -5,6 +5,7 @@ import { useTheme } from "../../context/userContext";
 import WriteComment from "../Post/WriteComment";
 import { useUserContext } from "../../context/loginContext";
 import TimeDifferent from "./TimeDifferent";
+import { useEffect } from "react";
 
 const PostDetailsFooter = ({
   post,
@@ -16,6 +17,8 @@ const PostDetailsFooter = ({
 }) => {
   const [isHeartSelected, setIsHeartSelected] = useState(false);
   const [replyComment, setReplyComment] = useState(false);
+  // const [likesNumber, setLikesNumber] = useState(0);
+  const [postRefresh, setPostRefresh] = useState(false);
   const { theme } = useTheme();
   const { loginUser } = useUserContext();
   const commentRef = useRef();
@@ -27,23 +30,38 @@ const PostDetailsFooter = ({
     theme === "dark" ? darkStyles : lightStyles
   }`;
 
+  useEffect(() => {
+    //Prüfen, ob die Benutzer-ID im Array von post.likes enthalten ist
+    // um den herz rot zu seigen wenn gelike ist
+    if (post?.likes && post.likes.includes(loginUser._id)) {
+      setIsHeartSelected(true);
+    }
+  }, [post?.likes, loginUser._id]);
+
   const handleHeartClick = async () => {
     setIsHeartSelected(!isHeartSelected);
 
-    setLikes((prevLikes) => (isHeartSelected ? prevLikes - 1 : prevLikes + 1));
+    const post_id = post?._id;
 
     const response = await fetch(
-      import.meta.env.VITE_BACKEND_URL + "/api/posts/like?id=" + post._id,
+      import.meta.env.VITE_BACKEND_URL + "/api/posts/like?id=" + post_id,
       {
         method: "PATCH",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ likes }),
       }
     );
     if (response.ok) {
-      console.log("Like wurde hinzugefügt");
+      console.log("Favorite status updated successfully");
+      console.log(response);
+      // LikesCount
+      // setLikesNumber(post?.likes?.length);
+      // setPostRefresh(!postRefresh);
+    } else {
+      console.error("Failed to update favorite status");
+      setIsHeartSelected(!isHeartSelected); // Revert back the heart selection if update fails
     }
   };
 
@@ -88,7 +106,7 @@ const PostDetailsFooter = ({
         <section className="w-full flex gap-6 items-center">
           <button className=" flex gap-2 " onClick={handleHeartClick}>
             <HearthSvg selected={isHeartSelected} />
-            <p>{post?.likes?.length}</p>
+            {/* <p>{post?.likes?.length}</p> */}
           </button>
           {reply ? (
             <div className="flex gap-6">
