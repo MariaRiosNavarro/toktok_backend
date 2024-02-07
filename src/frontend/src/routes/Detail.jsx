@@ -104,7 +104,7 @@ const Detail = () => {
           <LineSvg />
         </article>
         <FeedsGallery />
-        <ProfileGallery postArr={detailUserData.user.posts} />
+        <ProfileGallery userId={userid} />
       </main>
       <NavBarBottom
         item={{ home: false, search: false, profile: false, add: false }}
