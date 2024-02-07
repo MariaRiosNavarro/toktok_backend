@@ -1,7 +1,8 @@
 import { User } from '../users/users.model.js';
 import { Post } from './posts.model.js';
 import { deleteImage, uploadImage } from '../config/storage.config.js';
-import { getFavoriteStatus, getPostUserData } from '../users/users.service.js';
+import { getFavoriteStatus, getPostUserData, getCommentUserData } from '../users/users.service.js';
+import { Comment } from '../comments/comments.model.js';
 
 export const createPost = async (req, res, next) => {
   const newPost = new Post(req.body);
@@ -108,18 +109,46 @@ export const getPost = async (req, res, next) => {
   const payload_id = req.payload.id; // id des eingeloggten users
   const postId = req.params.id;
   try {
-    const post = await Post.findById(postId).populate('comments').lean();
+    const loginUser = await User.findById(payload_id);
+    console.log({ loginUser });
+    if (!loginUser) {
+      return res.status(404).json({ message: 'User not found!' });
+    }
+
+    
+
+    const post = await Post.findById(postId).lean();
     // das .lean() ist wichtig weil man sonst keine object methods anwenden kann!
     console.log({ post });
 
+   
+
     if (post) {
-      const favoriteStatus = getFavoriteStatus(post, payload_id);
-      const postUserData = await getPostUserData(User, post.user);
+      const commentIds = post.comments.map(comment => comment._id.toJSON());
+      console.log({commentIds});
+      const comments = await Comment.find({ _id: { $in: commentIds}}).lean()
+      console.log(comments);
+
+      const getDetailedPost = async(post, comments, userId) =>{
+        const commentsPromises = comments.map(async (comment)=> {
+        const commentUserData = await getCommentUserData(User, comment.user)
+        const favoriteStatus = getFavoriteStatus(post, payload_id);
+        const postUserData = await getPostUserData(User, post.user);
+          return {post, commentUserData, postUserData, favoriteStatus}
+        })
+        const resolve = await Promise.all(commentsPromises)
+        return resolve
+      }
+ 
+      const detailedPost = await getDetailedPost(post, comments, payload_id)
+      console.log(detailedPost);
       res.json({
         success: true,
-        post,
-        favoriteStatus: favoriteStatus,
-        postUserData: postUserData,
+        detailedPost
+        // post,
+        // favoriteStatus: favoriteStatus,
+        // postUserData: postUserData,
+        // commentUserData: commentUserData
       });
     } else {
       res.status(404).json({ success: false, message: 'Post not found.' });
