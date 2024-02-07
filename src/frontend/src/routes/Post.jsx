@@ -23,7 +23,7 @@ const Post = () => {
   useEffect(() => {
     async function getPost() {
       const response = await fetch(
-        import.meta.env.VITE_BACKEND_URL + "/api/posts/" + slug,
+        import.meta.env.VITE_BACKEND_URL + "/api/posts/one-post/" + slug,
         {
           credentials: "include",
         }
