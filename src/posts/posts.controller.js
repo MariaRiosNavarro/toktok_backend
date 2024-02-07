@@ -18,20 +18,27 @@ export const createPost = async (req, res, next) => {
     }
 
     // * Funktion um den Post direkt in den User zu pushen
-    const user = await User.findById(newPost.user)
+    const user = await User.findById(payloadId)
       .select({
         _id: 1,
         username: 1,
         img: 1,
         job: 1,
+        posts: 1,
       })
       .exec();
-    // ? müssen wir hier noch die daten von dem user mitschicken im response???
+ 
     if (!user) {
       return res.status(404).json({ message: 'User not found!' });
     }
 
-    user.posts.push(savedPost._id);
+    try {
+      user.posts.push(savedPost._id);
+      await user.save();
+    } catch (err) {
+      return res.status(500).json({ message: 'Failed to add post to user.' });
+    }
+    
     await user.save();
     res.status(201).json({
       message: 'Post sucessfully created!',
