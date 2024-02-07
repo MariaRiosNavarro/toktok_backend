@@ -96,13 +96,10 @@ const EditForm = (props) => {
         />
         {/* -------------------------------------------------------------------------username */}
         <input
-          // ref={userNameRef}
           type="text"
           name="username"
-          // placeholder={loginUser?.username || "Username"}
           defaultValue={loginUser?.username || ""}
           className={inputClassNames}
-          // onChange={handleUserNameChange}
         />
         {/* -------------------------------------------------------------------------job*/}
         <input

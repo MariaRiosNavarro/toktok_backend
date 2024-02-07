@@ -32,7 +32,7 @@ const Home = () => {
           setNewUserFollows("Please first follow some users");
           setTimeout(() => {
             navigate("/search");
-          }, 3000);
+          }, 2000);
           return;
         }
         let data = await response.json();
