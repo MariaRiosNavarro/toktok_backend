@@ -275,13 +275,11 @@ export const getUserGalleryPosts = async (req, res, next) => {
       _id: 1,
       posts: 1,
     });
-    console.log('userPosts', userPosts);
 
     if (userPosts && userPosts.posts && userPosts.posts.length > 0) {
       try {
         const posts = await Post.find({ _id: { $in: userPosts.posts } });
-        console.log('posts', posts);
-        res.json(posts);
+        res.json({ user: userPosts._id, posts: posts });
       } catch (error) {
         console.error('posts error', error);
       }
@@ -296,20 +294,35 @@ export const getUserGalleryPosts = async (req, res, next) => {
 
 // //$ getUserFavorites --- ein fetch für alle favorites ------------------------------
 
-// export const getUserFavorites = async (req, res, next) => {
-//   const loginUser_id = req.payload.id;
-//   try {
-//     const favorites = await User.find(loginUser_id).exec();
-//   } catch (err) {
-//     console.error(err);
-//     next(err);
-//   }
-// };
+export const getUserFavorites = async (req, res, next) => {
+  const { id } = req.payload;
+  try {
+    const user = await User.findById(id).lean().select({
+      _id: 1,
+      favorites: 1,
+    });
 
-// export const deleteUser = async (req, res, next) => {
-//   try {
-//     res.end();
-//   } catch (err) {
-//     next(err);
-//   }
-// };
+    if (user && user.favorites && user.favorites.length > 0) {
+      try {
+        const posts = await Post.find({ _id: { $in: user.favorites } });
+        res.json({ user: user._id, favorites: posts });
+      } catch (error) {
+        console.error('posts error', error);
+      }
+    } else if (userPosts.posts.length === 0) {
+      res.json({ message: 'This User has no favorites' });
+    }
+    res.end();
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+};
+
+export const deleteUser = async (req, res, next) => {
+  try {
+    res.end();
+  } catch (err) {
+    next(err);
+  }
+};
