@@ -1,21 +1,22 @@
-import { useEffect, useState } from 'react';
-import NavBarBottom from '../components/Global/NavBarBottom';
-import PostDetail from '../components/Global/PostDetail';
-import NavBarTop from '../components/Global/NavBarTop';
-import TockTockLogoSvg from '../components/SVG/TockTockLogoSvg';
-import HearthSvg from '../components/SVG/HearthSvg';
-import LoadingSpin from '../components/SVG/LoadingSpin';
+import { useEffect, useState } from "react";
+import NavBarBottom from "../components/Global/NavBarBottom";
+import PostDetail from "../components/Global/PostDetail";
+import NavBarTop from "../components/Global/NavBarTop";
+import TockTockLogoSvg from "../components/SVG/TockTockLogoSvg";
+import HearthSvg from "../components/SVG/HearthSvg";
+import LoadingSpin from "../components/SVG/LoadingSpin";
 
 const Home = () => {
   const [posts, setPosts] = useState();
+
   useEffect(() => {
     async function getPosts() {
       const response = await fetch(
-        import.meta.env.VITE_BACKEND_URL + '/api/posts/',
+        import.meta.env.VITE_BACKEND_URL + "/api/posts/",
         {
-          method: 'GET',
+          method: "GET",
 
-          credentials: 'include',
+          credentials: "include",
         }
       );
       if (response.ok) {
@@ -26,7 +27,16 @@ const Home = () => {
         //   );
         //   setPosts(sortedPosts);
 
-        console.log('NEUER DATA RESPONSE VOM BACKEND: ', data);
+        console.log(
+          "NEUER DATA RESPONSE VOM BACKEND-post: ",
+          data.detailedPosts[0].post
+        );
+
+        console.log(
+          "NEUER DATA RESPONSE VOM BACKEND-user: ",
+          data.detailedPosts[0].postUserData
+        );
+        setPosts(data.detailedPosts);
       }
     }
     getPosts();
@@ -42,12 +52,12 @@ const Home = () => {
     <>
       <NavBarTop
         leftSvgComponent={<TockTockLogoSvg />}
-        leftLink='/'
-        leftText='Tok Tok'
+        leftLink="/"
+        leftText="Tok Tok"
         rightSvgComponent={<HearthSvg selected={false} />}
-        rightLink='/'
+        rightLink="/"
       />
-      <main className='p-6 pb-12'>
+      <main className="p-6 pb-12">
         <section>
           {posts?.map((post, key) => {
             return <PostDetail post={post} key={key} />;

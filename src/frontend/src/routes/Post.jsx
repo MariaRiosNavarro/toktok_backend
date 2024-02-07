@@ -15,6 +15,7 @@ import LoadingSpin from "../components/SVG/LoadingSpin";
 const Post = () => {
   const { slug } = useParams();
   const [post, setPost] = useState(null);
+  const [user, setUser] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { theme } = useTheme();
   const [refresh, setRefresh] = useState(false);
@@ -29,8 +30,9 @@ const Post = () => {
       );
       if (response.ok) {
         const data = await response.json();
-        setPost(data);
-        console.log(data);
+        setPost(data.post);
+        setUser(data.postUserData);
+        console.log("----------------getPost", data);
       }
     }
     getPost();
@@ -58,7 +60,7 @@ const Post = () => {
       />
       <main className="p-6 pb-20">
         <section className="w-full  mb-6">
-          <PostUserHeader userId={post?.user} />
+          <PostUserHeader user={user} />
           <section>
             <section className="mt-4 w-full">
               <div className="avatar w-full">
@@ -76,7 +78,7 @@ const Post = () => {
           <div className="my-6 flex justify-center">
             <LineSvg />
           </div>
-          {post.comments.length > 3 ? (
+          {post?.comments?.length > 3 ? (
             <button onClick={changeModal} className="mb-3">
               view all {post?.comments.length} comments
             </button>
