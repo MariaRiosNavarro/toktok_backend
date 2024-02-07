@@ -82,8 +82,8 @@ const NewPostCaption = ({ selectedImage, preview, setPreview }) => {
         console.log(postId);
 
         setLoading(false);
-        // navigate("/post/" + postId);
-        navigate("/");
+        navigate("/post/" + postId);
+        // navigate("/");
       } else {
         console.log("Request failed with status:👺", response.status);
       }
