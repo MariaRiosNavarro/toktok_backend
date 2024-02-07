@@ -1,7 +1,7 @@
 import { User } from './users.model.js';
 import { uploadImage, deleteImage } from '../config/storage.config.js';
 import { Post } from '../posts/posts.model.js';
-import { getFollowerStatus } from './users.service.js';
+import { getFollowerStatus, getPostUserData } from './users.service.js';
 
 // für die search page:
 export const getAllUsers = async (req, res, next) => {
@@ -299,33 +299,6 @@ export const getUserGalleryPosts = async (req, res, next) => {
     } else if (userPosts.posts.length === 0) {
       res.json({ message: 'This User has no posts' });
     }
-  } catch (err) {
-    console.error(err);
-    next(err);
-  }
-};
-
-// //$ getUserFavorites --- ein fetch für alle favorites ------------------------------
-
-export const getUserFavorites = async (req, res, next) => {
-  const { id } = req.payload;
-  try {
-    const user = await User.findById(id).lean().select({
-      _id: 1,
-      favorites: 1,
-    });
-
-    if (user && user.favorites && user.favorites.length > 0) {
-      try {
-        const posts = await Post.find({ _id: { $in: user.favorites } });
-        res.json({ user: user._id, favorites: posts });
-      } catch (error) {
-        console.error('posts error', error);
-      }
-    } else if (userPosts.posts.length === 0) {
-      res.json({ message: 'This User has no favorites' });
-    }
-    res.end();
   } catch (err) {
     console.error(err);
     next(err);

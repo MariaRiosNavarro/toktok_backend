@@ -252,3 +252,40 @@ export const updateFavoriteStatus = async (req, res, next) => {
     next(err);
   }
 };
+
+//$ getUserFavorites --- favorite posts des login users ------------------------------
+
+export const getUserFavorites = async (req, res, next) => {
+  const { id } = req.payload;
+  try {
+    const user = await User.findById(id).lean().select({
+      _id: 1,
+      favorites: 1,
+    });
+
+    if (user && user.favorites && user.favorites.length > 0) {
+      try {
+        const posts = await Post.find({ _id: { $in: user.favorites } });
+        if (posts) {
+          const postsWithUserDataPromises = posts.map(async (post) => {
+            const postUserData = await getPostUserData(User, post.user);
+            return { post, postUserData };
+          });
+
+          const postsWithUserData = await Promise.all(
+            postsWithUserDataPromises
+          );
+          res.json(postsWithUserData);
+        }
+      } catch (error) {
+        console.error('posts error', error);
+      }
+    } else if (userPosts.posts.length === 0) {
+      res.json({ message: 'This User has no favorite posts' });
+    }
+    res.end();
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+};

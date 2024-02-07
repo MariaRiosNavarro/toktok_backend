@@ -7,7 +7,6 @@ import {
   editUser,
   addImage,
   getUserGalleryPosts,
-  getUserFavorites,
 } from '../users/users.controller.js';
 import { verifyUser } from '../utils/middleware/auth.middleware.js';
 import { upload } from '../config/storage.config.js';
@@ -22,4 +21,3 @@ router.patch('/follow', verifyUser, updateFollowStatus);
 router.put('/edit', verifyUser, upload.none(), editUser);
 router.put('/image', verifyUser, upload.single('img'), addImage);
 router.get('/gallery', verifyUser, getUserGalleryPosts);
-router.get('/favorites', verifyUser, getUserFavorites);
