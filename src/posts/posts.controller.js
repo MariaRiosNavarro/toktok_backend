@@ -18,20 +18,27 @@ export const createPost = async (req, res, next) => {
     }
 
     // * Funktion um den Post direkt in den User zu pushen
-    const user = await User.findById(newPost.user)
+    const user = await User.findById(payloadId)
       .select({
         _id: 1,
         username: 1,
         img: 1,
         job: 1,
+        posts: 1,
       })
       .exec();
-    // ? müssen wir hier noch die daten von dem user mitschicken im response???
+ 
     if (!user) {
       return res.status(404).json({ message: 'User not found!' });
     }
 
-    user.posts.push(savedPost._id);
+    try {
+      user.posts.push(savedPost._id);
+      await user.save();
+    } catch (err) {
+      return res.status(500).json({ message: 'Failed to add post to user.' });
+    }
+    
     await user.save();
     res.status(201).json({
       message: 'Post sucessfully created!',
@@ -124,10 +131,53 @@ export const getPost = async (req, res, next) => {
 };
 
 export const getPosts = async (req, res, next) => {
+  const payload_id = req.payload.id;
+
   try {
-    const posts = await Post.find();
-    res.status(200).json(posts);
+    const loginUser = await User.findById(payload_id);
+    console.log({ loginUser });
+    if (!loginUser) {
+      return res.status(404).json({ message: 'User not found!' });
+    }
+
+    if (loginUser) {
+      const followingIds = loginUser.following.map((entry) => entry.toJSON());
+      console.log({ followingIds });
+      if (!followingIds || followingIds.length === 0) {
+        return res
+          .status(404)
+          .json({ message: 'Please follow someone to see posts!' });
+      }
+
+      const posts = await Post.find({ user: { $in: followingIds } }).lean();
+      console.log('following ids in posts', followingIds);
+      console.log('ein example post:', posts[2]);
+
+      if (!posts || posts.length === 0) {
+        return res
+          .status(404)
+          .json({ message: 'People you followed havent any Posts yets!' });
+      }
+
+      const getDetailedPosts = async (posts, userId) => {
+        const postsPromises = posts.map(async (post) => {
+          const postUserData = await getPostUserData(User, post.user);
+          const favoriteStatus = getFavoriteStatus(post, userId);
+          return { post, postUserData, favoriteStatus };
+        });
+
+        const resolve = await Promise.all(postsPromises);
+        return resolve;
+      };
+
+      const detailedPosts = await getDetailedPosts(posts, payload_id);
+
+      console.log({ detailedPosts });
+
+      res.status(200).json({ success: true, detailedPosts });
+    }
   } catch (err) {
+    console.error(err);
     next(err);
   }
 };
@@ -198,7 +248,7 @@ export const updateFavoriteStatus = async (req, res, next) => {
       });
     }
   } catch (err) {
-    console.log({ err });
+    console.log('error von updateFavoriteStatus: ', err);
     next(err);
   }
 };

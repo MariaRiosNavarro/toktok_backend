@@ -46,9 +46,6 @@ const PostSchema = new mongoose.Schema(
         required: true,
       },
     ],
-    likesCount: {
-      type: Number,
-    },
   },
   { timestamps: true }
 );
