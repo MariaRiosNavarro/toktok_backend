@@ -8,13 +8,15 @@ export const getAllUsers = async (req, res, next) => {
   const payload_id = req.payload.id;
 
   try {
-    const users = await User.find().lean().select({
-      _id: 1,
-      username: 1,
-      img: 1,
-      job: 1,
-      followers: 1,
-    });
+    const users = await User.find({ _id: { $ne: payload_id } })
+      .lean()
+      .select({
+        _id: 1,
+        username: 1,
+        img: 1,
+        job: 1,
+        followers: 1,
+      });
 
     if (users) {
       console.log('users example: ', users[1]);
@@ -62,12 +64,7 @@ export const getUser = async (req, res, next) => {
     // console.log({ user });
 
     if (user) {
-      const followers = user.followers.map((follower) => follower.toJSON());
-      const followStatus = followers.includes(payload_id) ? true : false;
-      // console.log({ followStatus });
-      // console.log({ followers });
-      //# hier kann ich dann auch die getFollowerStatus service function einbauen!
-
+      const followStatus = getFollowerStatus(user, payload_id);
       res.json({ user, followStatus: followStatus });
     }
   } catch (err) {
