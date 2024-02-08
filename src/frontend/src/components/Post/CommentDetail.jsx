@@ -20,7 +20,7 @@ const CommentDetail = ({ comment, refresh, setRefresh }) => {
           {comment?.replies?.length > 0 &&
             comment?.replies?.map((comment, key) => (
               <section key={key} className="mt-3 ml-5">
-                <p className="text-[12px]">
+                <p className="text-[16px]">
                   @{comment?.replyUserData?.username}... {comment?.text}
                 </p>
               </section>

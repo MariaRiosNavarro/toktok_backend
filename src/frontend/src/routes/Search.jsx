@@ -142,7 +142,7 @@ const Search = () => {
                   >
                     <div className="avatar">
                       <div className="w-14 rounded-full">
-                        {result?.img ? (
+                        {result?.user?.img ? (
                           <img src={result?.user?.img} />
                         ) : (
                           <AvatarSvg width={"48"} />
