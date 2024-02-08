@@ -28,7 +28,7 @@ const UserLogin = (props) => {
       password: passwordRef.current.value,
     };
 
-    console.log(user);
+    // console.log(user);
 
     try {
       const response = await fetch(
@@ -42,7 +42,7 @@ const UserLogin = (props) => {
       );
       if (response.ok) {
         let json = await response.json();
-        console.log("sign up json-------------------------", json);
+        console.log("PAYLOAD-------------------------", json);
         navigate("/register");
       }
     } catch (error) {
@@ -71,7 +71,7 @@ const UserLogin = (props) => {
       if (response.ok) {
         console.log("User is registered");
         if (response.status === 201) {
-          console.log("STATUS 201-----USER CREATED--------------------");
+          // console.log("STATUS 201-----USER CREATED--------------------");
           navigate("/login");
         }
       }
