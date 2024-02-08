@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { useState } from "react";
 import PostUserHeader from "./PostUserHeader";
 import PostDetailsFooter from "./PostDetailsFooter";
-const PostDetail = ({ post, user }) => {
+const PostDetail = ({ post, user, reloadFavorite }) => {
   //const { slug } = useParams();
 
   return (
@@ -19,7 +19,7 @@ const PostDetail = ({ post, user }) => {
             </div>
           </section>
         </Link>
-        <PostDetailsFooter post={post} />
+        <PostDetailsFooter post={post} reloadFavorite={reloadFavorite} />
       </section>
     </>
   );
