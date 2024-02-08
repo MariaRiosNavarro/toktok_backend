@@ -39,7 +39,7 @@ const Detail = () => {
   }
   useEffect(() => {
     getUserData();
-  }, []);
+  }, [refresh]);
 
   async function updateFollow() {
     const res = await fetch(

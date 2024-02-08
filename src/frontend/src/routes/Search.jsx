@@ -73,7 +73,7 @@ const Search = () => {
 
       if (res.ok) {
         const response = await res.json();
-        console.log(response.message);
+        // console.log(response.message);
         getAllUsers();
       }
     } catch (error) {
