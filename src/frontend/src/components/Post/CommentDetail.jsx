@@ -45,7 +45,7 @@ const CommentDetail = ({ comment, refresh, setRefresh }) => {
                 ))
               ) : (
                 <>
-                  <button onClick={handleShowReplies} className="mb-3">
+                  <button onClick={handleShowReplies} className="mb-3 mt-3">
                     view all {comment?.replies?.length} replies
                   </button>
                   {isReplyOpen &&
