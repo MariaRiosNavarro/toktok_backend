@@ -9,34 +9,30 @@ import LoadingSpin from "../components/SVG/LoadingSpin";
 const Favorites = () => {
   const [favorites, setFavorites] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [favoriteRefresh, setFavoritesRefresh] = useState(false);
 
   useEffect(() => {
     setLoading(true);
-    async function getFavorites() {
-      const response = await fetch(
-        import.meta.env.VITE_BACKEND_URL + "/api/posts/favorites",
-        {
-          method: "GET",
-          credentials: "include",
-        }
-      );
-      if (response.ok) {
-        let data = await response.json();
-        // console.log(data);
-
-        let favoritesJson = data;
-        const sortedFavorites = [...favoritesJson].sort(
-          (a, b) => new Date(b.post.createdAt) - new Date(a.post.createdAt)
-        );
-        // console.log("NEUER DATA RESPONSE VOM BACKEND-post: ", sortedFavorites);
-        setLoading(false);
-        setFavorites(sortedFavorites);
-      }
-    }
     getFavorites();
   }, []);
 
+  async function getFavorites() {
+    const response = await fetch(
+      import.meta.env.VITE_BACKEND_URL + "/api/posts/favorites",
+      {
+        method: "GET",
+        credentials: "include",
+      }
+    );
+    if (response.ok) {
+      let data = await response.json();
+      let favoritesJson = data;
+      const sortedFavorites = [...favoritesJson].sort(
+        (a, b) => new Date(b.post.createdAt) - new Date(a.post.createdAt)
+      );
+      setLoading(false);
+      setFavorites(sortedFavorites);
+    }
+  }
   return (
     <>
       <NavBarTop
