@@ -14,6 +14,7 @@ const PostDetailsFooter = ({
   date,
   refresh,
   setRefresh,
+  reloadFavorite,
 }) => {
   const [isHeartSelected, setIsHeartSelected] = useState(false);
   const [replyComment, setReplyComment] = useState(false);
@@ -64,6 +65,10 @@ const PostDetailsFooter = ({
         // console.log("Favorite status updated successfully");
         // console.log(response);
         setLikesNumber(newHeartSelection ? likesNumber + 1 : likesNumber - 1);
+        if (reloadFavorite) {
+          // Neuladen der Favoritenseite nur, wenn reloadFavourite wahr ist
+          window.location.reload();
+        }
       } else {
         console.error("Failed to update favorite status");
         setIsHeartSelected(!isHeartSelected); // Revert back the heart selection if update fails

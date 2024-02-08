@@ -55,6 +55,7 @@ const Favorites = () => {
                       post={post.post}
                       user={post.postUserData}
                       key={key}
+                      reloadFavorite={true}
                     />
                   );
                 })}

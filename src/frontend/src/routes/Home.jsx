@@ -72,6 +72,7 @@ const Home = () => {
                       post={post.post}
                       user={post.postUserData}
                       key={key}
+                      reloadFavorite={false}
                     />
                   );
                 })}

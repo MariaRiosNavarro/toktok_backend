@@ -74,7 +74,7 @@ const Post = () => {
             <p>{post?.description}</p>
             <TimeDifferent date={post?.createdAt} />
           </section>
-          <PostDetailsFooter post={post} />
+          <PostDetailsFooter post={post} reloadFavorite={false} />
           <div className="my-6 flex justify-center">
             <LineSvg />
           </div>
