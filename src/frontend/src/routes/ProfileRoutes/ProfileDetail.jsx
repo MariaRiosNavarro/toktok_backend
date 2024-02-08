@@ -116,12 +116,12 @@ const ProfileDetail = () => {
           <SettingdFriendsSvg />
           <p className="text-[18px]">Close Friends</p>
         </article>
-        <article className="flex gap-5 ">
-          <Link to="/favorites">
+        <Link to="/favorites">
+          <article className="flex gap-5 ">
             <HearthSvg />
             <p className="text-[18px]">Favorites</p>
-          </Link>
-        </article>
+          </article>
+        </Link>
         <article className="flex gap-5 ">
           <SettingsInfoSvg />
           <p className="text-[18px]">Information Center</p>
