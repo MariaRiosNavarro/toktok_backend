@@ -15,7 +15,7 @@ import SettingsArchiveSvg from "../../components/SVG/settingsSVG/SettingsArchive
 import HearthSvg from "../../components/SVG/HearthSvg";
 import { useTheme } from "../../context/userContext";
 import { useUserContext } from "../../context/loginContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LogOutSvg from "../../components/SVG/loginSvgs/LogOutSvg";
 
 const ProfileDetail = () => {
@@ -117,7 +117,9 @@ const ProfileDetail = () => {
           <p className="text-[18px]">Close Friends</p>
         </article>
         <article className="flex gap-5 ">
-          <HearthSvg />
+          <Link to="/favorites">
+            <HearthSvg />
+          </Link>
           <p className="text-[18px]">Favorites</p>
         </article>
         <article className="flex gap-5 ">
