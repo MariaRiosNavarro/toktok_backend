@@ -30,6 +30,7 @@ const Post = () => {
       );
       if (response.ok) {
         const data = await response.json();
+
         setPost(data.detailedPost);
         setUser(data.detailedPost.postUserData);
       }

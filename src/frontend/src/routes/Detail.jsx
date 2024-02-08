@@ -12,11 +12,13 @@ import UnFollowSvg from "../components/SVG/UnFollowSvg";
 import ProfileGallery from "../components/Global/ProfileGallery";
 import { useParams } from "react-router-dom";
 import LoadingSpin from "../components/SVG/LoadingSpin";
+import { useUserContext } from "../context/loginContext";
 
 const Detail = () => {
   const [isFollowing, setIsFollowing] = useState(false);
   const [detailUserData, setDetailUserData] = useState(null);
   const { userid } = useParams();
+  const { refresh, setRefresh } = useUserContext();
 
   async function getUserData() {
     const res = await fetch(
@@ -54,17 +56,17 @@ const Detail = () => {
 
     if (res.ok) {
       console.log(response.message);
+      setIsFollowing(!isFollowing);
+      setRefresh(!refresh);
       getUserData();
     }
   }
 
-  // isFollowing muss immer abhängig sein vom followStatus in der Datenbank
   useEffect(() => {
     setIsFollowing(detailUserData?.followStatus);
   }, [detailUserData]);
 
   const handleButtonClick = () => {
-    // setIsFollowing(!isFollowing);
     updateFollow();
   };
 
@@ -94,10 +96,13 @@ const Detail = () => {
         <article className="w-full">
           <button
             onClick={handleButtonClick}
-            className="flex justify-center items-center gap-2 bg-primary w-full text-lg text-base-100 rounded-3xl py-[10px]"
+            className={`flex justify-center items-center gap-2  text-lg w-full rounded-3xl py-[10px] px-4 ${
+              isFollowing
+                ? "bg-base-100 text-primary border-2 border-primary"
+                : "bg-primary text-base-100"
+            }`}
           >
-            <span>{buttonIcon}</span>
-            <span>{buttonText}</span>
+            <span>{isFollowing ? "Unfollow" : "Follow"}</span>
           </button>
         </article>
         <article className="mt-6 flex justify-center ">

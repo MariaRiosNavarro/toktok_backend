@@ -1,5 +1,4 @@
 import { Link, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
 import PointsSvg from "../SVG/PointsSvg";
 import AvatarSvg from "../SVG/AvatarSvg";
 const PostUserHeader = ({ user, comment }) => {
