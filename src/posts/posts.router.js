@@ -22,7 +22,7 @@ router.put('/editpost/:id', upload.single('img'), verifyUser, updatePost);
 // DELETE
 router.delete('/:id', verifyUser, deletePost);
 // GET ONE
-router.get('/:id', verifyUser, limiter, getPost);
+router.get('/one-post/:id', verifyUser, limiter, getPost);
 // CREATE COMMENT
 router.post('/:id/commit', verifyUser, async (req, res, next) => {
   try {
