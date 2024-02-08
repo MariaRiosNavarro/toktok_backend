@@ -42,7 +42,7 @@ const ProfileDetail = () => {
         console.log("Don´t Logout");
       } else {
         const json = await response.json();
-        console.log(json);
+        // console.log(json);
         setLoginUser("");
         navigate("/loading");
       }

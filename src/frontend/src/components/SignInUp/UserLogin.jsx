@@ -54,7 +54,7 @@ const UserLogin = (props) => {
   const handleRegister = async () => {
     const codeInput = codeRef.current.value;
 
-    console.log("----------codeInput-------", codeInput);
+    // console.log("----------codeInput-------", codeInput);
 
     try {
       const response = await fetch(
@@ -97,12 +97,12 @@ const UserLogin = (props) => {
         }
       );
       if (response.ok) {
-        console.log("User is allowed");
+        // console.log("User is allowed");
         const backendJsonResponse = await response.json();
-        console.log(
-          "backendJsonResponse-------------------------",
-          backendJsonResponse
-        );
+        // console.log(
+        //   "backendJsonResponse-------------------------",
+        //   backendJsonResponse
+        // );
         navigate("/");
       } else {
         if (response.status === 401) {
