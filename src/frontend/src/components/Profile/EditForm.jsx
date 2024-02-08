@@ -4,7 +4,8 @@ import { useUserContext } from "../../context/loginContext";
 import { useNavigate } from "react-router-dom";
 
 const EditForm = (props) => {
-  const { loginUser } = useUserContext();
+  const { loginUser, refresh, setRefresh } = useUserContext();
+
   const { theme } = useTheme();
   const [showToast, setShowToast] = useState(false);
   const navigate = useNavigate();
@@ -47,6 +48,7 @@ const EditForm = (props) => {
         if (response.ok) {
           // toast
           setShowToast(true);
+          setRefresh(!refresh);
           setTimeout(() => {
             setShowToast(false);
             navigate("/profile");
