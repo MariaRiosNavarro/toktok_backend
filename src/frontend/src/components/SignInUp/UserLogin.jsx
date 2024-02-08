@@ -69,7 +69,7 @@ const UserLogin = (props) => {
         }
       );
       if (response.ok) {
-        console.log("User is registered");
+        // console.log("User is registered");
         if (response.status === 201) {
           // console.log("STATUS 201-----USER CREATED--------------------");
           navigate("/login");
