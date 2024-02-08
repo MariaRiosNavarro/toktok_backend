@@ -73,7 +73,7 @@ const Search = () => {
 
       if (res.ok) {
         const response = await res.json();
-        console.log(response.message);
+        // console.log(response.message);
         getAllUsers();
       }
     } catch (error) {
@@ -142,18 +142,18 @@ const Search = () => {
                   >
                     <div className="avatar">
                       <div className="w-14 rounded-full">
-                        {result?.img ? (
+                        {result?.user?.img ? (
                           <img src={result?.user?.img} />
                         ) : (
                           <AvatarSvg width={"48"} />
                         )}
                       </div>
                     </div>
-                    <div>
-                      <h3 className="text-[18px] font-bold text-accent mx-auto max-w-[110px] overflow-hidden  ">
+                    <div className="flex flex-col  items-start">
+                      <h3 className="text-[18px] font-bold text-accent  max-w-[110px] overflow-hidden text-left ">
                         {result?.user?.username}
                       </h3>
-                      <p className="text-[14px]  text-secondary">
+                      <p className="text-[14px]  text-secondary text-left">
                         {result?.user?.job}
                       </p>
                     </div>

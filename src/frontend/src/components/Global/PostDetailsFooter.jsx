@@ -14,6 +14,7 @@ const PostDetailsFooter = ({
   date,
   refresh,
   setRefresh,
+  reloadFavorite,
 }) => {
   const [isHeartSelected, setIsHeartSelected] = useState(false);
   const [replyComment, setReplyComment] = useState(false);
@@ -47,26 +48,31 @@ const PostDetailsFooter = ({
   const handleHeartClick = async () => {
     const newHeartSelection = !isHeartSelected;
     setIsHeartSelected(!isHeartSelected);
+    if (!reply) {
+      const post_id = post?._id;
 
-    const post_id = post?._id;
-
-    const response = await fetch(
-      import.meta.env.VITE_BACKEND_URL + "/api/posts/like?id=" + post_id,
-      {
-        method: "PATCH",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
+      const response = await fetch(
+        import.meta.env.VITE_BACKEND_URL + "/api/posts/like?id=" + post_id,
+        {
+          method: "PATCH",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (response.ok) {
+        // console.log("Favorite status updated successfully");
+        // console.log(response);
+        setLikesNumber(newHeartSelection ? likesNumber + 1 : likesNumber - 1);
+        if (reloadFavorite) {
+          // Neuladen der Favoritenseite nur, wenn reloadFavourite wahr ist
+          window.location.reload();
+        }
+      } else {
+        console.error("Failed to update favorite status");
+        setIsHeartSelected(!isHeartSelected); // Revert back the heart selection if update fails
       }
-    );
-    if (response.ok) {
-      // console.log("Favorite status updated successfully");
-      // console.log(response);
-      setLikesNumber(newHeartSelection ? likesNumber + 1 : likesNumber - 1);
-    } else {
-      console.error("Failed to update favorite status");
-      setIsHeartSelected(!isHeartSelected); // Revert back the heart selection if update fails
     }
   };
 
@@ -96,6 +102,7 @@ const PostDetailsFooter = ({
       if (response.ok) {
         await setRefresh(!refresh);
         commentRef.current.value = "";
+        setReplyComment(!replyComment);
       } else {
         // Handle error
         console.error("Failed to save comment");
@@ -118,7 +125,7 @@ const PostDetailsFooter = ({
         <section className="w-full flex gap-6 items-center">
           <button className=" flex gap-2 " onClick={handleHeartClick}>
             <HearthSvg selected={isHeartSelected} />
-            <p>{likesNumber}</p>
+            {!reply && <p>{likesNumber}</p>}
           </button>
           {reply ? (
             <div className="flex gap-6">

@@ -27,9 +27,9 @@ const ProfileEdit = () => {
     formData.append("userId", userId);
     formData.append("img", file);
 
-    for (const pair of formData.entries()) {
-      console.log(pair[0] + ": " + pair[1]);
-    }
+    // for (const pair of formData.entries()) {
+    //   console.log(pair[0] + ": " + pair[1]);
+    // }
 
     try {
       const response = await fetch(
