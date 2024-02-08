@@ -119,8 +119,8 @@ const ProfileDetail = () => {
         <article className="flex gap-5 ">
           <Link to="/favorites">
             <HearthSvg />
+            <p className="text-[18px]">Favorites</p>
           </Link>
-          <p className="text-[18px]">Favorites</p>
         </article>
         <article className="flex gap-5 ">
           <SettingsInfoSvg />
