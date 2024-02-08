@@ -8,8 +8,11 @@ import LoadingSpin from "../components/SVG/LoadingSpin";
 
 const Favorites = () => {
   const [favorites, setFavorites] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [favoriteRefresh, setFavoritesRefresh] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     async function getFavorites() {
       const response = await fetch(
         import.meta.env.VITE_BACKEND_URL + "/api/posts/favorites",
@@ -20,12 +23,14 @@ const Favorites = () => {
       );
       if (response.ok) {
         let data = await response.json();
-        console.log(data);
+        // console.log(data);
+
         let favoritesJson = data;
         const sortedFavorites = [...favoritesJson].sort(
           (a, b) => new Date(b.post.createdAt) - new Date(a.post.createdAt)
         );
-        console.log("NEUER DATA RESPONSE VOM BACKEND-post: ", sortedFavorites);
+        // console.log("NEUER DATA RESPONSE VOM BACKEND-post: ", sortedFavorites);
+        setLoading(false);
         setFavorites(sortedFavorites);
       }
     }
@@ -42,22 +47,28 @@ const Favorites = () => {
         rightLink="/"
       />
       <main className="p-6 pb-12">
-        {favorites ? (
-          <section>
-            {favorites?.map((post, key) => {
-              return (
-                <PostDetail
-                  post={post.post}
-                  user={post.postUserData}
-                  key={key}
-                />
-              );
-            })}
-          </section>
+        {loading ? (
+          <LoadingSpin />
         ) : (
-          <section className="h-[70vh] flex justify-center items-center">
-            You don´t have favorites
-          </section>
+          <div>
+            {favorites ? (
+              <section>
+                {favorites?.map((post, key) => {
+                  return (
+                    <PostDetail
+                      post={post.post}
+                      user={post.postUserData}
+                      key={key}
+                    />
+                  );
+                })}
+              </section>
+            ) : (
+              <section className="h-[70vh] flex justify-center items-center">
+                You don´t have favorites
+              </section>
+            )}
+          </div>
         )}
       </main>
       <NavBarBottom
