@@ -149,11 +149,11 @@ const Search = () => {
                         )}
                       </div>
                     </div>
-                    <div>
-                      <h3 className="text-[18px] font-bold text-accent mx-auto max-w-[110px] overflow-hidden  ">
+                    <div className="flex flex-col  items-start">
+                      <h3 className="text-[18px] font-bold text-accent  max-w-[110px] overflow-hidden text-left ">
                         {result?.user?.username}
                       </h3>
-                      <p className="text-[14px]  text-secondary">
+                      <p className="text-[14px]  text-secondary text-left">
                         {result?.user?.job}
                       </p>
                     </div>
