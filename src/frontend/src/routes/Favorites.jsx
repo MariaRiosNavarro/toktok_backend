@@ -8,29 +8,31 @@ import LoadingSpin from "../components/SVG/LoadingSpin";
 
 const Favorites = () => {
   const [favorites, setFavorites] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  // useEffect(() => {
-  //   async function getFavorites() {
-  //     const response = await fetch(
-  //       import.meta.env.VITE_BACKEND_URL + "/api/users/favorites",
-  //       {
-  //         method: "GET",
-  //         credentials: "include",
-  //       }
-  //     );
-  //     if (response.ok) {
-  //       let data = await response.json();
-  //       // let favoritesJson = data.post;
-  //       const sortedFavorites = [...favoritesJson].sort(
-  //         (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-  //       );
-  //       console.log("NEUER DATA RESPONSE VOM BACKEND-post: ", sortedFavorites);
-  //       setFavorites(sortedFavorites);
-  //     }
-  //   }
-  //   getFavorites();
-  // }, []);
+  useEffect(() => {
+    setLoading(true);
+    getFavorites();
+  }, []);
 
+  async function getFavorites() {
+    const response = await fetch(
+      import.meta.env.VITE_BACKEND_URL + "/api/posts/favorites",
+      {
+        method: "GET",
+        credentials: "include",
+      }
+    );
+    if (response.ok) {
+      let data = await response.json();
+      let favoritesJson = data;
+      const sortedFavorites = [...favoritesJson].sort(
+        (a, b) => new Date(b.post.createdAt) - new Date(a.post.createdAt)
+      );
+      setLoading(false);
+      setFavorites(sortedFavorites);
+    }
+  }
   return (
     <>
       <NavBarTop
@@ -40,25 +42,31 @@ const Favorites = () => {
         rightSvgComponent={<HearthSvg selected={true} />}
         rightLink="/"
       />
-      {/* <main className="p-6 pb-12">
-        {favorites ? (
-          <section>
-            {favorites?.map((post, key) => {
-              return (
-                <PostDetail
-                  post={post.post}
-                  user={post.postUserData}
-                  key={key}
-                />
-              );
-            })}
-          </section>
+      <main className="p-6 pb-12">
+        {loading ? (
+          <LoadingSpin />
         ) : (
-          <section className="h-[70vh] flex justify-center items-center">
-            You don´t have favorites
-          </section>
+          <div>
+            {favorites ? (
+              <section>
+                {favorites?.map((post, key) => {
+                  return (
+                    <PostDetail
+                      post={post.post}
+                      user={post.postUserData}
+                      key={key}
+                    />
+                  );
+                })}
+              </section>
+            ) : (
+              <section className="h-[70vh] flex justify-center items-center">
+                You don´t have favorites
+              </section>
+            )}
+          </div>
         )}
-      </main> */}
+      </main>
       <NavBarBottom
         item={{ home: false, search: false, profile: false, add: false }}
       />

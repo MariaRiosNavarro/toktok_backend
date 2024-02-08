@@ -36,7 +36,7 @@ const Home = () => {
         }
         let data = await response.json();
         data = data?.detailedPosts;
-        console.log("NEUER DATA RESPONSE VOM BACKEND-post: ", data);
+        // console.log("NEUER DATA RESPONSE VOM BACKEND-post: ", data);
         const sortedPosts = [...data].sort(
           (a, b) => new Date(b.post.createdAt) - new Date(a.post.createdAt)
         );

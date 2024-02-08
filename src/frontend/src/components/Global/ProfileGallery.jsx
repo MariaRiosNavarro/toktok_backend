@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 const ProfileGallery = ({ userId }) => {
   const [posts, setPosts] = useState([]);
+
   useEffect(() => {
     const getPosts = async () => {
       try {
@@ -16,6 +17,7 @@ const ProfileGallery = ({ userId }) => {
         if (response.ok) {
           const data = await response.json();
           setPosts(data.posts);
+
         }
       } catch (error) {
         console.error("Error fetching posts:", error);
