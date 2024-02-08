@@ -15,6 +15,7 @@ import LoadingSpin from "../components/SVG/LoadingSpin";
 const Post = () => {
   const { slug } = useParams();
   const [post, setPost] = useState(null);
+  const [user, setUser] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { theme } = useTheme();
   const [refresh, setRefresh] = useState(false);
@@ -22,15 +23,16 @@ const Post = () => {
   useEffect(() => {
     async function getPost() {
       const response = await fetch(
-        import.meta.env.VITE_BACKEND_URL + "/api/posts/" + slug,
+        import.meta.env.VITE_BACKEND_URL + "/api/posts/one-post/" + slug,
         {
           credentials: "include",
         }
       );
       if (response.ok) {
         const data = await response.json();
-        setPost(data);
-        console.log(data);
+
+        setPost(data.detailedPost);
+        setUser(data.detailedPost.postUserData);
       }
     }
     getPost();
@@ -58,7 +60,7 @@ const Post = () => {
       />
       <main className="p-6 pb-20">
         <section className="w-full  mb-6">
-          <PostUserHeader userId={post?.user} />
+          <PostUserHeader user={user} />
           <section>
             <section className="mt-4 w-full">
               <div className="avatar w-full">
@@ -69,14 +71,14 @@ const Post = () => {
             </section>
           </section>
           <section className="mt-4 mx-3 ">
-            <p>{post.description}</p>
+            <p>{post?.description}</p>
             <TimeDifferent date={post?.createdAt} />
           </section>
           <PostDetailsFooter post={post} />
           <div className="my-6 flex justify-center">
             <LineSvg />
           </div>
-          {post.comments.length > 3 ? (
+          {post?.comments?.length > 3 ? (
             <button onClick={changeModal} className="mb-3">
               view all {post?.comments.length} comments
             </button>

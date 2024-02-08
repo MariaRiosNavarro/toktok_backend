@@ -3,7 +3,7 @@ import { register, login, signUp, logout } from './auth.controller.js';
 import {
   verifyEmail,
   verifyUser,
-} from '../utils/middleware/auth.middleware..js';
+} from '../utils/middleware/auth.middleware.js';
 
 export const router = new express.Router();
 

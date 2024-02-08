@@ -1,36 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-const ProfileGallery = ({ postArr }) => {
+const ProfileGallery = ({ userId }) => {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     const getPosts = async () => {
       try {
-        const fetchPromises = postArr.map(async (postId) => {
-          const response = await fetch(
-            `${import.meta.env.VITE_BACKEND_URL}/api/posts/${postId}`,
-            {
-              method: "GET",
-              credentials: "include",
-            }
-          );
-          if (response.ok) {
-            const data = await response.json();
-            return data;
+        const response = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/api/users/gallery?id=${userId}`,
+          {
+            method: "GET",
+            credentials: "include",
           }
-          return null;
-        });
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setPosts(data.posts);
 
-        const fetchedPosts = await Promise.all(fetchPromises);
-
-        setPosts(fetchedPosts);
+        }
       } catch (error) {
         console.error("Error fetching posts:", error);
       }
     };
 
-    if (postArr && postArr.length > 0) {
+    if (userId) {
       getPosts();
     }
   }, []);
@@ -42,11 +36,11 @@ const ProfileGallery = ({ postArr }) => {
   return (
     <>
       <section className="grid grid-cols-3 gap-[4px] mt-4">
-        {posts.map((post, key) => (
-          <Link key={key} to={"/post/" + post._id}>
+        {posts?.map((post, key) => (
+          <Link key={key} to={"/post/" + post?._id}>
             <img
-              className="h-[124px] rounded-lg"
-              src={post.img}
+              className="h-[124px] rounded-lg object-cover"
+              src={post?.img}
               alt={`Post ${key}`}
             />
           </Link>

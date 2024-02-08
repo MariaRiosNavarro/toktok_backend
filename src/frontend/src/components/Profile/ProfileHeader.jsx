@@ -24,7 +24,7 @@ const ProfileHeader = (props) => {
             <BackArrowSvg />
           </Link>
 
-          <h3 className="text-left pl-4 text-2xl font-bold rounded-xl mx-auto">
+          <h3 className="text-left pl-4 text-[1.5rem] font-bold rounded-xl mx-auto w-[100px] overflow-hidden">
             {loginUser?.username}
           </h3>
         </div>

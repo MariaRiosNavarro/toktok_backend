@@ -83,6 +83,7 @@ const NewPostCaption = ({ selectedImage, preview, setPreview }) => {
 
         setLoading(false);
         navigate("/post/" + postId);
+        // navigate("/");
       } else {
         console.log("Request failed with status:👺", response.status);
       }
@@ -91,9 +92,7 @@ const NewPostCaption = ({ selectedImage, preview, setPreview }) => {
     }
   };
 
-
   if (loading) return <LoadingSpin />;
-
 
   const handleInputVisibility = () => {
     setInputVisible((prev) => !prev);

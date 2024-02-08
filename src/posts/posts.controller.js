@@ -1,7 +1,8 @@
 import { User } from '../users/users.model.js';
 import { Post } from './posts.model.js';
 import { deleteImage, uploadImage } from '../config/storage.config.js';
-import { getFavoriteStatus, getPostUserData } from '../users/users.service.js';
+import { getFavoriteStatus, getPostUserData, getCommentUserData, getReplyUserData } from '../users/users.service.js';
+import { Comment, CommentReply } from '../comments/comments.model.js';
 
 export const createPost = async (req, res, next) => {
   const newPost = new Post(req.body);
@@ -27,7 +28,7 @@ export const createPost = async (req, res, next) => {
         posts: 1,
       })
       .exec();
- 
+
     if (!user) {
       return res.status(404).json({ message: 'User not found!' });
     }
@@ -38,7 +39,7 @@ export const createPost = async (req, res, next) => {
     } catch (err) {
       return res.status(500).json({ message: 'Failed to add post to user.' });
     }
-    
+
     await user.save();
     res.status(201).json({
       message: 'Post sucessfully created!',
@@ -108,18 +109,46 @@ export const getPost = async (req, res, next) => {
   const payload_id = req.payload.id; // id des eingeloggten users
   const postId = req.params.id;
   try {
-    const post = await Post.findById(postId).populate('comments').lean();
+    const loginUser = await User.findById(payload_id);
+    // console.log({ loginUser });
+    if (!loginUser) {
+      return res.status(404).json({ message: 'User not found!' });
+    }
+
+    const post = await Post.findById(postId).lean();
     // das .lean() ist wichtig weil man sonst keine object methods anwenden kann!
-    console.log({ post });
+    // console.log({ post });
 
     if (post) {
-      const favoriteStatus = getFavoriteStatus(post, payload_id);
+      const commentIds = post.comments.map(comment => comment._id.toJSON());
+      const comments = await Comment.find({ _id: { $in: commentIds}}).lean();
+      let replies = [];
+    
+      if (comments) {
+        const replyIds = comments.flatMap(comment => comment.replies.map(reply => reply._id.toJSON()));
+        replies = await CommentReply.find({ _id: { $in: replyIds } }).lean();
+      }
+    
+      const getDetailedPost = async(post, comments, replies, postUserData, userId) => {
+        const commentsPromises = comments.map(async (comment)=> {
+          const commentUserData = await getCommentUserData(User, comment.user);
+          const favoriteStatus = getFavoriteStatus(post, payload_id);
+          const replyUserDataPromises = comment.replies.map(async (reply) => {
+            const replyUserData = await getReplyUserData(User, reply.user);
+            return replyUserData;
+          });
+          const replyUserData = await Promise.all(replyUserDataPromises);
+          return { ...comment, commentUserData, replies: comment.replies.map((reply, index) => ({ ...reply, replyUserData: replyUserData[index] })) };
+        });
+        const resolve = await Promise.all(commentsPromises);
+        return { ...post, postUserData, comments: resolve, replies };
+      };
+    
       const postUserData = await getPostUserData(User, post.user);
+      const detailedPost = await getDetailedPost(post, comments, replies, postUserData, payload_id);
       res.json({
         success: true,
-        post,
-        favoriteStatus: favoriteStatus,
-        postUserData: postUserData,
+        detailedPost
       });
     } else {
       res.status(404).json({ success: false, message: 'Post not found.' });
@@ -129,6 +158,9 @@ export const getPost = async (req, res, next) => {
     next(err);
   }
 };
+
+
+
 
 export const getPosts = async (req, res, next) => {
   const payload_id = req.payload.id;
@@ -145,7 +177,7 @@ export const getPosts = async (req, res, next) => {
       console.log({ followingIds });
       if (!followingIds || followingIds.length === 0) {
         return res
-          .status(404)
+          .status(202)
           .json({ message: 'Please follow someone to see posts!' });
       }
 
@@ -155,7 +187,7 @@ export const getPosts = async (req, res, next) => {
 
       if (!posts || posts.length === 0) {
         return res
-          .status(404)
+          .status(202)
           .json({ message: 'People you followed havent any Posts yets!' });
       }
 
@@ -249,6 +281,43 @@ export const updateFavoriteStatus = async (req, res, next) => {
     }
   } catch (err) {
     console.log('error von updateFavoriteStatus: ', err);
+    next(err);
+  }
+};
+
+//$ getUserFavorites --- favorite posts des login users ------------------------------
+
+export const getUserFavorites = async (req, res, next) => {
+  const { id } = req.payload;
+  try {
+    const user = await User.findById(id).lean().select({
+      _id: 1,
+      favorites: 1,
+    });
+
+    if (user && user.favorites && user.favorites.length > 0) {
+      try {
+        const posts = await Post.find({ _id: { $in: user.favorites } });
+        if (posts) {
+          const postsWithUserDataPromises = posts.map(async (post) => {
+            const postUserData = await getPostUserData(User, post.user);
+            return { post, postUserData };
+          });
+
+          const postsWithUserData = await Promise.all(
+            postsWithUserDataPromises
+          );
+          res.json(postsWithUserData);
+        }
+      } catch (error) {
+        console.error('posts error', error);
+      }
+    } else if (userPosts.posts.length === 0) {
+      res.json({ message: 'This User has no favorite posts' });
+    }
+    res.end();
+  } catch (err) {
+    console.error(err);
     next(err);
   }
 };

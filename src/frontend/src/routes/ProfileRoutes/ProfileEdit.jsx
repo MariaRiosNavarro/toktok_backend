@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 
 import NavBarTop from "../../components/Global/NavBarTop";
+import NavBarBottom from "../../components/Global/NavBarBottom";
 import ProfileAvatar from "../../components/Global/ProfileAvatar";
 import EditForm from "../../components/Profile/EditForm";
 import BackArrowSvg from "../../components/SVG/BackArrowSvg";
@@ -78,7 +79,7 @@ const ProfileEdit = () => {
       <main className="p-6 ">
         <section className="flex flex-col  items-center  justify-center relative">
           <div>
-            <ProfileAvatar image={image} />
+            <ProfileAvatar image={loginUser?.img ? loginUser.img : image} />
           </div>
           <label
             htmlFor="uploadFile1"
@@ -97,6 +98,9 @@ const ProfileEdit = () => {
           <EditForm />
         </section>
       </main>
+      <NavBarBottom
+        item={{ home: false, search: false, profile: false, add: false }}
+      />
     </>
   );
 };

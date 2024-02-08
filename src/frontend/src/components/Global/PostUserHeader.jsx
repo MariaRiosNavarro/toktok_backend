@@ -1,36 +1,11 @@
 import { Link, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
 import PointsSvg from "../SVG/PointsSvg";
 import AvatarSvg from "../SVG/AvatarSvg";
-const PostUserHeader = ({ userId }) => {
-  const [user, setUser] = useState();
-  //console.log("____ userId from PostUserHeader", userId);
-
-  // useEffect(() => {
-  //   async function getUserData() {
-  //     const res = await fetch(
-  //       `${import.meta.env.VITE_BACKEND_URL}/api/users?id=${userId}`,
-  //       {
-  //         method: "GET",
-  //         headers: {
-  //           "content-type": "application/json",
-  //         },
-  //         credentials: "include",
-  //       }
-  //     );
-
-  //     if (res.ok) {
-  //       const data = await res.json();
-  //       setUser(data.user);
-  //     }
-  //   }
-  //   getUserData();
-  // }, []);
-
+const PostUserHeader = ({ user, comment }) => {
   return (
     <>
       <section className="flex items-center justify-between mx-auto ">
-        <Link to={"/detail/" + userId} className="inline-block">
+        <Link to={"/detail/" + user?._id} className="inline-block">
           <article className="flex justify-between items-center gap-4">
             <div className="avatar">
               <div className="w-12 rounded-full">
@@ -43,13 +18,29 @@ const PostUserHeader = ({ userId }) => {
             </div>
             <div>
               <p className="font-bold text-accent">
-                {user?.name ? user?.name : user?.username}
+                {user?.username ? user?.username : user?.username}
               </p>
               <p className="text-secondary">{user?.job}</p>
             </div>
           </article>
         </Link>
-        <PointsSvg />
+        {comment ? (
+          <details className="dropdown dropdown-end">
+            <summary className="m-1 btn">
+              <PointsSvg />
+            </summary>
+            <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box ">
+              <li>
+                <a>Delete</a>
+              </li>
+              <li>
+                <a>Edit</a>
+              </li>
+            </ul>
+          </details>
+        ) : (
+          <PointsSvg />
+        )}
       </section>
     </>
   );
