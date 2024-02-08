@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useTheme } from "../../context/userContext";
 import { useUserContext } from "../../context/loginContext";
+import { useNavigate } from "react-router-dom";
 
 const EditForm = (props) => {
   const { loginUser } = useUserContext();
   const { theme } = useTheme();
   const [showToast, setShowToast] = useState(false);
+  const navigate = useNavigate();
 
   // -----------------------------------------------------Styling
   let commonStyles =
@@ -32,8 +34,6 @@ const EditForm = (props) => {
     if (Object.keys(formDataObject).length > 0) {
       formData.append("userId", loginUser._id);
 
-      console.log("form data:", formDataObject);
-
       try {
         const response = await fetch(
           import.meta.env.VITE_BACKEND_URL + "/api/users/edit",
@@ -49,18 +49,19 @@ const EditForm = (props) => {
           setShowToast(true);
           setTimeout(() => {
             setShowToast(false);
-          }, 3000);
-          console.log("✅", await response.json());
+            navigate("/profile");
+          }, 4000);
+          // console.log("✅", await response.json());
         } else {
-          console.log("Request failed with status:👺", response.status);
-          const errorBody = await response.text();
-          console.log("Error Body:", errorBody);
+          console.log("Request failed with status:", response.status);
+          // const errorBody = await response.text();
+          // console.log("Error Body:", errorBody);
         }
       } catch (error) {
         console.log(error.message);
       }
     } else {
-      console.log("Gar nichts würde geändert");
+      console.log("");
     }
   };
 
