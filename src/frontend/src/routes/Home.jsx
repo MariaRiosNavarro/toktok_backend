@@ -24,16 +24,16 @@ const Home = () => {
           credentials: "include",
         }
       );
+      if (response.status === 202) {
+        setLoading(false);
+        setNewUserFollows("Please first follow some users");
+        setTimeout(() => {
+          navigate("/search");
+        }, 2000);
+        return;
+      }
       if (response.ok) {
         setLoading(false);
-        if (response.status === 202) {
-          setLoading(false);
-          setNewUserFollows("Please first follow some users");
-          setTimeout(() => {
-            navigate("/search");
-          }, 2000);
-          return;
-        }
         let data = await response.json();
         data = data?.detailedPosts;
         // console.log("NEUER DATA RESPONSE VOM BACKEND-post: ", data);
@@ -61,8 +61,10 @@ const Home = () => {
         ) : (
           <section>
             {newUserFollows ? (
-              <section className="h-[70vw] flex justify-center items-center">
-                <p className="">{newUserFollows}</p>
+              <section className="h-[70vh] flex justify-center items-center">
+                <p className="p-8 bg-primary rounded-3xl tracking-wider text-bold text-base-100">
+                  {newUserFollows}
+                </p>
               </section>
             ) : (
               <section>
