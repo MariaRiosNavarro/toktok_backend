@@ -173,6 +173,7 @@ export const getPosts = async (req, res, next) => {
     }
 
     if (loginUser) {
+      const loginUserPostIds = loginUser.posts.map((entry) => entry.toJSON());
       const followingIds = loginUser.following.map((entry) => entry.toJSON());
       console.log({ followingIds });
       if (!followingIds || followingIds.length === 0) {
