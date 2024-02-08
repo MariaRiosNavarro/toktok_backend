@@ -6,7 +6,6 @@ const ProfileGallery = ({ userId }) => {
   useEffect(() => {
     const getPosts = async () => {
       try {
-        // const fetchPromises = postArr.map(async (postId) => {
         const response = await fetch(
           `${import.meta.env.VITE_BACKEND_URL}/api/users/gallery?id=${userId}`,
           {
@@ -18,12 +17,6 @@ const ProfileGallery = ({ userId }) => {
           const data = await response.json();
           setPosts(data.posts);
         }
-
-        // });
-
-        // const fetchedPosts = await Promise.all(fetchPromises);
-        // setPosts(fetchedPosts);
-        // console.log("Posts=>", posts);
       } catch (error) {
         console.error("Error fetching posts:", error);
       }

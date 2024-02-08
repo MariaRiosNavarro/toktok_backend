@@ -16,8 +16,6 @@ const Search = () => {
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [followingStatus, setFollowingStatus] = useState({});
-  const [isFollowing, setIsFollowing] = useState(false);
-  const [detailUserData, setDetailUserData] = useState(null);
   //   -----------------------------------------------------------------STYLES
 
   let commonStyles =

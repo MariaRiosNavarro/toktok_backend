@@ -62,13 +62,11 @@ const Detail = () => {
     }
   }
 
-  // isFollowing muss immer abhängig sein vom followStatus in der Datenbank
   useEffect(() => {
     setIsFollowing(detailUserData?.followStatus);
   }, [detailUserData]);
 
   const handleButtonClick = () => {
-    // setIsFollowing(!isFollowing);
     updateFollow();
   };
 
