@@ -25,11 +25,11 @@ const PostUserHeader = ({ user, comment }) => {
           </article>
         </Link>
         {comment ? (
-          <details className="dropdown dropdown-end">
+          <details className="dropdown dropdown-end bg-none">
             <summary className="m-1 btn">
               <PointsSvg />
             </summary>
-            <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box ">
+            <ul className="p-2 shadow menu dropdown-content z-[1]  rounded-box ">
               <li>
                 <a>Delete</a>
               </li>

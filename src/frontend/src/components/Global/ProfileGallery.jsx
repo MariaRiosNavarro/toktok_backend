@@ -17,7 +17,6 @@ const ProfileGallery = ({ userId }) => {
         if (response.ok) {
           const data = await response.json();
           setPosts(data.posts);
-
         }
       } catch (error) {
         console.error("Error fetching posts:", error);
@@ -39,7 +38,7 @@ const ProfileGallery = ({ userId }) => {
         {posts?.map((post, key) => (
           <Link key={key} to={"/post/" + post?._id}>
             <img
-              className="h-[124px] rounded-lg object-cover"
+              className="h-[124px] w-[124px] rounded-lg object-cover"
               src={post?.img}
               alt={`Post ${key}`}
             />
