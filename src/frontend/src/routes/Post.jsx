@@ -30,8 +30,13 @@ const Post = () => {
       );
       if (response.ok) {
         const data = await response.json();
-        setPost(data.detailedPost);
-        setUser(data.detailedPost.postUserData);
+
+        setPost(data.post);
+        setUser(data.postUserData);
+
+        //setPost(data.detailedPost);
+        //setUser(data.detailedPost.postUserData);
+
       }
     }
     getPost();
