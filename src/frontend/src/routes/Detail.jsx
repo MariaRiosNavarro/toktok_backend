@@ -87,7 +87,7 @@ const Detail = () => {
       <NavBarTop
         leftSvgComponent={<BackArrowSvg />}
         leftLink="back"
-        leftText=""
+        leftText={detailUserData?.user?.username}
         rightSvgComponent={<PointsSvg />}
         rightLink="/"
       />
