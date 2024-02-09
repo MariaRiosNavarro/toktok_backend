@@ -1,4 +1,14 @@
-# TOKTOK - Fullstack Sozial Media App (node, express, vite+react, tailwind(daisyui))
+# TOKTOK - Fullstack Sozial Media App (node, express, vite+react, tailwind(daisyui) - light/dark)
+
+
+# ENGLISH (german below):
+
+# Fullsack Botcamp final project : 
+
+TokTok allows you to upload photos, follow other users and "like" or comment on their posts. 
+It's a platform where you can share your personality and interests with the world and make new contacts.
+
+It is a clone of the well-known social network for uploading photos and commenting on photos, although the name does not refer to the Asian social network for uploading videos.
 
 # Team:
 
@@ -16,22 +26,13 @@
 [Maria GitHub](https://github.com/MariaRiosNavarro)
 
 
-# ENGLISH (german below):
-
-# Fullsack Botcamp final project : 
-
-TokTok allows you to upload photos, follow other users and "like" or comment on their posts. 
-It's a platform where you can share your personality and interests with the world and make new contacts.
-
-It is a clone of the well-known social network for uploading photos and commenting on photos, although the name does not refer to the Asian social network for uploading videos.
-
-### Requirements met:
+### All requirements fulfilled:
 
 -Own database (mongoose, Mongo DB Atlas).
 
 -The website is designed for mobile devices (mobilefirst, tailwind).
 
--It is possible to register, log in and log out. 
+-It is possible to register, log in and log out.
 
 -You can also upload and publish contributions.
 
@@ -39,11 +40,11 @@ It is a clone of the well-known social network for uploading photos and commenti
 
 -It is also possible to add favorites.
 
--Your application is provided (rendered).
+-Your application is deploy (render).
 
 ### Extras added:
 
--Comments on comments (replies)
+-Comments on comments (replies) with profile image
 
 -Dark mode
 
