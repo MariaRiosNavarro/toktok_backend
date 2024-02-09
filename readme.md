@@ -10,6 +10,13 @@ It's a platform where you can share your personality and interests with the worl
 
 It is a clone of the well-known social network for uploading photos and commenting on photos, although the name does not refer to the Asian social network for uploading videos.
 
+
+[figJam](https://www.figma.com/file/yGKTxXbf7onpoeiQWSkdfi/toktok?type=whiteboard&node-id=0-1&t=gTKaZP3JHPnkK1fU-0)
+[Figma Design](https://www.figma.com/file/HcS8mvAp057ohNAnex4rmQ/TokTok?type=design&node-id=0-1&mode=design&t=dzqLOnd7vEpvwOUj-0)
+[Figma Prototyp](https://www.figma.com/proto/HcS8mvAp057ohNAnex4rmQ/TokTok?node-id=1-2171&scaling=min-zoom&page-id=0%3A1&starting-point-node-id=1%3A2171)
+[Old Frontend Repo](https://github.com/MariaRiosNavarro/toktok_frontend)
+
+
 # Team:
 
 
