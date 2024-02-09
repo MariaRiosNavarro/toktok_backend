@@ -77,11 +77,13 @@ It is a clone of the well-known social network for uploading photos and commenti
 
 # Development
 
-We started by creating 2 repositories and realized during deployment the problem of authorization cookies with 2 different domains, so we decided to merge a frontend and a backend project.
+We started by creating 2 repositories and realized during deployment the problem of authorization cookies with 2 different domains, so we decided to merge a frontend and a backend project. 
 
-The original frontend repository (and its history) is located in :
+The original frontend repository (and its history) is located in (34 PR):
 
 [ First toktok_frontend](https://github.com/MariaRiosNavarro/toktok_frontend)
+
+In the frontend repository we originally had 34 Pull Request and in the unified repository we made 53, so a total of 87 PR in 2 weeks.
 
 # How to set it up
 
@@ -189,6 +191,8 @@ Wir begannen mit der Erstellung von 2 Repositories und erkannten beim Deployment
 Das ursprüngliche Frontend-Repository (und seine Geschichte) befindet sich vor der Zusammenführung in diesem Projekt in :
 
 [ Erste toktok_frontend](https://github.com/MariaRiosNavarro/toktok_frontend)
+
+Im Frontend-Repository hatten wir ursprünglich 34 Pull Request und im Unified Repository haben wir 53 gemacht, also insgesamt 87 PR in 2 Wochen.
 
 # How to set it up
 
