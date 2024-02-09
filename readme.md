@@ -136,6 +136,43 @@ VITE_BACKEND_URL=
 
 ---
 
+# IMAGES:
+
+## Login & Register
+
+<div>
+
+
+<img src="./readmeAssets/create.png" alt="readme images" width="150px">
+<img src="./readmeAssets/login.png" alt="readme images" width="150px">
+
+</div>
+
+
+## Home, search & follow Users
+
+<div>
+
+<img src="./readmeAssets/home.png" alt="readme images" width="150px">
+<img src="./readmeAssets/search.png" alt="readme images" width="150px">
+<img src="./readmeAssets/followUsers.png" alt="readme images" width="150px">
+
+</div>
+
+## Upload & Post Detail, comment & User
+
+<div>
+
+<img src="./readmeAssets/upload.png" alt="readme images" width="150px">
+<img src="./readmeAssets/upload2.png" alt="readme images" width="150px">
+<img src="./readmeAssets/postdetail.png" alt="readme images" width="150px">
+<img src="./readmeAssets/commentPost.png" alt="readme images" width="150px">
+<img src="./readmeAssets/user.png" alt="readme images" width="150px">
+
+</div>
+
+
+
 # DEUTSCH:
 
 # Fullsack Botcamp Abschlussprojekt : 
