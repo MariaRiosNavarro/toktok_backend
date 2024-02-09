@@ -71,7 +71,7 @@ It is a clone of the well-known social network for uploading photos and commenti
 
 -node.js + express
 
--npm : bcrptjs, cloudinary, cookie-parser,cors,dotenv,express-rate-limit,sonwebtoken, lodash,morgan,multer,nodemailer
+-npm : bcrptjs, cloudinary, cookie-parser,cors,dotenv,express-rate-limit,jsonwebtoken, lodash,morgan,multer,nodemailer
 
 -mongoose, mongoDB, MongoDB-Atlas, mongo-compass
 
