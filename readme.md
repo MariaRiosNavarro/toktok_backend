@@ -2,7 +2,7 @@
 
 # ENGLISH (german below):
 
-# Fullstack Botcamp final project :
+# Fullstack Bootcamp final project :
 
 TokTok allows you to upload photos, follow other users and "like" or comment on their posts.
 It's a platform where you can share your personality and interests with the world and make new contacts.
@@ -180,7 +180,7 @@ VITE_BACKEND_URL=
 
 # DEUTSCH:
 
-# Fullstack Botcamp Abschlussprojekt :
+# Fullstack Bootcamp Abschlussprojekt :
 
 Mit TokTok kannst du Fotos hochladen, anderen Nutzern folgen und deren Beiträge "mögen" oder kommentieren.
 Es ist eine Plattform, auf der du deine Persönlichkeit und deine Interessen mit der Welt teilen und neue Kontakte knüpfen kannst.
